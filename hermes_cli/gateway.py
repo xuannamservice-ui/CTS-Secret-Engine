@@ -772,7 +772,7 @@ def find_gateway_pids(exclude_pids: set | None = None, all_profiles: bool = Fals
 
 
 def find_profile_gateway_processes(exclude_pids: set | None = None, *, strict: bool = False) -> list[ProfileGatewayProcess]:
-    """Return running gateway PIDs mapped to Hermes profiles via PID files."""
+    """Return running gateway PIDs mapped to CTS profiles via PID files."""
     _exclude = set(exclude_pids or set())
     processes: list[ProfileGatewayProcess] = []
     try:
@@ -1732,7 +1732,7 @@ def kill_gateway_processes(force: bool = False, exclude_pids: set | None = None,
         from hermes_cli.update_fleet_scope import partition_gateway_pids_by_scope
         pids, foreign = partition_gateway_pids_by_scope(pids)
         for pid, home in foreign:
-            print(f"↷ PID {pid}: gateway of {'another Hermes home (' + home + ')' if home else 'an unreadable home'} — left alone")
+            print(f"↷ PID {pid}: gateway of {'another CTS home (' + home + ')' if home else 'an unreadable home'} — left alone")
     for pid in pids:
         try:
             expected_start_time = None
@@ -2586,7 +2586,7 @@ def _find_legacy_hermes_units() -> list[tuple[str, Path, bool]]:
     fight the current unit for the bot token (SIGTERM flap loop). Explicit name allowlist + ExecStart
     marker check so profile/third-party units never match; no mutation.
 
-    Detects unit files installed by older Hermes versions that used a different service name (e.g. When both
+    Detects unit files installed by older CTS versions that used a different service name (e.g. When both
     a legacy unit and the current ``hermes-gateway.service`` are active, they fight over the same bot token
     — the PR #5646 signal-recovery change turns this into a 30-second SIGTERM flap loop.
     """
@@ -4090,7 +4090,7 @@ def host_multiplexer_serving(profile_name: str | None = None):
         # "serving default" is a name collision, and the CLI guards refused on it with exit 78 (#121352).
         from gateway.host_attach import launched_by_other_tenant
         if launched_by_other_tenant(gateway.home, get_hermes_home()):
-            logger.debug("Host gateway %s belongs to another Hermes home; not ours", gateway.describe())
+            logger.debug("Host gateway %s belongs to another CTS home; not ours", gateway.describe())
             return None
         return gateway
     except Exception:
@@ -4427,7 +4427,7 @@ def _guard_official_docker_root_gateway() -> None:
     print(
         "  The image entrypoint normally drops privileges to the 'hermes' user. "
         "If you override entrypoint in Docker Compose, include "
-        "/opt/hermes/docker/entrypoint.sh before the Hermes command."
+        "/opt/hermes/docker/entrypoint.sh before the CTS command."
     )
     print(
         "  Running the gateway as root can leave root-owned files in "

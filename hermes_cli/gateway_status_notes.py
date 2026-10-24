@@ -18,14 +18,14 @@ def _incompatible_owner_verdict() -> str | None:
 
 
 def report_incompatible_owner(pids) -> bool:
-    """Print ✗ (with the fix) when the running gateway cannot serve this Hermes; True if printed.
+    """Print ✗ (with the fix) when the running gateway cannot serve this CTS; True if printed.
     ``pids`` names the scanned processes for the manual-run line; empty for a service-managed one."""
     stale = _incompatible_owner_verdict()
     if not stale:
         return False
     running = f"Gateway is running (PID: {', '.join(map(str, pids))})" if pids else "The running gateway"
     print(f"✗ {running} but cannot serve this Hermes ({stale})")
-    print("  It was started by another Hermes version; TUI, Desktop and chat cannot attach to it.")
+    print("  It was started by another CTS version; TUI, Desktop and chat cannot attach to it.")
     print("  Replace it with this version:")
     print("    cts gateway restart")
     return True

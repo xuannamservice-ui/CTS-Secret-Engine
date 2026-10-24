@@ -1,6 +1,6 @@
 """The classic CLI's /goal, /subgoal, /loop and /heartbeat managers, backed by the gateway session.
 
-Main's ``HermesCLI`` built ``GoalManager`` / ``LoopManager`` / ``HeartbeatManager`` in-process: each
+Main's ``CTSCLI`` built ``GoalManager`` / ``LoopManager`` / ``HeartbeatManager`` in-process: each
 mutation wrote ``state_meta`` through a read-write SessionDB and ``evaluate_after_turn`` called the goal
 judge model from the CLI pid. Rewired, the gateway is the single writer and runs every model call, so
 these are thin proxies (the GatewayAgent / GatewaySessionStore seam): every mutation and judgement is

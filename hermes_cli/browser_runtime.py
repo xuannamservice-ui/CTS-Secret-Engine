@@ -83,7 +83,7 @@ def chromium_missing_hint() -> str:
         return ("No Chromium found: pm builds none for Termux. Install one with "
                 "`pkg install x11-repo && pkg install chromium`, or set browser.executable_path.")
     if BAKED_EXECUTABLE_FILE.exists():
-        return ("The image's Chromium is missing: pull the current Hermes image and recreate the "
+        return ("The image's Chromium is missing: pull the current CTS image and recreate the "
                 "container (a volume mounted over the image's tool store hides it).")
     if _pm_has_no_chromium():
         return ("No Chromium found: pm builds none for this platform. Install your distribution's "

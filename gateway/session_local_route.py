@@ -8,7 +8,7 @@ def resolve_launch_route(params: dict, config: dict) -> dict:
     The client sends the raw ``-m`` string; the authority owns the profile whose ``model_aliases:``
     / ``providers:`` define it. Unresolved, the alias name becomes the model sent to the profile
     DEFAULT provider, and the alias's own endpoint/key are never used (#103933/#107191/#109440).
-    Same owner as HermesCLI / oneshot / the TUI factory: ``resolve_startup_model_route``. A plain
+    Same owner as CTSCLI / oneshot / the TUI factory: ``resolve_startup_model_route``. A plain
     model id (no alias, no qualifier) is returned untouched; explicit ``--base-url``/``--api-key``
     launches already carry their route.
     """

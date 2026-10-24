@@ -3,8 +3,8 @@
 Started by :class:`hermes_cli.plugin_host.PluginHost` as ``python -m hermes_cli.plugin_host_child``
 (optionally under ``plugins.host.launcher``, e.g. a sandbox runner) with the profile's environment.
 Plugins get a :class:`RemotePluginContext` that looks like ``PluginContext``: registrations and
-queries are forwarded to Hermes, callables and provider objects stay here and are invoked by
-reference. Nothing in this module is imported by the Hermes process itself.
+queries are forwarded to CTS, callables and provider objects stay here and are invoked by
+reference. Nothing in this module is imported by the CTS process itself.
 
 stdin/stdout carry the protocol, so the real file descriptors are duplicated for the channel and
 fd 0/1 are pointed at /dev/null and stderr before any plugin code runs: a stray ``print()`` in a
@@ -84,7 +84,7 @@ class RemoteFacade:
 
 class RemotePluginContext:
     """What ``register(ctx)`` receives inside the host. Mirrors ``PluginContext``'s public surface as
-    announced by Hermes at load, so ``hasattr(ctx, "register_x")`` answers the same as in-process."""
+    announced by CTS at load, so ``hasattr(ctx, "register_x")`` answers the same as in-process."""
 
     def __init__(self, runtime: HostRuntime, plugin_key: str, info: dict[str, Any]):
         self._runtime, self._plugin_key = runtime, plugin_key
@@ -253,7 +253,7 @@ class HostRuntime:
     def op_load_instance(self, params: dict[str, Any]) -> Any:
         """Category plugins (memory provider, context engine, cron scheduler): import the directory,
         run ``register(ctx)`` capturing the one ``capture`` registration, else instantiate the first
-        subclass of ``base``. Other registrations reach Hermes only when it bound a ctx for them."""
+        subclass of ``base``. Other registrations reach CTS only when it bound a ctx for them."""
         plugin_key = str(params["plugin_key"])
         # Hermes asks for a fresh instance many times (agent cache, doctor, dashboard); like the
         # in-process loader, the module body runs once per host and only the instance is new.
@@ -420,7 +420,7 @@ _HANDLERS: dict[str, Callable[[HostRuntime, dict[str, Any]], Any]] = {
 
 class _CapturingContext(RemotePluginContext):
     """``register(ctx)`` for a category plugin: the category's own registration is kept here; the rest
-    forward to Hermes when it bound a context (memory providers), else are no-ops."""
+    forward to CTS when it bound a context (memory providers), else are no-ops."""
 
     def __init__(self, runtime: HostRuntime, plugin_key: str, info: dict[str, Any], capture: str,
                  base: type, captured: list[Any], *, forward: bool):
@@ -455,7 +455,7 @@ async def _on_behalf_of(awaitable: Any, origin: Optional[int]) -> Any:
 
 
 def _import_plugin(params: dict[str, Any]) -> Any:
-    """Import a directory plugin under the module name Hermes assigned, or resolve an entry point."""
+    """Import a directory plugin under the module name CTS assigned, or resolve an entry point."""
     if params.get("entrypoint"):
         for ep in importlib.metadata.entry_points().select(group=_ENTRY_POINTS_GROUP):
             if ep.name == params.get("name"):

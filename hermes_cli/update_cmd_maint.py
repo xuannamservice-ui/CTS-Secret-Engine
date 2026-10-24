@@ -48,7 +48,7 @@ def _sqlite_partial_completion_lines(sqlite_version: str) -> list[str]:
     from hermes_cli.update_cmd import _m
     return [
         f"⚠ Update partially complete — your Python's SQLite ({sqlite_version}) has a known "
-        "corruption bug. Hermes works, but sessions could be damaged.",
+        "corruption bug. CTS works, but sessions could be damaged.",
         f"  Fix: run the installer again ({_REINSTALL_ONE_LINER[bool(_m()._is_windows())]}) "
         "which installs a safe Python, then run `cts doctor` to confirm.",
     ]
@@ -387,7 +387,7 @@ def _post_update_sqlite_runtime_status():
 
 
 def _print_verified_update_completion(message: str) -> bool:
-    """Print a success completion only after probing the next Hermes runtime."""
+    """Print a success completion only after probing the next CTS runtime."""
     from hermes_cli.update_cmd import _post_update_sqlite_runtime_status
     if not message.startswith("✓"):
         _print_update_completion(message)
@@ -999,7 +999,7 @@ def _run_post_update_maintenance(
     if sys.platform == "darwin" and had_desktop_app_before_update:
         print()
         print(
-            "  ℹ macOS: if Hermes re-prompts for permissions you already "
+            "  ℹ macOS: if CTS re-prompts for permissions you already "
             "granted (toggle shows ON), the stored grant is stale — run "
             "`tccutil reset ScreenCapture com.nousresearch.hermes` (repeat "
             "per affected service), toggle it ON in System Settings, then "

@@ -6884,7 +6884,7 @@ def _note_relay_auxiliary_error(exc: BaseException) -> None:
 
 
 def _fail_relay_auxiliary_call(exc: BaseException) -> None:
-    """Close a call that ended in ``exc`` without replacing it: a Hermes abort is ``cancelled``,
+    """Close a call that ended in ``exc`` without replacing it: a CTS abort is ``cancelled``,
     anything else ``failed`` with the classifier's reason for the error that ended it."""
     try:
         from agent import auxiliary_call_outcome

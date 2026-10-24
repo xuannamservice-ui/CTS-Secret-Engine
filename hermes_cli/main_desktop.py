@@ -166,7 +166,7 @@ def _desktop_packaged_executable_in(release_dir: Path) -> Optional[Path]:
         ]
     else:
         candidates = [
-            release_dir / d / n for d in ("linux-unpacked", "linux-arm64-unpacked") for n in ("hermes", "Hermes")
+            release_dir / d / n for d in ("linux-unpacked", "linux-arm64-unpacked") for n in ("hermes", "CTS")
         ]
 
     existing = [p for p in candidates if p.exists()]
@@ -793,7 +793,7 @@ def _desktop_macos_relaunchable_fixup(
     """Re-sign a locally-built macOS app so in-place self-update doesn't reset TCC grants.
 
     A rebuilt ad-hoc bundle (new cdhash, no stable Designated Requirement) reports
-    "Hermes is damaged" and loses every grant. Clear quarantine xattrs, then sign
+    "CTS is damaged" and loses every grant. Clear quarantine xattrs, then sign
     with ``desktop.macos_signing_identity`` or identifier-pinned ad-hoc, keeping
     entitlements. When a configured identity fails (#121857): over a locally-signed
     install, retry identifier-pinned ad-hoc before the cdhash-only legacy sign;
@@ -987,7 +987,7 @@ def _refresh_installed_desktop_apps(desktop_dir: Path) -> None:
     for app in installed:
         if app in missing:
             print(f"  ✓ Reinstalled the Desktop app at {app}: it had been removed, so Finder, "
-                  "the Dock and Spotlight could not find Hermes")
+                  "the Dock and Spotlight could not find CTS")
         else:
             print(f"  ✓ Installed the rebuilt Desktop app at {app}")
     for problem in problems:
@@ -1025,7 +1025,7 @@ def _update_owned_macos_bundles(candidates: list[Path]) -> list[Path]:
 
 
 def _owns_installed_desktop_apps() -> bool:
-    """A packaged app runs the checkout under the default Hermes home, so only that checkout (on
+    """A packaged app runs the checkout under the default CTS home, so only that checkout (on
     macOS) may build for it: a bundle from any other tree (a dev worktree) would split shell from
     backend."""
     if sys.platform != "darwin":
@@ -1071,7 +1071,7 @@ def _installed_desktop_launch_target(desktop_dir: Path, packaged_executable: Pat
     rebuilt_hash = _app_asar_hash(packaged_executable.parents[2])
     for app in _installed_desktop_apps():
         if rebuilt_hash is not None and _app_asar_hash(app) == rebuilt_hash:
-            return app / "Contents" / "MacOS" / "Hermes"
+            return app / "Contents" / "MacOS" / "CTS"
     return packaged_executable
 
 
@@ -1650,7 +1650,7 @@ def cmd_gui(args: argparse.Namespace):
         print(f"Desktop GUI source not found at: {desktop_dir}")
         if install_kind == "homebrew":
             print(
-                "  This Hermes came from Homebrew, which does not ship the desktop app's\n"
+                "  This CTS came from Homebrew, which does not ship the desktop app's\n"
                 "  source tree, so it cannot be built from this install.\n"
                 "  Install the desktop app from https://github.com/xuannamservice-ui/CTS-Secret-Engine,\n"
                 "  or run `cts desktop` from a source checkout."
@@ -1671,7 +1671,7 @@ def cmd_gui(args: argparse.Namespace):
     # grants survive rebuilds, then exit without building/launching.
     if getattr(args, "setup_tcc_identity", False):
         from hermes_cli.main_desktop_tcc import _desktop_macos_setup_tcc_identity
-        identity = getattr(args, "identity", None) or "Hermes Local Signing"
+        identity = getattr(args, "identity", None) or "CTS Local Signing"
         sys.exit(0 if _desktop_macos_setup_tcc_identity(identity) else 1)
 
     if bundled:
@@ -1696,7 +1696,7 @@ def cmd_gui(args: argparse.Namespace):
             print("  Refusing to run npm without serialization; check the checkout permissions and retry.")
             sys.exit(1)
         if not acquired:
-            print("✗ A Hermes update or another desktop dependency install or build is already running.")
+            print("✗ A CTS update or another desktop dependency install or build is already running.")
             print("  Wait for it to finish, then retry.")
             sys.exit(2)
 
@@ -1909,12 +1909,12 @@ def _launch_bundled_desktop(
         # mispackaged install. Report it — degrading to the build ladder
         # would run npm inside the app's own resources.
         print(f"✗ This Hermes is stamped as a bundled desktop install, but {exc}.")
-        print("  The install is damaged — reinstall Hermes from the website.")
+        print("  The install is damaged — reinstall CTS from the website.")
         sys.exit(1)
 
     if layout.launcher is None:
         print(f"✗ Found no CTS Secret Engine Desktop launcher in {layout.app_root}.")
-        print("  The install is damaged — reinstall Hermes from the website.")
+        print("  The install is damaged — reinstall CTS from the website.")
         sys.exit(1)
 
     launch_command = [str(layout.launcher)]

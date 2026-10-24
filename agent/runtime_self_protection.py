@@ -1,4 +1,4 @@
-"""The running Hermes runtime's own interpreter/venv is not agent-deletable.
+"""The running CTS runtime's own interpreter/venv is not agent-deletable.
 
 Deleting the Python interpreter the current process boots from — or the base
 interpreter its venv depends on — bricks the install: the next boot fails with
@@ -121,15 +121,15 @@ def _protected_snapshot(executable: str, prefix: str) -> tuple[tuple[str, str], 
 
     exe = _normalize_path(executable)
     if exe:
-        entries.append((exe, "the Python interpreter this Hermes runtime is running from"))
+        entries.append((exe, "the Python interpreter this CTS runtime is running from"))
 
     venv = _normalize_path(prefix)
     if venv and venv != exe:
-        entries.append((venv, "this Hermes runtime's own virtualenv"))
+        entries.append((venv, "this CTS runtime's own virtualenv"))
 
     base_dir = _normalize_path(_pyvenv_home(prefix)) or _normalize_path(getattr(sys, "_base_executable", "") or "")
     if base_dir:
-        entries.append((base_dir, "the base interpreter this Hermes venv depends on"))
+        entries.append((base_dir, "the base interpreter this CTS venv depends on"))
         m = _UV_INSTALL_DIR_RE.match(base_dir.replace("\\", "/"))
         if m:
             uv_root = _normalize_path(m.group("root"))

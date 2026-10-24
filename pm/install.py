@@ -251,7 +251,7 @@ _SET_ASIDE_PREFIX = ".reclaim-"
 def _discard_entry(store: Store, entry_name: str) -> None:
     """Drop a tree a finished publish or restore left behind as garbage.
 
-    A running Hermes process can keep the replaced interpreter's DLLs mapped
+    A running CTS process can keep the replaced interpreter's DLLs mapped
     far past the retry window, and failing here reports a completed install
     as broken (#124807). Windows still allows renaming a tree with mapped
     images, so it moves to a `.reclaim-*` name: its slot is free for the next

@@ -16,13 +16,13 @@ def build_acp_parser(subparsers, *, cmd_acp: Callable) -> None:
     add_accept_hooks_flag(acp_parser)
     acp_parser.add_argument(
         "--version", action="store_true", dest="acp_version",
-        help="Print Hermes ACP version and exit")
+        help="Print CTS ACP version and exit")
     acp_parser.add_argument(
         "--check", action="store_true",
         help="Verify ACP dependencies and adapter imports, then exit")
     acp_parser.add_argument(
         "--setup", action="store_true",
-        help="Run interactive Hermes provider/model setup for ACP terminal auth")
+        help="Run interactive CTS provider/model setup for ACP terminal auth")
     acp_parser.add_argument(
         "--setup-browser", action="store_true",
         help="Install PM's pinned Chromium for browser_exec (idempotent).")

@@ -439,7 +439,7 @@ def _inside_mcp_add_args(argv: list, index: int) -> bool:
 
     ``mcp add --args`` is command-argv passthrough. Flags after that point
     belong to the child MCP command (for example Docker MCP Toolkit's
-    ``--profile``), not to Hermes' own profile selector.
+    ``--profile``), not to CTS' own profile selector.
     """
     try:
         mcp_index = argv.index("mcp", 0, index)
@@ -1641,7 +1641,7 @@ def _first_run_setup_guard(args) -> None:
     """No provider configured: offer `cts setup` (TTY) or exit 1 with guidance."""
     print()
     print(
-        "It looks like Hermes isn't configured yet -- no API keys or providers found."
+        "It looks like CTS isn't configured yet -- no API keys or providers found."
     )
     print()
     print("  Run:  cts setup")
@@ -1838,7 +1838,7 @@ cmd_doctor = _forward_command("cmd_doctor", "hermes_cli.doctor", "run_doctor", f
 cmd_dump = _forward_command("cmd_dump", "hermes_cli.dump", "run_dump", doc='Dump setup summary for support/debugging.')
 cmd_debug = _forward_command("cmd_debug", "hermes_cli.debug", "run_debug", doc='Debug tools (share report, etc.).')
 cmd_skin = _forward_command("cmd_skin", "hermes_cli.skin_cmd", "skin_command", doc='Skin management (list / use / set).')
-cmd_import = _forward_command("cmd_import", "hermes_cli.backup", "run_import", forward_return=True, doc='Restore a Hermes backup from a zip file.')
+cmd_import = _forward_command("cmd_import", "hermes_cli.backup", "run_import", forward_return=True, doc='Restore a CTS backup from a zip file.')
 cmd_dashboard_register = _forward_command("cmd_dashboard_register", "hermes_cli.dashboard_register", "cmd_dashboard_register", doc='Register a self-hosted dashboard OAuth client with Nous Portal.')
 cmd_gateway_enroll = _forward_command("cmd_gateway_enroll", "hermes_cli.gateway_enroll", "cmd_gateway_enroll", doc='Enroll a self-hosted gateway with a relay connector.')
 cmd_prompt_size = _forward_command("cmd_prompt_size", "hermes_cli.prompt_size", "cmd_prompt_size", doc='Show a byte/char breakdown of the system prompt + tool schemas.')
@@ -2183,7 +2183,7 @@ def cmd_config(args):
 
 
 def cmd_backup(args):
-    """Back up Hermes home directory to a zip file."""
+    """Back up CTS home directory to a zip file."""
     from hermes_cli import backup
 
     if getattr(args, "quick", False):
@@ -2727,7 +2727,7 @@ def cmd_completion(args, parser=None):
 
 
 def cmd_logs(args):
-    """View and filter Hermes log files."""
+    """View and filter CTS log files."""
     from hermes_cli.logs import tail_log, list_logs
 
     log_name = getattr(args, "log_name", "agent") or "agent"
@@ -3233,7 +3233,7 @@ def _advertise_agent_env() -> None:
 
     ``AI_AGENT`` is the emerging cross-agent standard (huggingface_hub's agent detection reads it; pi and
     other agents set it — earendil-works/pi#7493) so generic tooling can attribute subprocesses to the
-    harness that spawned them. Hermes running inside another agent's terminal).
+    harness that spawned them. CTS running inside another agent's terminal).
     """
     os.environ.setdefault("AI_AGENT", "hermes-agent")
     os.environ.setdefault("HERMES_AGENT", "true")

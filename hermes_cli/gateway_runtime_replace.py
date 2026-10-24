@@ -1,4 +1,4 @@
-"""Replace a gateway left running by an older Hermes on this install's own home.
+"""Replace a gateway left running by an older CTS on this install's own home.
 
 After an upgrade the old daemon keeps answering the home's control socket, but its ``identify`` has
 no ``runtime_protocol`` (it predates the session-authority runtime). Every client of this version
@@ -28,7 +28,7 @@ _FORCED_STOP_SECONDS = 5.0
 # One line each, short enough for the TUI's activity row after its "gateway incompatible: " prefix.
 REFUSAL_DETAIL = {
     "owner_newer": "a newer CTS Secret Engine's gateway owns this profile; update CTS or run: cts gateway stop",
-    "foreign_install": "another Hermes install's gateway owns this profile; stop it there: cts gateway stop",
+    "foreign_install": "another CTS install's gateway owns this profile; stop it there: cts gateway stop",
     "owner_unverified": "an older CTS gateway owns this profile and was not verified; run: cts gateway stop",
     "owner_did_not_exit": "an older CTS gateway owns this profile and did not stop; run: cts gateway stop",
     "owner_unreachable": "an older CTS gateway owns this profile; run: cts gateway stop",

@@ -148,7 +148,7 @@ def _consent_python_deps(
             "Run `cts plugins enable` when ready to prepare them.[/dim]\n"
         )
         return False, _ConsentRefusal("dependency install skipped (non-interactive)", "non_interactive")
-    if not _ask_yes_no(("python", plugin_name, deps), "  Prepare these with Hermes through PM now? [y/N]: ", console):
+    if not _ask_yes_no(("python", plugin_name, deps), "  Prepare these with CTS through PM now? [y/N]: ", console):
         console.print(
             "[dim]Skipped — run `cts plugins enable` when ready "
             "to prepare them.[/dim]\n"
@@ -269,7 +269,7 @@ def _probe_readable(path: Path) -> None:
 
 
 def _ensure_tree_readable(root: Path, plugins_dir: Path) -> None:
-    """Refuse to ship a tree Hermes cannot read back. A clone can land unreadable (Windows ACL
+    """Refuse to ship a tree CTS cannot read back. A clone can land unreadable (Windows ACL
     inheritance -> WinError 5, a mode-000 file) and discovery would then skip the plugin forever
     (#111804); repair ``u+rX`` where the OS supports it, otherwise fail before anything moves."""
     paths = [root]
@@ -566,7 +566,7 @@ def _announce_source(identifier: str, console, *, brief: bool) -> tuple[Optional
     catalog pin (plus the entry's description unless *brief*) or the custom-source warning."""
     from hermes_cli import plugins_cmd_catalog as catalog
     if not catalog.looks_like_catalog_name(identifier):
-        console.print("[yellow]Warning:[/yellow] custom (unreviewed) source — not from the Hermes catalog.")
+        console.print("[yellow]Warning:[/yellow] custom (unreviewed) source — not from the CTS catalog.")
         return None, identifier
     entry = catalog.resolve_catalog_name(identifier, console)
     console.print(f"[bold]{entry.name}[/bold] [cyan]\\[{entry.tier}][/cyan] [dim]pinned @ {entry.sha[:8]}[/dim]")
@@ -794,7 +794,7 @@ def _resolve_source(identifier: str, catalog_name: Optional[str]) -> tuple:
         warnings.extend(_known_issue_warnings(entry))
         identifier = entry.install_identifier
     else:
-        warnings.append("Custom (unreviewed) source — not from the Hermes catalog.")
+        warnings.append("Custom (unreviewed) source — not from the CTS catalog.")
     try:
         git_url = _pc()._resolve_git_url(identifier)[0]
         if git_url.startswith(("http://", "file://")):

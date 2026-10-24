@@ -619,7 +619,7 @@ def _reconcile_and_provision(*, timeout_seconds: float, force: bool = False,
                              welcome_claim: bool = False) -> Optional[dict[str, Any]]:
     """The lifecycle body, run under profile lock THEN shared lock (the documented order).
 
-    1. The shared store is the identity of record for this Hermes root. If it holds an identity
+    1. The shared store is the identity of record for this CTS root. If it holds an identity
        that differs from the profile's, the profile adopts it (a stale guest never outlives a
        sibling profile's sign-in, and never overwrites it).
     2. Otherwise the profile's own identity stands.
@@ -800,10 +800,10 @@ _WELCOME_ROUTE_COPY = {
     "anon_on_paid_host": "This install is set to use a different Nous server (NOUS_INFERENCE_BASE_URL). "
                          "Unset it to use the free model, or sign in. {signin}",
     "named_on_welcome_host": "This Nous account needs to reconnect. {model_hint}",
-    "tier_disabled": "Using Hermes without signing in is switched off right now. "
+    "tier_disabled": "Using CTS without signing in is switched off right now. "
                      "Sign in to keep chatting, it's free. {signin}",
     # Only reachable when re-exchanging the free credential failed (``turn_recovery._recover_welcome_tier``).
-    "session_expired": "Hermes couldn't renew its connection to the free model. "
+    "session_expired": "CTS couldn't renew its connection to the free model. "
                        "Send your message again, or sign in to keep chatting, it's free. {signin}",
 }
 # The sign-in door, phrased for a chat surface (slash command) and for a terminal.
@@ -891,7 +891,7 @@ def welcome_route_refusal(status: Any, message: Any, base_url: Any = None) -> Op
 
 
 def welcome_route_refusal_copy(kind: str, *, in_chat: bool = True, door: bool = True) -> str:
-    template = _WELCOME_ROUTE_COPY.get(kind) or "Hermes couldn't reach the free model on this route."
+    template = _WELCOME_ROUTE_COPY.get(kind) or "CTS couldn't reach the free model on this route."
     return template.format(
         host=DEFAULT_NOUS_WELCOME_URL, signin=(_SIGNIN_CHAT if in_chat else _SIGNIN_TERMINAL) if door else "",
         model_hint=_MODEL_HINT_CHAT if in_chat else _MODEL_HINT_TERMINAL).rstrip()

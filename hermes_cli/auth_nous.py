@@ -697,10 +697,10 @@ def _refresh_access_token(
         description = (
             "Nous Portal detected refresh-token reuse and revoked this session.\n"
             "This usually means an external process (monitoring script, "
-            "custom self-heal hook, or another Hermes install sharing "
+            "custom self-heal hook, or another CTS install sharing "
             "~/.hermes/auth.json) called POST /api/oauth/token with CTS Secret Engine's "
             "refresh token without persisting the rotated token back.\n"
-            "Nous refresh tokens are single-use — only Hermes may call the "
+            "Nous refresh tokens are single-use — only CTS may call the "
             "refresh endpoint. For health checks, use `cts auth status` "
             "instead.\n"
             "Re-authenticate with: cts auth add nous")

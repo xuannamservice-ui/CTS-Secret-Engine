@@ -729,7 +729,7 @@ def _bedrock_reasoning_stale_floor(model_id: object) -> float | None:
 
 
 def _bedrock_converse_call(api_kwargs: dict, *, stream: bool, on_stream_denied=None):
-    """Pop the Hermes routing keys and call ``converse`` / ``converse_stream`` (boto3 directly) with the
+    """Pop the CTS routing keys and call ``converse`` / ``converse_stream`` (boto3 directly) with the
     adapter's shared recovery: a cachePoint rejection (Nova: toolConfig.tools, #97281) or a replayed sealed
     reasoning rejection resends once without the offending blocks inside the same attempt; a streaming IAM
     denial hands off to ``on_stream_denied(client, kwargs, exc)``; a stale connection evicts the cached

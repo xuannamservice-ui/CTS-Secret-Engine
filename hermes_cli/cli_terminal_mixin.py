@@ -1,5 +1,5 @@
 """Terminal repaint/resize recovery, input-mode healing, and clipboard helpers for the interactive
-CLI. Mixin on ``HermesCLI``; cli.py symbols are imported lazily inside methods (import cycle)."""
+CLI. Mixin on ``CTSCLI``; cli.py symbols are imported lazily inside methods (import cycle)."""
 
 from __future__ import annotations
 

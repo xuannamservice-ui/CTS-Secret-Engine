@@ -39,7 +39,7 @@ def embedded_provider_error(response: Any) -> dict[str, Any] | None:
 
 
 def is_cancellation(error: BaseException) -> bool:
-    """Hermes aborted the call (explicit cancel, interrupt, Ctrl+C, task cancel, shutdown):
+    """CTS aborted the call (explicit cancel, interrupt, Ctrl+C, task cancel, shutdown):
     everything that is not an ``Exception``, plus the ``InterruptedError`` aux streams raise."""
     return not isinstance(error, Exception) or isinstance(error, InterruptedError)
 

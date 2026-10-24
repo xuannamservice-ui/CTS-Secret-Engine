@@ -149,7 +149,7 @@ def validate_env_var_name_for_write(key: str) -> None:
         raise ValueError(
             f"Environment variable {key!r} is on the writer denylist. "
             "Names that influence subprocess execution (LD_PRELOAD, PYTHONPATH, PATH, EDITOR, ...) "
-            "or Hermes runtime location and security policy (HERMES_HOME, HERMES_YOLO_MODE, ...) "
+            "or CTS runtime location and security policy (HERMES_HOME, HERMES_YOLO_MODE, ...) "
             "cannot be persisted via the env writer. If you really need this, edit ~/.cts/.env "
             "directly.")
 
@@ -228,7 +228,7 @@ _NIX_STORE = Path("/nix/store")
 
 
 def is_managed() -> bool:
-    """Check if Hermes is running in package-manager-managed mode."""
+    """Check if CTS is running in package-manager-managed mode."""
     return get_managed_system() is not None
 
 
@@ -260,7 +260,7 @@ def _install_method_stamp(path: Path) -> Optional[str]:
 
 
 def detect_install_method(project_root: Optional[Path] = None) -> str:
-    """Detect how Hermes was installed: apt/docker/nix/nixos/home-manager/git/unknown.
+    """Detect how CTS was installed: apt/docker/nix/nixos/home-manager/git/unknown.
     Order: code-scoped ``<install tree>/.install_method`` stamp (authoritative) -> legacy
     ``$HERMES_HOME/.install_method`` -> managed marker -> /nix/store path -> .git dir -> unknown.
     The stamp lives next to the code because HERMES_HOME is shared data: a container and a host
@@ -382,7 +382,7 @@ def format_docker_update_message() -> str:
     return _DOCKER_UPDATE_MESSAGE
 
 
-def format_managed_message(action: str = "modify this Hermes installation") -> str:
+def format_managed_message(action: str = "modify this CTS installation") -> str:
     """Build a user-facing error for managed installs."""
     managed_system = get_managed_system() or "a package manager"
     return (
@@ -1194,7 +1194,7 @@ def validate_config_structure(config: Optional[dict[str, Any]] = None) -> list[C
 
     if cp and not config.get("model"):
         _issue(issues, "warning",
-               "custom_providers defined but no 'model' section — Hermes won't know which provider to use",
+               "custom_providers defined but no 'model' section — CTS won't know which provider to use",
                "Add a model section:\n  model:\n    provider: custom\n    default: your-model-name\n"
                "    base_url: https://...")
 
@@ -1260,7 +1260,7 @@ def _persist_migration(config: dict[str, Any]) -> None:
     persist values that DIFFER from the schema default, plus explicit removals/renames of user
     data. Every migration step MUST write through here (``save_config`` with default-stripping
     ON, no ``merge_existing``) so the invariant cannot regress one migration at a time. A migration
-    is Hermes' own write, never a user turning a feature off."""
+    is CTS' own write, never a user turning a feature off."""
     from hermes_cli.observability.shared_metrics_disabled import hermes_applied_write
 
     with hermes_applied_write():
@@ -2162,7 +2162,7 @@ def terminal_config_env_var_for_key(key: str) -> Optional[str]:
 
 
 def _is_ssh_remote_tilde_cwd(backend: str, cwd: str) -> bool:
-    """Whether the remote SSH shell must expand *cwd* itself: ``~`` expanded on the Hermes host
+    """Whether the remote SSH shell must expand *cwd* itself: ``~`` expanded on the CTS host
     would name the host/container home instead of the SSH user's."""
     return (backend or "").strip().lower() == "ssh" and (cwd == "~" or cwd.startswith("~/"))
 
@@ -2880,7 +2880,7 @@ def save_env_value_secure(key: str, value: str) -> dict[str, Any]:
 
 def reload_env() -> int:
     """Re-read ~/.cts/.env into os.environ; returns count of vars changed.
-    Removes deleted vars only when known to Hermes (OPTIONAL_ENV_VARS and _EXTRA_ENV_KEYS) so
+    Removes deleted vars only when known to CTS (OPTIONAL_ENV_VARS and _EXTRA_ENV_KEYS) so
     unrelated environment is never clobbered."""
     env_vars = load_env()
     count = 0
@@ -3381,7 +3381,7 @@ def _write_user_config(config_path: Path, user_config: dict[str, Any]) -> None:
 def _print_unknown_key_notice(key: str, suggestion: Optional[str]) -> None:
     print(color(
         f"⚠ '{key}' is not a recognized config key — it was saved anyway, "
-        "but Hermes may not read it.", Colors.YELLOW))
+        "but CTS may not read it.", Colors.YELLOW))
     if suggestion:
         print(color(f"  Did you mean: {suggestion}", Colors.YELLOW))
     # The env bridge covers custom TOP-LEVEL keys only; an unseeded nested path (``stt.provider``)
@@ -3873,7 +3873,7 @@ def _platform_manifest_paths(home: Optional[Path] = None, source: PlatformManife
     """Yield ``(dir_name, manifest_path, require_kind, stat)`` for every platform plugin manifest.
     ``source`` is ``"bundled"`` (shipped ``plugins/platforms/*``), ``"user"`` (``<home>/plugins/
     platforms/*`` plus flat ``<home>/plugins/*`` installs, which must declare ``kind: platform``,
-    #46600) or ``"all"``. ``home`` defaults to the bound Hermes home. A directory that cannot be
+    #46600) or ``"all"``. ``home`` defaults to the bound CTS home. A directory that cannot be
     listed or searched yields ``(name, None, require_kind, error)``: a plugin there can't load
     either, so callers skip it. One ``scandir`` per root and one ``stat`` per candidate, because
     the child-env scrub stamps these on every spawn."""

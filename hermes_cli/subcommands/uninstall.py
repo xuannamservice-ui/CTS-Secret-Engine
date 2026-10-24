@@ -23,7 +23,7 @@ def build_uninstall_parser(subparsers, *, cmd_uninstall: Callable) -> None:
     modes.add_argument(
         "--data",
         action="store_true",
-        help="Remove only the active Hermes home's user data, leaving installed code "
+        help="Remove only the active CTS home's user data, leaving installed code "
         "intact — the one mode that works on Nix / bundled-app / Docker installs",
     )
     uninstall_parser.add_argument(

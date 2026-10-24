@@ -78,7 +78,7 @@ def render_qr_terminal(url: str) -> str:
 def print_qr_code(url: str, *, include_link: bool = True) -> None:
     """Print a QR code to stdout, with URL fallback if qrcode is missing."""
     print(render_qr_terminal(url) or (
-        "  (QR code unavailable. From the Hermes environment, run: "
+        "  (QR code unavailable. From the CTS environment, run: "
         f"{install_hint('messaging')}. "
         "Then restart CTS Secret Engine.)"))
     if include_link:
@@ -145,7 +145,7 @@ def poll_for_setup_result(
 
 
 def auto_setup_telegram_bot_result(
-    api_url: str | None = None, manager_bot: str = "HermesSetupBot",
+    api_url: str | None = None, manager_bot: str = "CTSSetupBot",
     profile_name: Optional[str] = None, poll_timeout: float = DEFAULT_POLL_TIMEOUT,
 ) -> Optional[TelegramBotSetupResult]:
     """Run the full automatic Telegram bot creation flow."""
@@ -155,7 +155,7 @@ def auto_setup_telegram_bot_result(
     sys.stdout.flush()
     pairing = create_pairing(resolved_api_url)
     if not pairing:
-        print("  ✗ Could not reach the Hermes Telegram onboarding service.\n"
+        print("  ✗ Could not reach the CTS Telegram onboarding service.\n"
               "    Try the manual setup instead, or check your network.")
         return None
 

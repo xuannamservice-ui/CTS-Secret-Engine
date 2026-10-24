@@ -15,7 +15,7 @@ _wire_desktop_sinks`` and ``tui_gateway/agent_callbacks.py::_agent_cbs``):
   (``terminal.close``).
 
 On the session authority none was installed, so every ``desktop_ui`` tool the session policy
-still offers a GUI session failed with "only available in the Hermes desktop app". Here the
+still offers a GUI session failed with "only available in the CTS desktop app". Here the
 emitter and the process sinks are installed once per process; the emitter routes each event to the
 turn that raised it (by the turn's bound ``HERMES_SESSION_ID``) through the generation-fenced
 execution stream, and the process sinks route by the process's ``session_key`` to the owning
@@ -87,7 +87,7 @@ def _emit(sid, event, payload) -> None:
         publish = next((_turns[key] for key in keys if key and key in _turns), None)
     if publish is None:
         # Raised outside a local-viewer turn (a messaging route, a background thread): no window.
-        raise RuntimeError("no Hermes desktop window is attached to this turn")
+        raise RuntimeError("no CTS desktop window is attached to this turn")
     publish(event, dict(payload or {}))
 
 
@@ -106,7 +106,7 @@ def _publish_process(session, event_type, payload) -> None:
     with _lock:
         route = _process_routes.get(key) if key else None
     if route is None:
-        raise RuntimeError("no Hermes desktop window owns this process")
+        raise RuntimeError("no CTS desktop window owns this process")
     authority, session_id = route
     live = authority.sessions.get(session_id)
     if live is None:

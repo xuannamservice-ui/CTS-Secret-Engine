@@ -1,6 +1,6 @@
 """One gateway connection per classic-CLI process (CALLMAP §3.1, §4).
 
-A daemon thread owns an asyncio loop and one ``GatewayClient``. It never calls a HermesCLI
+A daemon thread owns an asyncio loop and one ``GatewayClient``. It never calls a CTSCLI
 method and never blocks: every event frame goes into a thread-safe ``queue.Queue`` that the
 agent thread drains (``GatewayAgent.run_conversation``), and ``session.info``-class frames
 also update the plain-attribute ``SessionState`` caches the status bar reads.

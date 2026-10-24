@@ -454,7 +454,7 @@ def local_session_info(authority, ref):
 
 
 def _classic_cli_fields(authority, ref, live, agent, policy):
-    """What main's HermesCLI read off itself for /status, the status bar and the exit summary: the
+    """What main's CTSCLI read off itself for /status, the status bar and the exit summary: the
     stored title and times, the session's yolo, api_mode, the loaded tool count and a masked
     credential hint (never the key). Lazy sessions report what is known without building an agent."""
     import contextlib

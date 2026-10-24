@@ -1,6 +1,6 @@
-"""HermesCLI constructor phases: display options, model/provider routing, turn limits, toolsets, checkpoints, prompt/reasoning, runtime state, session store and UI state.
+"""CTSCLI constructor phases: display options, model/provider routing, turn limits, toolsets, checkpoints, prompt/reasoning, runtime state, session store and UI state.
 
-Mixin split out of ``cli.py``; bound onto ``HermesCLI`` via the MRO.
+Mixin split out of ``cli.py``; bound onto ``CTSCLI`` via the MRO.
 """
 
 from __future__ import annotations
@@ -111,7 +111,7 @@ def lease_handed_over(cli, held):
 
 
 class CLIInitMixin:
-    """HermesCLI constructor phases: display options, model/provider routing, turn limits, toolsets, checkpoints, prompt/reasoning, runtime state, session store and UI state."""
+    """CTSCLI constructor phases: display options, model/provider routing, turn limits, toolsets, checkpoints, prompt/reasoning, runtime state, session store and UI state."""
 
     def _init_display_options(self, verbose, compact):
         """Display-related config: compact/tool-progress/focus view, bells, streaming, previews, stream buffers."""

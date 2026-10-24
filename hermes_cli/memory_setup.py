@@ -339,7 +339,7 @@ def _write_env_vars(
 
     ``hermes_home`` may be supplied by plugin ``post_setup`` hooks that
     already received an explicit home directory (e.g. a non-default
-    profile). It is applied through the context-local Hermes home override
+    profile). It is applied through the context-local CTS home override
     so ``save_env_value`` still owns the validation, sanitization, and
     atomic-write path without mutating global ``os.environ``.
     """

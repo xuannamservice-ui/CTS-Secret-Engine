@@ -7,7 +7,7 @@ factories into the ``ProviderProfile`` hooks::
     ProviderProfile(name="example", auth_type="oauth_external",
                     auth_handler=pkce_auth_handler(cfg), refresh_credential=pkce_refresh_credential(cfg))
 
-Hermes owns the security boundary: HTTPS-only endpoints (plain HTTP only for a loopback-literal host,
+CTS owns the security boundary: HTTPS-only endpoints (plain HTTP only for a loopback-literal host,
 i.e. a local development IdP), token endpoint host checked against the same allowlist as the authorize
 URL BEFORE any request, S256 PKCE, CSRF ``state`` compared in constant time, an RFC 8252 loopback
 listener on the literal ``127.0.0.1`` (explicit port, ``0`` = OS-assigned), persistence as a

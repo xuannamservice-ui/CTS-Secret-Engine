@@ -65,7 +65,7 @@ class HermesMCPOAuthProvider(HermesProviderMixin, *_SDK_BASES):
         self._hermes_preregistered = preregistered
 
     def _hermes_storage(self):
-        """The context storage when it is a ``HermesTokenStorage``, else None."""
+        """The context storage when it is a ``CTSTokenStorage``, else None."""
         from tools.mcp_oauth import HermesTokenStorage
         return self.context.storage if isinstance(self.context.storage, HermesTokenStorage) else None
 
@@ -75,7 +75,7 @@ class HermesMCPOAuthProvider(HermesProviderMixin, *_SDK_BASES):
     async def _initialize(self) -> None:
         """Load stored state, seed ``token_expiry_time``, restore/prefetch metadata. The SDK's
         ``_initialize`` never calls ``update_token_expiry``, so a restarted process would ship stale
-        Bearer tokens as "valid"; seeding the expiry (``HermesTokenStorage`` persists absolute
+        Bearer tokens as "valid"; seeding the expiry (``CTSTokenStorage`` persists absolute
         ``expires_at``) makes the SDK refresh first. Metadata is restored from disk, else discovered
         pre-flight when we hold tokens but no metadata: otherwise ``_refresh_token`` guesses
         ``{server_url}/token`` (wrong for split-origin providers), 404s, and we fall to browser reauth."""
@@ -341,7 +341,7 @@ class MCPOAuthManager:
         return (str(home.expanduser().resolve(strict=False)), server_name)
 
     def _build_provider(self, server_name: str, entry: _ProviderEntry) -> Optional[Any]:
-        """Build a ``HermesMCPOAuthProvider``; None if the SDK's OAuth support is unavailable."""
+        """Build a ``CTSMCPOAuthProvider``; None if the SDK's OAuth support is unavailable."""
         if _HERMES_PROVIDER_CLS is None:
             logger.warning("MCP OAuth '%s': SDK auth module unavailable", server_name)
             return None

@@ -103,7 +103,7 @@ _FOREGROUND_GUIDANCE = (
         _SHELL_LEVEL_BACKGROUND_RE.search,
         "Foreground command uses shell-level background wrappers (nohup/disown/setsid). "
         "Re-send WITHOUT the wrapper as terminal(command=\"<cmd>\", background=true, "
-        "notify_on_complete=true) so Hermes tracks the process, then run readiness "
+        "notify_on_complete=true) so CTS tracks the process, then run readiness "
         "checks and tests in separate commands.",
     ),
     (

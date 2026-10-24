@@ -1,4 +1,4 @@
-"""Core NeMo Relay adapters for physical Hermes provider attempts."""
+"""Core NeMo Relay adapters for physical CTS provider attempts."""
 
 from __future__ import annotations
 
@@ -98,7 +98,7 @@ class _ManagedAttempt:
         )
 
     def run_callback(self, callback: Callable[..., Any], *args: Any) -> Any:
-        """Run a Hermes callback in a fresh copy of the captured context.
+        """Run a CTS callback in a fresh copy of the captured context.
         Relay can invoke callbacks while another still owns the captured Context (hence the
         copy); nested relay calls run unmanaged — see relay_runtime.managed_callback_guard."""
         def guarded() -> Any:
@@ -173,7 +173,7 @@ class _ManagedAttempt:
 
 
 def _current_session_id() -> str | None:
-    """Return the inherited Hermes turn's session id, or None outside a live turn."""
+    """Return the inherited CTS turn's session id, or None outside a live turn."""
     turn = relay_runtime.active_turn()
     return None if turn is None else turn.lease.session_id
 
@@ -183,7 +183,7 @@ def execute(
     session_id: str | None = None, metadata: dict[str, Any] | None = None, defer_logical_completion: bool = False,
 ) -> Any:
     """Run one non-streaming physical provider attempt through Relay.
-    ``session_id`` defaults to the inherited Hermes turn's session (unmanaged when there is none)."""
+    ``session_id`` defaults to the inherited CTS turn's session (unmanaged when there is none)."""
     attempt = _ManagedAttempt.resolve(session_id, request, metadata, name=name, model_name=model_name)
     if attempt is None:
         return callback(request)
@@ -227,7 +227,7 @@ def stream_current(
     finalizer: Callable[[], Any], metadata: dict[str, Any] | None = None,
     defer_logical_completion: bool = False, completed_response_predicate: Callable[[Any], bool] | None = None,
 ) -> Any:
-    """Run a provider stream under the inherited Hermes turn when present.
+    """Run a provider stream under the inherited CTS turn when present.
     With ``completed_response_predicate`` set, a factory that ignores ``stream=True`` and returns a
     complete response is unwrapped and returned directly (pre-Relay behavior). Detecting that primes
     the lazy pipeline: a genuine first chunk is buffered, but provider latency and pre-first-yield
@@ -737,7 +737,7 @@ def _complete_logical(
             )
         except Exception:
             # Provider result is authoritative; retain the handle so turn finalization can retry.
-            logger.warning("Hermes Relay logical LLM finalization failed", exc_info=True)
+            logger.warning("CTS Relay logical LLM finalization failed", exc_info=True)
             return
         if popped is False:
             # A call running beside the turn (title generation) finishes under the turn's own

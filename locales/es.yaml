@@ -162,9 +162,9 @@ gateway:
     header: "**Informe de depuración subido:**"
     auto_delete: "⏱ Los pastes se eliminarán automáticamente en 6 horas."
     full_logs_hint: "Para subir registros completos, usa `cts debug share` desde la CLI."
-    share_hint: "Comparte estos enlaces con el equipo de Hermes para obtener soporte."
+    share_hint: "Comparte estos enlaces con el equipo de CTS para obtener soporte."
     report_label: "Informe"
-    local_refused: "`/debug local` mantiene el informe en la máquina donde se ejecuta Hermes, así que no está disponible desde un chat. Envía `/debug` para subir el informe resumido."
+    local_refused: "`/debug local` mantiene el informe en la máquina donde se ejecuta CTS, así que no está disponible desde un chat. Envía `/debug` para subir el informe resumido."
   deny:
     stale: "❌ Comando denegado (la aprobación había caducado)."
     no_pending: "No hay ningún comando pendiente que denegar."
@@ -210,7 +210,7 @@ gateway:
     set: "⊙ Objetivo establecido (presupuesto de {budget} turnos): {goal}\nSeguiré trabajando hasta que el objetivo se complete, lo pauses/elimines o se agote el presupuesto.\nControles: /goal status · /goal pause · /goal resume · /goal clear"
     gate_add_admin_only: "⛔ /goal gate add requiere un administrador del gateway configurado explícitamente (allow_admin_from para MD, group_allow_admin_from para grupos)."
   help:
-    header: "📖 **Comandos de Hermes**\n"
+    header: "📖 **Comandos de CTS**\n"
     skill_header: "\n⚡ **Comandos de skill** ({count} activos):"
     more_use_commands: "\n... y {count} más. Usa `/commands` para la lista paginada completa."
   insights:
@@ -336,7 +336,7 @@ gateway:
     db_unavailable: "Base de datos de sesiones no disponible."
     parse_error: "⚠️ No se pudo analizar los argumentos de `/resume`: {error}.\nUsa comillas alrededor de títulos con espacios, por ejemplo: `/resume \"Proyecto A Plan\"`."
     matrix_no_named_sessions: "No se encontraron sesiones con nombre para esta sala de Matrix.\nUsa `/title Mi Sesión` para nombrar la sesión de la sala actual, `/resume --all` para listar todas las sesiones de Matrix, o `/resume --cross-room <nombre de sesión>` para cruzar límites de sala explícitamente."
-    matrix_blocked_no_origin: "⚠️ Matrix /resume bloqueado: esta sesión con nombre no tiene sala de origen registrada, por lo que Hermes no la reanudará dentro de la sala actual por defecto. Usa `/resume --cross-room {name}` si quieres cruzar los límites de sala intencionadamente."
+    matrix_blocked_no_origin: "⚠️ Matrix /resume bloqueado: esta sesión con nombre no tiene sala de origen registrada, por lo que CTS no la reanudará dentro de la sala actual por defecto. Usa `/resume --cross-room {name}` si quieres cruzar los límites de sala intencionadamente."
     matrix_blocked_other_room: "⚠️ Matrix /resume bloqueado: esa sesión pertenece a una sala de Matrix diferente ({room}). Usa `/resume --cross-room {name}` si quieres reanudarla aquí intencionadamente."
     matrix_cross_room_success: "⚠️ Reanudación entre salas: **{title}** reanudada dentro de la sala de Matrix **{room}**.\nLos próximos mensajes en esta sala usarán esa transcripción hasta `/reset` u otro `/resume`.{msg_part}"
     blocked_not_owner: "⚠️ /resume bloqueado: '**{name}**' pertenece a otro usuario o chat. Solo puedes reanudar sesiones de este chat."
@@ -479,11 +479,11 @@ gateway:
     untitled_session: "Sesión sin título"
     restore_step_1: "1. Crea o abre un topic. Para crear uno nuevo, abre All Messages y envía cualquier mensaje allí."
     restore_step_2: "2. Envía /topic <session-id> dentro de ese topic."
-    default_title: "Chat de Hermes"
-    root_lobby: "Este chat principal está reservado para comandos del sistema.\n\nPara iniciar un nuevo chat de Hermes, abre el topic All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para ese mensaje; cada topic funciona como una sesión independiente de Hermes."
-    root_new: "Para iniciar un nuevo chat paralelo de Hermes, abre el topic All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para él.\n\nCada topic es una sesión independiente de Hermes. Usa /new dentro de un topic existente solo si quieres reemplazar la sesión actual de ese topic."
-    new_header: "Se inició una nueva sesión de Hermes en este topic.\n\nConsejo: para trabajo paralelo, abre All Messages y envía un mensaje allí para crear un topic aparte en lugar de usar /new aquí. /new reemplaza la sesión vinculada al topic actual."
-    help: "/topic — activa el modo MD multisesión (un bot, muchos chats paralelos)\n\nUso:\n  /topic             Activa el modo topic, o muestra el estado si ya está activo\n  /topic help        Muestra este mensaje\n  /topic off         Desactiva el modo topic y borra las vinculaciones de topics\n  /topic <id>        Dentro de un topic: restaura una sesión anterior por ID\n\nCómo funciona:\n1. Ejecuta /topic una vez en este MD: Hermes comprueba que Threads\n   Settings esté activado en BotFather y enciende el modo multisesión.\n2. Toca All Messages en la parte superior del bot y envía cualquier mensaje.\n   Telegram crea un topic nuevo para ese mensaje; cada topic es\n   una sesión independiente de Hermes (historial y contexto nuevos).\n3. El MD raíz pasa a ser un lobby del sistema: envía allí /topic, /status,\n   /help, /usage. Los prompts normales van en un topic.\n4. /new dentro de un topic reinicia solo la sesión de ese topic.\n5. /topic <id> dentro de un topic restaura en él una sesión antigua."
+    default_title: "Chat de CTS"
+    root_lobby: "Este chat principal está reservado para comandos del sistema.\n\nPara iniciar un nuevo chat de CTS, abre el topic All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para ese mensaje; cada topic funciona como una sesión independiente de Hermes."
+    root_new: "Para iniciar un nuevo chat paralelo de CTS, abre el topic All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para él.\n\nCada topic es una sesión independiente de Hermes. Usa /new dentro de un topic existente solo si quieres reemplazar la sesión actual de ese topic."
+    new_header: "Se inició una nueva sesión de CTS en este topic.\n\nConsejo: para trabajo paralelo, abre All Messages y envía un mensaje allí para crear un topic aparte en lugar de usar /new aquí. /new reemplaza la sesión vinculada al topic actual."
+    help: "/topic — activa el modo MD multisesión (un bot, muchos chats paralelos)\n\nUso:\n  /topic             Activa el modo topic, o muestra el estado si ya está activo\n  /topic help        Muestra este mensaje\n  /topic off         Desactiva el modo topic y borra las vinculaciones de topics\n  /topic <id>        Dentro de un topic: restaura una sesión anterior por ID\n\nCómo funciona:\n1. Ejecuta /topic una vez en este MD: CTS comprueba que Threads\n   Settings esté activado en BotFather y enciende el modo multisesión.\n2. Toca All Messages en la parte superior del bot y envía cualquier mensaje.\n   Telegram crea un topic nuevo para ese mensaje; cada topic es\n   una sesión independiente de CTS (historial y contexto nuevos).\n3. El MD raíz pasa a ser un lobby del sistema: envía allí /topic, /status,\n   /help, /usage. Los prompts normales van en un topic.\n4. /new dentro de un topic reinicia solo la sesión de ese topic.\n5. /topic <id> dentro de un topic restaura en él una sesión antigua."
     system_topic_name: "Sistema"
     system_topic_intro: "Topic del sistema para comandos y estado de Hermes."
     setup_image_caption: "BotFather → Bot Settings → Threads Settings"
@@ -492,7 +492,7 @@ gateway:
     disable_failed: "No se pudo desactivar el modo topic: {error}"
     mode_disabled: "El modo topic multisesión ahora está DESACTIVADO en este chat.\n\nLos topics existentes en Telegram no se eliminan; simplemente dejarán de tratarse como sesiones independientes. El MD raíz vuelve a funcionar como un chat normal de Hermes. Ejecuta /topic para volver a activarlo más adelante."
     status_enabled: "Los topics multisesión de Telegram están activados."
-    status_how_to: "Para crear un nuevo chat de Hermes, abre All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para él."
+    status_how_to: "Para crear un nuevo chat de CTS, abre All Messages en la parte superior de esta interfaz del bot y envía cualquier mensaje allí. Telegram creará un topic nuevo para él."
     previous_unlinked: "Sesiones anteriores sin vincular:"
     restore_one: "Para restaurar una:"
     restore_example: "Ejemplo: envía /topic {session_id} dentro de un topic."
@@ -503,7 +503,7 @@ gateway:
     not_your_session: "Esa sesión no pertenece a este usuario de Telegram."
     already_linked: "Esa sesión ya está vinculada a otro topic de Telegram."
     restored: "Sesión restaurada: {title}"
-    restored_last_message: "\n\nÚltimo mensaje de Hermes:\n{text}"
+    restored_last_message: "\n\nÚltimo mensaje de CTS:\n{text}"
   undo:
     nothing: "Nada que deshacer."
     removed: "↩️ {turns} turno(s) deshecho(s) ({count} mensaje(s)).\nRespaldado en: \"{preview}\"\nCopia/edita el texto de arriba y envíalo para volver a preguntar desde aquí."
@@ -511,17 +511,17 @@ gateway:
   update:
     platform_not_messaging: "✗ /update solo está disponible en plataformas de mensajería. Ejecuta `cts update` desde la terminal."
     not_git_repo: "✗ No es un repositorio git — no se puede actualizar."
-    hermes_cmd_not_found: "✗ No se pudo localizar el comando `cts`. Hermes está en ejecución, pero el comando de actualización no encontró el ejecutable en PATH ni a través del intérprete de Python actual. Intenta ejecutar `cts update` manualmente en tu terminal."
+    hermes_cmd_not_found: "✗ No se pudo localizar el comando `cts`. CTS está en ejecución, pero el comando de actualización no encontró el ejecutable en PATH ni a través del intérprete de Python actual. Intenta ejecutar `cts update` manualmente en tu terminal."
     start_failed: "✗ No se pudo iniciar la actualización: {error}"
-    starting: "[CTS] Iniciando la actualización de Hermes… Transmitiré el progreso aquí."
+    starting: "[CTS] Iniciando la actualización de CTS… Transmitiré el progreso aquí."
     reply_failed: "✗ No se pudo enviar la respuesta al proceso de actualización: {error}"
     reply_sent: "✓ Se envió `{label}` al proceso de actualización."
-    failed_notice: "❌ La actualización de Hermes falló; la versión anterior sigue en ejecución. Ejecuta `cts update` en el host para ver el error completo, o prueba /update de nuevo más tarde."
+    failed_notice: "❌ La actualización de CTS falló; la versión anterior sigue en ejecución. Ejecuta `cts update` en el host para ver el error completo, o prueba /update de nuevo más tarde."
     prompt_default: " (predeterminado: {default})"
     prompt: "[CTS] **La actualización necesita tu respuesta:**\n\n{prompt}{default_hint}\n\nResponde `{prefix}approve` (sí) o `{prefix}deny` (no), o escribe tu respuesta directamente."
-    finished: "✅ Actualización de Hermes terminada."
-    timed_out: "❌ La actualización de Hermes expiró tras 30 minutos."
-    finished_success: "✅ La actualización de Hermes terminó correctamente."
+    finished: "✅ Actualización de CTS terminada."
+    timed_out: "❌ La actualización de CTS expiró tras 30 minutos."
+    finished_success: "✅ La actualización de CTS terminó correctamente."
     last_lines: "{msg}\n\nÚltimas líneas:\n```\n{tail}\n```"
     managed_action: "actualizar CTS Secret Engine"
     not_applicable: "✗ `cts update` no aplica a esta instalación ({method}).\nActualiza con: {command}"
@@ -610,7 +610,7 @@ gateway:
     none_value: "ninguno"
     unknown_value: "desconocido"
   exec_approval:
-    header: "Hermes quiere ejecutar un comando que necesita tu aprobación"
+    header: "CTS quiere ejecutar un comando que necesita tu aprobación"
     reason_label: "Por qué se marcó"
     default_reason: "comando peligroso"
     smart_deny_line: "DENEGACIÓN inteligente: la anulación del propietario aplica solo a esta operación."
@@ -643,7 +643,7 @@ gateway:
     turn_error_detailed: "Lo siento, ocurrió un error ({error_type}).\n{error_detail}\nInténtalo de nuevo o usa /reset para iniciar una sesión nueva."
     turn_error: "Lo siento, ocurrió un error."
     context_injection_refused: "Inyección de contexto rechazada."
-    no_home_channel: "📬 No hay un canal principal configurado para {platform}. El canal principal es donde Hermes entrega los resultados de las tareas programadas (cron) y los mensajes entre plataformas.\n\nEscribe {sethome_cmd} para convertir este chat en tu canal principal, o ignora este mensaje para omitirlo."
+    no_home_channel: "📬 No hay un canal principal configurado para {platform}. El canal principal es donde CTS entrega los resultados de las tareas programadas (cron) y los mensajes entre plataformas.\n\nEscribe {sethome_cmd} para convertir este chat en tu canal principal, o ignora este mensaje para omitirlo."
   unauthorized:
     action_notice: "Este bot es privado y no estás en su lista de permitidos. Si eres el propietario, ejecuta `cts pairing approve {platform} <request-id>` en el host (`cts pairing list` muestra el id)."
     admin_only_can_run: "Puedes ejecutar: "
@@ -671,7 +671,7 @@ gateway:
     bad_request: "⚠️ El servicio del modelo de IA rechazó esta solicitud. Intenta reformular tu mensaje o usa /model para cambiar de modelo."
     connection_interrupted: "⚠️ La conexión con el servicio del modelo de IA se interrumpió a mitad de la solicitud — suele ser pasajero. Usa /retry para intentarlo de nuevo; si sigue ocurriendo, ejecuta `cts doctor` en el host."
     unreachable: "⚠️ El servicio del modelo de IA no está accesible ahora mismo — el endpoint del modelo configurado no está en ejecución o no responde. Espera un momento y usa /retry; si persiste, ejecuta `cts doctor` en el host."
-    connection_unknown: "⚠️ Hermes no pudo conectar con el servicio del modelo de IA (el SDK no dio más detalles). Usa /retry para intentarlo de nuevo; si persiste, ejecuta `cts doctor` en el host."
+    connection_unknown: "⚠️ CTS no pudo conectar con el servicio del modelo de IA (el SDK no dio más detalles). Usa /retry para intentarlo de nuevo; si persiste, ejecuta `cts doctor` en el host."
     context_overflow: "⚠️ Esta conversación es demasiado larga para leerla de una sola vez. Usa /compress para acortar el historial o /new para empezar una conversación nueva."
     usage_limit_resets: "⏱️ Se alcanzó el límite de uso del servicio del modelo de IA; se restablece en {window}. Usa /retry después de eso, o /model para cambiar de modelo."
     provider_kept_failing: "⚠️ El servicio del modelo de IA siguió fallando. Usa /retry para intentarlo de nuevo o /model para cambiar de modelo. Los detalles están en el registro del gateway (`cts logs`)."
@@ -739,20 +739,20 @@ gateway:
     draining_maintenance: "⏳ Este agente se está vaciando para una acción de mantenimiento y ahora mismo no acepta turnos nuevos. Volverá en un momento — reenvía tu mensaje en breve."
     another_turn_running: "⏳ Otro turno sigue en ejecución en esta sesión. Para proteger la transcripción, este mensaje no se procesó. Espera a que termine el turno activo y luego reenvíalo."
     behavior_queue_short: "se ponen en cola para el siguiente turno"
-    behavior_queue_long: "Los mensajes se pondrán en cola para el siguiente turno mientras Hermes esté ocupado."
+    behavior_queue_long: "Los mensajes se pondrán en cola para el siguiente turno mientras CTS esté ocupado."
     behavior_steer_short: "se redirigen a la ejecución actual (tras la próxima herramienta)"
     behavior_steer_long: "Los mensajes se redirigirán a la ejecución actual (tras la siguiente llamada a herramienta)."
     behavior_interrupt_short: "interrumpen la ejecución actual"
-    behavior_interrupt_long: "Los mensajes interrumpirán la ejecución actual mientras Hermes esté ocupado."
+    behavior_interrupt_long: "Los mensajes interrumpirán la ejecución actual mientras CTS esté ocupado."
     status: "**Modo de entrada al estar ocupado: `{mode}`\nMensajes mientras está ocupado: _{behavior}_\nCámbialo con `/busy queue`, `/busy steer` o `/busy interrupt`."
     unknown_mode: "Modo desconocido `{arg}`. Usa `/busy queue`, `/busy steer` o `/busy interrupt`."
     save_failed: "No se pudo guardar el modo de entrada al estar ocupado en la configuración. El modo no cambió."
     set: "Modo de entrada al estar ocupado establecido en **`{mode}`** (guardado).\n_{behavior}_"
   pause:
     resumed: "▶️ Reanudado — se acepta trabajo nuevo de nuevo."
-    not_paused: "Hermes no estaba pausado."
+    not_paused: "CTS no estaba pausado."
     reason_suffix: " (motivo: {reason})"
-    already_paused: "⏸️ Hermes ya está pausado{suffix}. Usa `/pause off` para reanudar."
+    already_paused: "⏸️ CTS ya está pausado{suffix}. Usa `/pause off` para reanudar."
     paused: "⏸️ Pausado{suffix}. El trabajo nuevo de cron/kanban/gateway queda en espera; el trabajo en curso termina con normalidad. Usa `/pause off` para reanudar."
   queue:
     usage: "Uso: /queue <prompt>"
@@ -837,7 +837,7 @@ gateway:
     task_status_complete: "completada"
     task_status_error: "error"
     task_line: "- {title} - {status}"
-    task_card_title: "Hermes está trabajando"
+    task_card_title: "CTS está trabajando"
   pairing:
     validity_hour: "{hours} hora"
     validity_hours: "{hours} horas"
@@ -846,13 +846,13 @@ gateway:
   shutdown:
     action_shutting_down: "apagándose"
     action_restarting: "reiniciándose"
-    cron_interrupted: "⚠️ La tarea programada '{job}' se interrumpió porque Hermes se está {action}; esta vez no hay resultado. Volverá a ejecutarse según lo programado, o puedes lanzarla ahora con `cts cron run {job}` cuando Hermes vuelva a estar disponible."
-    notice_shutdown: "⚠️ Hermes se está apagando — tu tarea actual se interrumpirá. Cuando vuelva a estar en línea, envía cualquier mensaje e intentaré continuar donde lo dejamos."
-    notice_restart: "⚠️ Hermes se está reiniciando — tu tarea actual se interrumpirá. Envía cualquier mensaje después del reinicio e intentaré retomar donde lo dejaste."
+    cron_interrupted: "⚠️ La tarea programada '{job}' se interrumpió porque CTS se está {action}; esta vez no hay resultado. Volverá a ejecutarse según lo programado, o puedes lanzarla ahora con `cts cron run {job}` cuando CTS vuelva a estar disponible."
+    notice_shutdown: "⚠️ CTS se está apagando — tu tarea actual se interrumpirá. Cuando vuelva a estar en línea, envía cualquier mensaje e intentaré continuar donde lo dejamos."
+    notice_restart: "⚠️ CTS se está reiniciando — tu tarea actual se interrumpirá. Envía cualquier mensaje después del reinicio e intentaré retomar donde lo dejaste."
   startup:
-    handoff_thread_title: "Hermes — {title}"
+    handoff_thread_title: "CTS — {title}"
     restarted: "♻ Gateway reiniciado correctamente. Tu sesión continúa."
-    online: "♻️ Gateway en línea — Hermes está de vuelta y listo."
+    online: "♻️ Gateway en línea — CTS está de vuelta y listo."
     db_corrupt: "⚠️ Se detectó corrupción en la base de datos de sesiones. Es posible que los mensajes no se guarden. Opciones de recuperación:\n1. Ejecuta `cts {profile_arg}doctor --fix`\n2. Detén el gateway y luego recupera con:\n   hermes {profile_arg}sessions recover --source {db_path} --inspect-only\n   (si indica que es recuperable) hermes {profile_arg}sessions recover --source {db_path} --output recovered-state.db\n   — la recuperación primero toma una instantánea del archivo dañado; NO ejecutes `sqlite3 ... \".recover\"` sobre el state.db en uso, una CLI sqlite3 vulnerable puede dañarlo aún más\n3. Restaura una copia de seguridad desde {backups_dir}/\nEjecuta `cts {profile_arg}doctor` para obtener diagnósticos anonimizados."
     db_fts_corrupt: "⚠️ La base de datos de sesiones informó un error de corrupción limitado al índice de búsqueda (FTS5); las tablas de mensajes no están dañadas. Es posible que los mensajes no se guarden hasta repararlo: ejecuta `cts {profile_arg}doctor --fix` y luego reinicia el gateway. No ejecutes herramientas de recuperación ni restaures una copia de seguridad a menos que `cts {profile_arg}doctor` confirme daños."
     db_then_restart: "{action} Luego ejecuta `cts {profile_arg}gateway restart`."
@@ -999,7 +999,7 @@ platform:
     transformed_notice: "\n\n[Respuesta transformada después del streaming]\n"
   discord:
     approval:
-      question: "¿Quieres que Hermes ejecute este comando?"
+      question: "¿Quieres que CTS ejecute este comando?"
       requested_command_label: "Comando solicitado:"
       confirm_title: "Confirmar"
       already_resolved: "Esta aprobación ya se resolvió~"
@@ -1019,7 +1019,7 @@ platform:
       resolved_cancel: "Cancelado"
     prompt:
       truncated_marker: "... [truncado]"
-      clarify_title: "Hermes necesita tu respuesta"
+      clarify_title: "CTS necesita tu respuesta"
       clarify_hint_buttons: "Elige una opción abajo o haz clic en ✏️ Otra para escribir una respuesta personalizada."
       clarify_hint_text: "Responde en este canal con tu respuesta."
       default_hint: " (predeterminado: {default})"
@@ -1062,7 +1062,7 @@ platform:
         description: "Iniciar una conversación nueva"
         followup: "Nueva conversación iniciada~"
       reset:
-        description: "Restablecer tu sesión de Hermes"
+        description: "Restablecer tu sesión de CTS"
         followup: "Sesión restablecida~"
       model:
         description: "Mostrar o cambiar el modelo"
@@ -1084,10 +1084,10 @@ platform:
       undo:
         description: "Eliminar el último intercambio"
       status:
-        description: "Mostrar el estado de la sesión de Hermes"
+        description: "Mostrar el estado de la sesión de CTS"
         followup: "Estado enviado~"
       stop:
-        description: "Detener el agente Hermes en ejecución"
+        description: "Detener el agente CTS en ejecución"
         followup: "Detención solicitada~"
       steer:
         description: "Inyectar un mensaje tras la próxima llamada a herramienta (sin interrumpir)"
@@ -1123,7 +1123,7 @@ platform:
       update:
         followup: "Actualización iniciada~"
       restart:
-        description: "Reiniciar el gateway de Hermes de forma ordenada"
+        description: "Reiniciar el gateway de CTS de forma ordenada"
         followup: "Reinicio solicitado~"
       approve:
         arg_scope: "Opcional: 'all', 'session', 'always', 'all session', 'all always'"
@@ -1131,9 +1131,9 @@ platform:
         description: "Denegar un comando peligroso pendiente"
         arg_scope: "Opcional: 'all' para denegar todos los comandos pendientes"
       thread:
-        description: "Crear un hilo nuevo e iniciar en él una sesión de Hermes"
+        description: "Crear un hilo nuevo e iniciar en él una sesión de CTS"
         arg_name: "Nombre del hilo"
-        arg_message: "Primer mensaje opcional para enviar a Hermes en el hilo"
+        arg_message: "Primer mensaje opcional para enviar a CTS en el hilo"
         arg_auto_archive: "Archivado automático en minutos (60, 1440, 4320, 10080)"
         error_unknown: "error desconocido"
         failed: "No se pudo crear el hilo: {error}"
@@ -1156,7 +1156,7 @@ platform:
         arg_question: "La pregunta aparte que se responderá sin interrumpir"
         followup: "Pregunta aparte enviada~"
       skill:
-        description: "Ejecutar una skill de Hermes"
+        description: "Ejecutar una skill de CTS"
         arg_name: "Qué skill ejecutar"
         arg_args: "Argumentos opcionales para la skill"
         unknown: "Skill desconocida: `{name}`. Empieza a escribir para ver sugerencias de autocompletado."
@@ -1176,10 +1176,10 @@ platform:
     security:
       unauthorized_slash_alert: "⚠️ Intento de comando slash de Discord no autorizado\nUsuario: {user_name} ({user_id})\nCanal: {chan_id} (servidor {guild_id})\nComando: {command_text}\nMotivo: {reason}"
     thread:
-      seed_message: "🧵 Hilo creado por Hermes: **{name}**"
-      default_name: "Hermes"
-      handoff_seed: "🧵 Traspaso de Hermes: **{name}**"
-      auto_create_failed: "⚠️ Hermes no pudo crear un hilo de Discord para este mensaje, así que la solicitud no se procesó. Vuelve a intentarlo."
+      seed_message: "🧵 Hilo creado por CTS: **{name}**"
+      default_name: "CTS"
+      handoff_seed: "🧵 Traspaso de CTS: **{name}**"
+      auto_create_failed: "⚠️ CTS no pudo crear un hilo de Discord para este mensaje, así que la solicitud no se procesó. Vuelve a intentarlo."
       auto_create_failed_generic: "La solicitud no se procesó. Vuelve a intentarlo."
     media:
       upload_too_large: "⚠️ No se pudo adjuntar `{filename}` — {size_mb} MB supera el límite de subida de Discord de {limit_mb} MB para este canal. Comprime el archivo o comparte un enlace."
@@ -1326,15 +1326,15 @@ platform:
       thinking: "está pensando..."
       still_working: "sigue trabajando… ({elapsed})"
     task_card:
-      title: "Hermes está trabajando"
+      title: "CTS está trabajando"
     slash:
       reply_truncated: "\n\n_[Respuesta truncada: {count} parte(s) más superaron el límite de respuestas efímeras de Slack.]_"
       running: "Ejecutando `/{command}`…"
     handoff:
-      seed: ":thread: Traspaso de Hermes — *{name}*"
+      seed: ":thread: Traspaso de CTS — *{name}*"
   matrix:
     handoff:
-      default_name: "Sesión de Hermes"
+      default_name: "Sesión de CTS"
     media:
       image_download_failed: "No pude descargar y subir la imagen a Matrix. No se muestra la URL de origen porque podría contener tokens privados."
     approval:
@@ -1392,7 +1392,7 @@ platform:
       header: "Pregunta"
       question: "❓ {question}"
     typing:
-      thinking: "Hermes está pensando…"
+      thinking: "CTS está pensando…"
       interrupted: "(interrumpido)"
       no_reply: "(sin respuesta)"
     attachment_fallback:
@@ -1499,7 +1499,7 @@ slash:
     plugin_default_desc: "Ejecutar /{name}"
     plugin_command_desc: "Comando de plugin"
   hermes:
-    description: "Hablar con Hermes o ejecutar un subcomando"
+    description: "Hablar con CTS o ejecutar un subcomando"
   start:
     description: "Aceptar los pings de inicio de la plataforma sin responder"
   new:
@@ -1533,7 +1533,7 @@ slash:
   rollback:
     description: "Listar o restaurar puntos de control del sistema de archivos (la restauración conserva tus ediciones manuales; --all las anula)"
   snapshot:
-    description: "Crear o restaurar instantáneas de la configuración/estado de Hermes"
+    description: "Crear o restaurar instantáneas de la configuración/estado de CTS"
   export:
     description: "Exportar un perfil (configuración, skills, tema) a un archivo compartible"
   import:
@@ -1541,7 +1541,7 @@ slash:
   stop:
     description: "Terminar todos los procesos en segundo plano en ejecución"
   discard:
-    description: "Descarta un turno perdido al reiniciar Hermes para que la cola de este chat continúe"
+    description: "Descarta un turno perdido al reiniciar CTS para que la cola de este chat continúe"
   pause:
     description: "Pausar todo el trabajo nuevo globalmente (parada de emergencia); '/pause off' reanuda"
   deny:
@@ -1557,7 +1557,7 @@ slash:
   steer:
     description: "Inyectar un mensaje tras la próxima llamada a herramienta sin interrumpir"
   goal:
-    description: "Establecer un objetivo permanente en el que Hermes trabaja turno tras turno hasta lograrlo"
+    description: "Establecer un objetivo permanente en el que CTS trabaja turno tras turno hasta lograrlo"
   heartbeat:
     description: "Establecer un prompt recurrente que vuelve a entrar en esta sesión cuando está inactiva"
   refine:
@@ -1623,7 +1623,7 @@ slash:
   wake:
     description: "Alternar la escucha de la palabra de activación 'Hey CTS'"
   busy:
-    description: "Controlar cómo se tratan los mensajes mientras Hermes está trabajando"
+    description: "Controlar cómo se tratan los mensajes mientras CTS está trabajando"
   tools:
     description: "Gestionar herramientas: /tools [list|disable|enable] [name...]"
   toolsets:
@@ -1777,17 +1777,17 @@ cli:
     keep_going_choice: "Seguir con créditos"
     keep_going_desc: "usa tus créditos cuando se agote el uso incluido"
     keep_going_on_line: "Seguir con créditos: activado (usa tus créditos cuando se agote el uso incluido)"
-    keep_going_off_line: "Seguir con créditos: desactivado (Hermes espera al reinicio)"
+    keep_going_off_line: "Seguir con créditos: desactivado (CTS espera al reinicio)"
     keep_going_confirm_title: "¿Seguir con créditos?"
-    keep_going_confirm_body: "Usa tus créditos cuando se agote el uso incluido. Desactivado: Hermes espera al reinicio."
+    keep_going_confirm_body: "Usa tus créditos cuando se agote el uso incluido. Desactivado: CTS espera al reinicio."
     keep_going_turn_on: "Activar"
-    keep_going_keep_off_desc: "dejarlo desactivado: Hermes espera al reinicio"
+    keep_going_keep_off_desc: "dejarlo desactivado: CTS espera al reinicio"
     keep_going_is_on_title: "Seguir con créditos está activado"
     keep_going_turn_off: "Desactivarlo"
-    keep_going_turn_off_desc: "Hermes espera al reinicio"
+    keep_going_turn_off_desc: "CTS espera al reinicio"
     keep_going_leave_on: "Dejarlo activado"
     keep_going_turned_on: "✅ Seguir con créditos: activado. Usa tus créditos cuando se agote el uso incluido."
-    keep_going_turned_off: "✅ Seguir con créditos: desactivado. Hermes espera al reinicio."
+    keep_going_turned_off: "✅ Seguir con créditos: desactivado. CTS espera al reinicio."
     cancelled: "Cancelado."
     cancelled_yellow: "🟡 Cancelado."
     cancelled_no_funds: "Cancelado. No se añadieron fondos."
@@ -2319,7 +2319,7 @@ cli:
     failed: "Falló la conexión"
     authorized_no_tools: "Autorizado. Herramientas no disponibles."
     connected: "Conectado"
-    named_account: "Hermes llamó {alias} a esta cuenta de {name}. Puedes cambiarle el nombre cuando quieras."
+    named_account: "CTS llamó {alias} a esta cuenta de {name}. Puedes cambiarle el nombre cuando quieras."
     waiting: "Esperando…"
   editor:
     only_interactive: "El editor externo solo está disponible dentro de la CLI interactiva."
@@ -2670,9 +2670,9 @@ cli:
       short_queue: "pone en cola para el siguiente turno"
       short_steer: "redirige la ejecución actual (tras la siguiente llamada a herramienta)"
       short_interrupt: "redirige la ejecución actual de inmediato"
-      long_queue: "Enter pondrá en cola tu mensaje mientras Hermes esté ocupado."
+      long_queue: "Enter pondrá en cola tu mensaje mientras CTS esté ocupado."
       long_steer: "Enter redirigirá tu mensaje hacia la ejecución actual (tras la siguiente llamada a herramienta)."
-      long_interrupt: "Enter redirigirá la ejecución actual mientras Hermes esté ocupado; /stop sigue cancelándola."
+      long_interrupt: "Enter redirigirá la ejecución actual mientras CTS esté ocupado; /stop sigue cancelándola."
       usage: "Uso: /busy [queue|steer|interrupt|status]"
       status: "Modo de entrada al estar ocupado: {mode}"
       enter_while_busy: "Enter mientras está ocupado: {behavior}"
@@ -2744,7 +2744,7 @@ cli:
       stat_hint: "ejecuta /diff --stat para ver un resumen"
       stat_hint_session: "ejecuta /diff session --stat para ver un resumen"
       not_enabled: "Los puntos de control no están activados, así que no hay una línea base de sesión.\nActívalos con: hermes --checkpoints\nO en config.yaml: checkpoints: { enabled: true }\n(El /diff normal sigue funcionando — usa git directamente.)"
-      no_session_changes: "Sin cambios — Hermes aún no ha editado ningún archivo aquí."
+      no_session_changes: "Sin cambios — CTS aún no ha editado ningún archivo aquí."
     rollback:
       not_enabled: "Los puntos de control no están activados.\nActívalos con: hermes --checkpoints\nO en config.yaml: checkpoints: { enabled: true }"
       none_here_showing_all: "No hay puntos de control para {cwd} — mostrando todos los directorios."
@@ -3059,7 +3059,7 @@ cli:
       prompt_required: "Uso: /heartbeat every <interval> <prompt> — el prompt es obligatorio."
       invalid_label: "Heartbeat no válido"
       set: "♥ Heartbeat configurado (cada {interval}): {prompt}"
-      set_note: "Se ejecuta como un turno normal cuando la sesión está inactiva y ha pasado el intervalo. Gestiónalo con /heartbeat pause | resume | clear; solo existe mientras corre este proceso de Hermes — usa `cts cron` para programaciones persistentes."
+      set_note: "Se ejecuta como un turno normal cuando la sesión está inactiva y ha pasado el intervalo. Gestiónalo con /heartbeat pause | resume | clear; solo existe mientras corre este proceso de CTS — usa `cts cron` para programaciones persistentes."
     refine:
       nothing_yet: "Aún no hay nada que refinar — envía primero un mensaje."
       empty: "Aún no hay nada que refinar — la conversación está vacía."
@@ -3133,12 +3133,12 @@ cli:
   tip_line: "✦ Consejo: {tip}"
   banner:
     context_too_low: "⚠️  La longitud de contexto es de solo {tokens} tokens — probablemente es demasiado baja para usar el agente con herramientas."
-    context_minimum: "Hermes necesita al menos {tokens} tokens. Los esquemas de herramientas + el prompt del sistema ocupan un prefijo fijo grande."
+    context_minimum: "CTS necesita al menos {tokens} tokens. Los esquemas de herramientas + el prompt del sistema ocupan un prefijo fijo grande."
     fix_ollama: "Solución para Ollama: OLLAMA_CONTEXT_LENGTH={tokens} ollama serve"
     fix_lm_studio: "Solución LM Studio: ajusta el contexto en los ajustes del modelo → recárgalo"
     fix_local_server: "Solución: inicia tu servidor con al menos {tokens_k}K de contexto (llama.cpp: -c {tokens}), o define model.ollama_num_ctx en config.yaml con la ventana que realmente sirve"
     fix_config: "Solución: define model.context_length en config.yaml, o aumenta el ajuste de contexto de tu servidor"
-    hermes_models_not_agentic: "⚠  Los modelos Hermes 3 y 4 de Nous Research NO son agénticos y no están diseñados para usarse con CTS Secret Engine."
+    hermes_models_not_agentic: "⚠  Los modelos CTS 3 y 4 de Nous Research NO son agénticos y no están diseñados para usarse con CTS Secret Engine."
     hermes_models_lack_tools: "Carecen de la capacidad de llamar herramientas que requieren los flujos de trabajo del agente. Considera usar un modelo agéntico (Claude, GPT, Gemini, DeepSeek, etc.)."
     hermes_models_switch_hint: "Cambia con: /model sonnet  o  /model gpt5"
     project_skills_loaded: "◆ {count} skill(s) del proyecto cargada(s) desde este repositorio"
@@ -3192,7 +3192,7 @@ cli:
     the_provider: "el proveedor"
     the_current_model: "el modelo actual"
     with_details: "{lead}\nDetalles: {details}"
-    agent_init_failed: "Hermes no pudo iniciar la conexión con el modelo: {error}. Tu mensaje no se envió. Ejecuta `cts doctor` para revisar la configuración, o /model para elegir otro proveedor."
+    agent_init_failed: "CTS no pudo iniciar la conexión con el modelo: {error}. Tu mensaje no se envió. Ejecuta `cts doctor` para revisar la configuración, o /model para elegir otro proveedor."
   gateway:
     starting: "Iniciando CTS Gateway (plataformas de mensajería)..."
   gateway_status:
@@ -3523,15 +3523,15 @@ explainer:
   persistence:
     compression: "el turno se detuvo porque otro proceso estaba comprimiendo esta sesión. Tu mensaje ya debería estar guardado — vuelve a enviarlo cuando termine la compresión."
     compression_closed: "el turno se detuvo porque la compresión de contexto rotó esta sesión y no se pudo adoptar su continuación activa. El almacenamiento está en buen estado — actualiza el cliente (o inicia un nuevo turno) para que tome el nuevo id de sesión y vuelve a enviar tu mensaje."
-    turn_lease: "el turno se detuvo porque otro proceso de Hermes tomó el control de esta sesión. Tu respuesta no se guardó — espera a que el otro proceso termine y vuelve a enviar tu mensaje."
-    session_row_missing: "esta sesión se eliminó del almacenamiento mientras el chat seguía abierto y Hermes no pudo recrearla, así que este mensaje no se guardó. Vuelve a enviarlo; si sigue fallando, ejecuta `cts {profile_arg}doctor`."
-    locked: "el turno se detuvo porque el almacenamiento de sesiones estaba ocupado (otro proceso de Hermes estaba escribiendo en la base de datos de estado). Tu mensaje ya debería estar guardado — vuelve a enviarlo en un momento."
-    replaced: "el archivo de la base de datos de sesiones fue reemplazado mientras Hermes se ejecutaba, así que este mensaje no se guardó (se conserva una copia en {home}/sessions/). Detén Hermes (`cts {profile_arg}gateway stop`), ejecuta `cts {profile_arg}doctor` — no `cts {profile_arg}doctor --fix`, que repararía el archivo equivocado en su lugar —, luego inícialo de nuevo y vuelve a enviar tu mensaje. Los pasos avanzados de recuperación están en el log."
-    deleted_wal: "otro proceso de Hermes aún conserva una copia antigua del write-ahead log de la base de datos de sesiones, así que Hermes dejó de escribir para proteger el archivo y este mensaje no se guardó (se conserva una copia en {home}/sessions/). No se perdió nada. Cierra todos los procesos de Hermes de este perfil (app de escritorio, `cts {profile_arg}gateway stop`, dashboard, cron), ejecuta `cts {profile_arg}doctor` — indica qué proceso sigue reteniendo el log —, luego inicia Hermes de nuevo y vuelve a enviar tu mensaje. No ejecutes `doctor --fix` ni elimines archivos state.db mientras estén en ejecución. Guía: {recovery_docs}"
+    turn_lease: "el turno se detuvo porque otro proceso de CTS tomó el control de esta sesión. Tu respuesta no se guardó — espera a que el otro proceso termine y vuelve a enviar tu mensaje."
+    session_row_missing: "esta sesión se eliminó del almacenamiento mientras el chat seguía abierto y CTS no pudo recrearla, así que este mensaje no se guardó. Vuelve a enviarlo; si sigue fallando, ejecuta `cts {profile_arg}doctor`."
+    locked: "el turno se detuvo porque el almacenamiento de sesiones estaba ocupado (otro proceso de CTS estaba escribiendo en la base de datos de estado). Tu mensaje ya debería estar guardado — vuelve a enviarlo en un momento."
+    replaced: "el archivo de la base de datos de sesiones fue reemplazado mientras CTS se ejecutaba, así que este mensaje no se guardó (se conserva una copia en {home}/sessions/). Detén CTS (`cts {profile_arg}gateway stop`), ejecuta `cts {profile_arg}doctor` — no `cts {profile_arg}doctor --fix`, que repararía el archivo equivocado en su lugar —, luego inícialo de nuevo y vuelve a enviar tu mensaje. Los pasos avanzados de recuperación están en el log."
+    deleted_wal: "otro proceso de CTS aún conserva una copia antigua del write-ahead log de la base de datos de sesiones, así que CTS dejó de escribir para proteger el archivo y este mensaje no se guardó (se conserva una copia en {home}/sessions/). No se perdió nada. Cierra todos los procesos de CTS de este perfil (app de escritorio, `cts {profile_arg}gateway stop`, dashboard, cron), ejecuta `cts {profile_arg}doctor` — indica qué proceso sigue reteniendo el log —, luego inicia CTS de nuevo y vuelve a enviar tu mensaje. No ejecutes `doctor --fix` ni elimines archivos state.db mientras estén en ejecución. Guía: {recovery_docs}"
     corrupt: "el turno se detuvo porque la base de datos de estado reportó corrupción estructural (la transcripción se habría perdido al reiniciar). Liberar espacio en disco no ayudará. Opciones de recuperación:\n1. Ejecuta `cts {profile_arg}doctor --fix`\n2. Detén el gateway y luego recupera con:\n   hermes {profile_arg}sessions recover --source {db_path} --inspect-only\n   (si indica que es recuperable) hermes {profile_arg}sessions recover --source {db_path} --output recovered-state.db\n   — la recuperación toma primero una instantánea del archivo dañado; NO ejecutes `sqlite3 ... \".recover\"` contra el state.db activo, una CLI de sqlite3 vulnerable puede corromperlo aún más\n3. Restaura una copia de seguridad desde {backups_dir}/\nDespués, vuelve a enviar tu mensaje."
-    fts_index: "el turno se detuvo porque el índice de búsqueda de sesiones (FTS5) está corrupto y no se pudo desvincular, así que este mensaje no se guardó. El almacén de mensajes no está dañado: no ejecutes herramientas de recuperación ni restaures una copia de seguridad. Ejecuta `cts {profile_arg}doctor --fix` (o reinicia Hermes, que repara el índice al abrir) y vuelve a enviar tu mensaje."
-    disk: "Hermes no pudo guardar esta conversación en el disco, así que se detuvo en lugar de perder tus mensajes. Probablemente el disco está lleno: libera espacio (o corrige los permisos de {home}/state.db) y vuelve a enviar tu mensaje."
-    default: "Hermes no pudo guardar esta conversación, así que se detuvo en lugar de perder tus mensajes. Causas posibles: la unidad se quedó sin espacio, u otro proceso de Hermes está reteniendo la base de datos. Cierra las demás ventanas de Hermes, ejecuta `cts {profile_arg}doctor` para revisar el almacenamiento y vuelve a enviar tu mensaje."
+    fts_index: "el turno se detuvo porque el índice de búsqueda de sesiones (FTS5) está corrupto y no se pudo desvincular, así que este mensaje no se guardó. El almacén de mensajes no está dañado: no ejecutes herramientas de recuperación ni restaures una copia de seguridad. Ejecuta `cts {profile_arg}doctor --fix` (o reinicia CTS, que repara el índice al abrir) y vuelve a enviar tu mensaje."
+    disk: "CTS no pudo guardar esta conversación en el disco, así que se detuvo en lugar de perder tus mensajes. Probablemente el disco está lleno: libera espacio (o corrige los permisos de {home}/state.db) y vuelve a enviar tu mensaje."
+    default: "CTS no pudo guardar esta conversación, así que se detuvo en lugar de perder tus mensajes. Causas posibles: la unidad se quedó sin espacio, u otro proceso de CTS está reteniendo la base de datos. Cierra las demás ventanas de CTS, ejecuta `cts {profile_arg}doctor` para revisar el almacenamiento y vuelve a enviar tu mensaje."
   file_mutation:
     header: "⚠️ Verificador de modificación de archivos: {count} edición(es) de archivo FALLARON en este turno, aunque el texto de arriba sugiera lo contrario. Ejecuta `git status` o `read_file` para confirmar qué se aplicó realmente."
     entry: "  • `{path}` — [{tool}] {preview}"
@@ -3582,7 +3582,7 @@ tips:
   t040: "Combina varias referencias: \"Revisa @file:main.py y @file:test.py para comprobar la consistencia\"."
   t041: "Alt+Enter inserta un salto de línea para escribir varias líneas. (Windows Terminal intercepta Alt+Enter; usa Ctrl+Enter en su lugar.)"
   t042: "Ctrl+C interrumpe al agente. Presiónalo dos veces en 2 segundos para forzar la salida."
-  t043: "Ctrl+Z suspende Hermes en segundo plano; ejecuta fg en tu shell para reanudarlo."
+  t043: "Ctrl+Z suspende CTS en segundo plano; ejecuta fg en tu shell para reanudarlo."
   t044: "Tab acepta el texto fantasma de la autosugerencia o autocompleta los comandos con barra."
   t045: "Escribe un mensaje nuevo mientras el agente trabaja para interrumpirlo y redirigirlo."
   t046: "Alt+V pega una imagen de tu portapapeles en la conversación."
@@ -3611,7 +3611,7 @@ tips:
   t069: "cts skills tap add myorg/skills-repo agrega una fuente de skills personalizada de GitHub."
   t070: "cts skills snapshot export setup.json exporta tu configuración de skills para respaldarla o compartirla."
   t071: "cts mcp add github --command npx agrega servidores MCP desde la línea de comandos."
-  t072: "cts mcp-serve ejecuta Hermes como servidor MCP para otros agentes."
+  t072: "cts mcp-serve ejecuta CTS como servidor MCP para otros agentes."
   t073: "cts auth add te permite agregar varias claves de API para rotar un grupo de credenciales."
   t074: "hermes completion bash >> ~/.bashrc activa el autocompletado con Tab para todos los comandos y perfiles."
   t075: "cts logs -f sigue agent.log en tiempo real. --level WARNING --since 1h filtra la salida."
@@ -3619,7 +3619,7 @@ tips:
   t077: "cts profile create coder crea un perfil aislado que se convierte en su propio comando."
   t078: "cts profile create work --clone copia tu configuración y claves actuales a un perfil nuevo."
   t079: "cts update sincroniza automáticamente las nuevas skills incluidas en TODOS los perfiles."
-  t080: "cts gateway install configura Hermes como servicio del sistema (systemd/launchd)."
+  t080: "cts gateway install configura CTS como servicio del sistema (systemd/launchd)."
   t081: "cts memory setup te permite configurar un proveedor de memoria externo (Honcho, Mem0, etc.)."
   t082: "cts webhook subscribe crea rutas de webhook basadas en eventos con validación HMAC."
   t083: "Ahorra dinero: cts tools desactiva herramientas que no usas y cts skills config recorta las skills."
@@ -3646,7 +3646,7 @@ tips:
   t104: "Los comandos rápidos en config.yaml ejecutan comandos de shell al instante sin gastar tokens."
   t105: "Puedes definir personalidades personalizadas en config.yaml bajo agent.personalities."
   t106: "provider_routing controla el orden, la lista de permitidos y la lista de bloqueo de proveedores en OpenRouter."
-  t107: "execute_code ejecuta scripts de Python que llaman a las herramientas de Hermes de forma programática; los resultados quedan fuera del contexto."
+  t107: "execute_code ejecuta scripts de Python que llaman a las herramientas de CTS de forma programática; los resultados quedan fuera del contexto."
   t108: "delegate_task lanza hasta 10 subagentes concurrentes de forma predeterminada (delegation.max_concurrent_children) con contextos aislados para trabajar en paralelo."
   t109: "web_extract funciona con URLs de PDF: pásale cualquier enlace a un PDF y lo convierte a markdown."
   t110: "search_files se basa en ripgrep y es más rápido que grep; úsalo en lugar de grep en la terminal."
@@ -3672,7 +3672,7 @@ tips:
   t130: "Si dos perfiles comparten por accidente un token de bot, el segundo gateway se bloquea con un error claro."
   t131: "Las sesiones generan títulos descriptivos automáticamente tras el primer intercambio; no hace falta nombrarlas a mano."
   t132: "Los títulos de sesión admiten linaje: \"mi proyecto\" → \"mi proyecto #2\" → \"mi proyecto #3\"."
-  t133: "Al salir, Hermes imprime un comando para reanudar con el ID de la sesión y sus estadísticas."
+  t133: "Al salir, CTS imprime un comando para reanudar con el ID de la sesión y sus estadísticas."
   t134: "cts sessions export backup.jsonl exporta todas las sesiones para respaldo o análisis."
   t135: "cts -r SESSION_ID reanuda cualquier sesión anterior específica por su ID."
   t136: "La memoria es una instantánea congelada: los cambios aparecen en el prompt del sistema solo al iniciar la siguiente sesión."
@@ -3696,10 +3696,10 @@ tips:
   t154: "/voice on activa el modo de voz en la CLI. Ctrl+B alterna la grabación pulsar-para-hablar."
   t155: "El TTS en streaming reproduce las frases a medida que se generan: no tienes que esperar la respuesta completa."
   t156: "Los mensajes de voz en Telegram, Discord, WhatsApp y Slack se transcriben automáticamente."
-  t157: "Hermes funciona en 21 plataformas de mensajería: Telegram, Discord, Slack, WhatsApp, Signal, Matrix, IRC, Microsoft Teams, correo electrónico y más."
+  t157: "CTS funciona en 21 plataformas de mensajería: Telegram, Discord, Slack, WhatsApp, Signal, Matrix, IRC, Microsoft Teams, correo electrónico y más."
   t158: "cts gateway install lo configura como servicio del sistema que arranca al iniciar el equipo."
   t159: "DingTalk usa Stream Mode: no necesita webhooks ni una URL pública."
-  t160: "BlueBubbles lleva iMessage a Hermes mediante un servidor local en macOS."
+  t160: "BlueBubbles lleva iMessage a CTS mediante un servidor local en macOS."
   t161: "Las rutas de webhook admiten validación HMAC, límite de tasa y filtrado de eventos."
   t162: "El servidor de API expone un endpoint compatible con OpenAI que funciona con Open WebUI y LibreChat."
   t163: "Modo de canal de voz en Discord: el bot entra al canal de voz, transcribe lo que se dice y responde hablando."
@@ -3716,7 +3716,7 @@ tips:
   t174: "El contexto se comprime automáticamente al alcanzar el umbral: se vuelcan las memorias y se resume el historial."
   t175: "La barra de estado pasa a amarillo, luego a naranja y después a rojo a medida que se llena el contexto."
   t176: "SOUL.md es el archivo de identidad principal del agente: personalízalo para moldear su comportamiento."
-  t177: "Hermes carga el contexto del proyecto desde .hermes.md, AGENTS.md, CLAUDE.md o .cursorrules (la primera coincidencia)."
+  t177: "CTS carga el contexto del proyecto desde .hermes.md, AGENTS.md, CLAUDE.md o .cursorrules (la primera coincidencia)."
   t178: "Los archivos AGENTS.md de subdirectorios se descubren progresivamente a medida que el agente entra en las carpetas."
   t179: "Los archivos de contexto se limitan a 20 000 caracteres con truncado inteligente de inicio/final."
   t180: "Backends de navegador: Chromium local, Lightpanda, Browserbase, Browser Use y Firecrawl, además de Camofox como plugin."
@@ -3747,7 +3747,7 @@ tips:
   t205: "Los comandos de barra admiten coincidencia por prefijo: /h se resuelve como /help y /mod como /model."
   t206: "Arrastrar una ruta de archivo a la terminal adjunta imágenes automáticamente o la envía como contexto."
   t207: ".worktreeinclude en la raíz de tu repositorio lista los archivos ignorados por git que se copiarán a los worktrees."
-  t208: "hermes acp ejecuta Hermes como servidor ACP para integrarlo con VS Code, Zed y JetBrains."
+  t208: "hermes acp ejecuta CTS como servidor ACP para integrarlo con VS Code, Zed y JetBrains."
   t209: "Proveedores personalizados: guarda endpoints con nombre en config.yaml bajo custom_providers."
   t210: "HERMES_EPHEMERAL_SYSTEM_PROMPT inyecta un prompt del sistema que nunca se guarda en el historial."
   t211: "credential_pool_strategies admite las rotaciones fill_first, round_robin, least_used y random."
@@ -3758,11 +3758,11 @@ tips:
   t216: "Las tareas programadas (cron) pueden adjuntar un script de Python (--script) cuya salida estándar se inyecta en el prompt como contexto."
   t217: "Los scripts de cron viven en ~/.hermes/scripts/ y se ejecutan antes que el agente: perfectos para pipelines de recolección de datos."
   t218: "prefill_messages_file en config.yaml inyecta ejemplos few-shot en cada llamada a la API, sin guardarlos nunca en el historial."
-  t219: "SOUL.md reemplaza por completo la identidad predeterminada del agente: reescríbelo para hacer a Hermes tuyo."
+  t219: "SOUL.md reemplaza por completo la identidad predeterminada del agente: reescríbelo para hacer a CTS tuyo."
   t220: "SOUL.md se rellena automáticamente con una personalidad predeterminada en la primera ejecución. Edítalo para personalizarlo."
   t221: "/compress <focus topic> asigna el 60-70 % del presupuesto del resumen a tu tema y recorta agresivamente el resto."
   t222: "A partir de la segunda compresión, el compresor actualiza el resumen anterior en lugar de empezar desde cero."
-  t223: "Antes de reiniciar una sesión del gateway, Hermes vuelca automáticamente los hechos importantes a la memoria en segundo plano."
+  t223: "Antes de reiniciar una sesión del gateway, CTS vuelca automáticamente los hechos importantes a la memoria en segundo plano."
   t224: "network.force_ipv4: true en config.yaml corrige los bloqueos en servidores con IPv6 defectuoso: aplica un monkey-patch a socket."
   t225: "La herramienta terminal anota los códigos de salida comunes: grep devolviendo 1 = 'Sin coincidencias (no es un error)'."
   t226: "Los comandos de terminal en primer plano que fallan se reintentan automáticamente hasta 3 veces con retroceso exponencial (2 s, 4 s, 8 s)."
@@ -3784,7 +3784,7 @@ tips:
   t242: "Cualquier sitio web puede exponer skills vía /.well-known/skills/index.json: el hub de skills las descubre automáticamente."
   t243: "El registro de auditoría de skills en ~/.hermes/skills/.hub/audit.log rastrea cada operación de instalación y eliminación."
   t244: "Los worktrees de git obsoletos se limpian automáticamente: los árboles limpios y fusionados se eliminan; los inactivos con cambios sin commit o sin push se archivan primero y se pueden restaurar con cts worktree restore."
-  t245: "Los perfiles delimitan el estado de Hermes mediante HERMES_HOME; los subprocesos de herramientas del host conservan tu HOME real salvo que terminal.home_mode sea profile."
+  t245: "Los perfiles delimitan el estado de CTS mediante HERMES_HOME; los subprocesos de herramientas del host conservan tu HOME real salvo que terminal.home_mode sea profile."
   t246: "La variable de entorno HERMES_HOME_MODE (octal, p. ej. 0701) fija permisos de directorio personalizados para el acceso del servidor web."
   t247: "Modo contenedor: coloca .container-mode en HERMES_HOME y la CLI del host se ejecutará automáticamente dentro del contenedor."
   t248: "Ctrl+C tiene 5 niveles de prioridad: cancelar grabación → cancelar prompts → cancelar selector → interrumpir agente → salir."
@@ -3824,13 +3824,13 @@ tips:
   t282: "Las skills de repositorios de confianza (NousResearch) reciben el nivel de seguridad 'trusted'; las skills de la comunidad pasan por un escaneo adicional."
   t283: "La cuarentena de skills en ~/.hermes/skills/.hub/quarantine/ guarda las skills pendientes de revisión de seguridad."
   t284: "/steer <prompt> inyecta una nota después de la siguiente llamada a herramienta: redirige el rumbo a mitad de tarea sin interrumpir."
-  t285: "/goal <text> fija un objetivo permanente tipo bucle Ralph: Hermes continúa turno tras turno hasta que un juez da la tarea por terminada."
-  t286: "/snapshot create [label] guarda una instantánea completa del estado de la configuración de Hermes; /snapshot restore <id> la restaura más tarde."
+  t285: "/goal <text> fija un objetivo permanente tipo bucle Ralph: CTS continúa turno tras turno hasta que un juez da la tarea por terminada."
+  t286: "/snapshot create [label] guarda una instantánea completa del estado de la configuración de CTS; /snapshot restore <id> la restaura más tarde."
   t287: "/copy [N] copia la última respuesta del asistente a tu portapapeles, o la N-ésima desde el final si indicas un número."
   t288: "/redraw fuerza un repintado completo de la interfaz y corrige el desajuste de la terminal tras redimensionar tmux o seleccionar con el mouse."
   t289: "/agents (alias /tasks) muestra los agentes activos y las tareas en segundo plano en ejecución en la sesión actual."
   t290: "/footer activa o desactiva el pie del gateway en las respuestas finales, que muestra el modelo, el % de contexto y el cwd."
-  t291: "/busy queue|steer|interrupt controla qué hace presionar Enter mientras Hermes está trabajando."
+  t291: "/busy queue|steer|interrupt controla qué hace presionar Enter mientras CTS está trabajando."
   t292: "/topic en los mensajes directos de Telegram activa el modo de temas multisesión gestionado por el usuario: /topic <id> restaura sesiones anteriores en el mismo chat."
   t293: "/approve session|always ejecuta un comando peligroso pendiente con el alcance de confianza que elijas; /deny lo rechaza."
   t294: "/restart reinicia el gateway de forma ordenada tras drenar las ejecuciones activas y luego avisa a quien lo solicitó cuando vuelve a estar en línea."
@@ -3855,7 +3855,7 @@ tips:
   t313: "Ctrl+G o Ctrl+X Ctrl+E en la TUI abre el búfer de entrada en $EDITOR para prompts largos de varias líneas."
   t314: "La TUI renderiza LaTeX en línea — $E=mc^2$ se convierte en notación matemática Unicode en lugar de TeX crudo."
   t315: "cts dashboard lanza una interfaz web local en 127.0.0.1:9119 — ningún dato sale de localhost."
-  t316: "cts dashboard incrusta la TUI completa de Hermes en tu navegador mediante xterm.js y un PTY por WebSocket."
+  t316: "cts dashboard incrusta la TUI completa de CTS en tu navegador mediante xterm.js y un PTY por WebSocket."
   t317: "Deja un YAML en ~/.hermes/dashboard-themes/ con dos colores de paleta para cambiar la apariencia de todo el dashboard."
   t318: "Los plugins del dashboard se instalan con solo copiarlos: manifest.json + bundle JS en ~/.hermes/dashboard-plugins/ — sin necesidad de compilar con npm."
   t319: "layoutVariant: cockpit en un tema del dashboard añade un panel izquierdo de 260px que los plugins pueden llenar mediante el slot sidebar."
@@ -3893,7 +3893,7 @@ tips:
   t351: "cts chat --source tool etiqueta los chats programáticos para que no saturen cts sessions list."
   t352: "hermes dump --show-keys incluye huellas censuradas de las claves de API para una depuración de soporte más profunda."
   t353: "cts sessions rename <ID> \"nuevo título\" renombra cualquier sesión pasada; cts sessions delete <ID> elimina una."
-  t354: "cts import restaura un zip de respaldo completo de Hermes; las exportaciones de sesión en JSON/JSONL se importan desde la página Sessions del dashboard."
+  t354: "cts import restaura un zip de respaldo completo de CTS; las exportaciones de sesión en JSON/JSONL se importan desde la página Sessions del dashboard."
   t355: "cts fallback gestiona la cadena fallback_model de forma interactiva — sin editar config.yaml a mano."
   t356: "cts pairing rota el token de vinculación por mensaje directo — la primera persona que escriba tras la rotación obtiene acceso al bot."
   t357: "cts setup guía a quienes empiezan por el proveedor, las claves y la conexión de plataformas en un solo flujo interactivo."

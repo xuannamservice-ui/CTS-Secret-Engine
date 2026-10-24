@@ -1,6 +1,6 @@
 """``session.automation``: the classic CLI's /goal, /subgoal, /loop and /heartbeat managers, run here.
 
-Main's HermesCLI held a ``GoalManager`` / ``LoopManager`` / ``HeartbeatManager`` in its own process:
+Main's CTSCLI held a ``GoalManager`` / ``LoopManager`` / ``HeartbeatManager`` in its own process:
 they wrote ``state_meta`` through a read-write SessionDB and called the goal judge (an auxiliary
 model). Over the session authority the gateway is the single writer and runs every model call, so
 the viewer's managers are thin proxies (``hermes_cli/gateway_automation.py``) and each mutation or

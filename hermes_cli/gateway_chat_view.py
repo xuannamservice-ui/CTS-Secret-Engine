@@ -43,7 +43,7 @@ class GatewayChatView:
         self.generation = snapshot.get("execution_generation", 0)
         self.prompts = {p["prompt_id"]: p for p in snapshot.get("prompts", [])}
         self.pending = snapshot.get("pending", [])
-        self.model = str((snapshot.get("info") or {}).get("model") or "Hermes").split("/")[-1]
+        self.model = str((snapshot.get("info") or {}).get("model") or "CTS").split("/")[-1]
         # ``--format stream-json``: stdout belongs to the JSONL protocol, so every human line is
         # replaced by an emitter event and the terminal record carries the exit code.
         self.emitter = emitter

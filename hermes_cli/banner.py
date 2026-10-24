@@ -144,7 +144,7 @@ def get_available_skills() -> dict[str, list[str]]:
 
 
 def _resolve_repo_dir() -> Optional[Path]:
-    """The active Hermes git checkout, or None if this isn't a git install.
+    """The active CTS git checkout, or None if this isn't a git install.
 
     Prefers the running code's location: ``$HERMES_HOME/hermes-agent/`` may be a stale copy
     carried over by ``--clone-all``.

@@ -8,7 +8,7 @@ ownership env (``HERMES_KANBAN_TASK`` / ``HERMES_KANBAN_RUN_ID`` / ``HERMES_KANB
 the card can then dispatch a second writer into the same workspace. Every surface that makes
 a resumed session WRITE-CAPABLE asks this guard before loading history:
 
-- interactive CLI ``--resume`` / ``-c`` (``HermesCLI._preload_resumed_session``),
+- interactive CLI ``--resume`` / ``-c`` (``CTSCLI._preload_resumed_session``),
 - mid-chat ``/resume`` / ``/sessions <id>`` (``_handle_resume_command``),
 - quiet one-shot resume (``hermes_cli/oneshot.py``),
 - gateway ``session.resume`` — Desktop session history and the TUI picker

@@ -526,7 +526,7 @@ def _uvicorn_console_logging() -> None:
     ``logging.shutdown()`` on every live handler: a multiplexed gateway's profile log routers are
     already installed when its listener is built, and a closed router stays closed. The listeners
     pass ``log_config=None`` and get uvicorn's handlers here instead: ``uvicorn`` to stderr,
-    ``uvicorn.access`` to stdout, neither propagating into the Hermes log files.
+    ``uvicorn.access`` to stdout, neither propagating into the CTS log files.
     """
     from uvicorn.config import LOGGING_CONFIG
     from uvicorn.logging import AccessFormatter, DefaultFormatter

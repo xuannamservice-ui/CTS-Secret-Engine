@@ -155,9 +155,9 @@ def tool_call_issue(
 
 
 def record_tool_call_quality(agent: Any, tool_calls: Iterable[Any], repaired_ids: frozenset[int] | set[int]) -> None:
-    """Count every tool call one primary response emitted, before Hermes normalizes it.
+    """Count every tool call one primary response emitted, before CTS normalizes it.
 
-    ``repaired_ids`` holds ``id(tc)`` of calls whose name Hermes auto-repaired; streamed calls
+    ``repaired_ids`` holds ``id(tc)`` of calls whose name CTS auto-repaired; streamed calls
     whose argument JSON was repaired carry ``function.args_repaired``. No-op unless enabled.
     """
     try:

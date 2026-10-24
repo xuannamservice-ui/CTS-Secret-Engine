@@ -1,4 +1,4 @@
-"""Safe Hermes Console command engine."""
+"""Safe CTS Console command engine."""
 
 from __future__ import annotations
 
@@ -354,27 +354,27 @@ _BLOCKED_TOP = frozenset(
     "oneshot proxy serve setup uninstall update whatsapp whatsapp-cloud".split())
 
 _BLOCKED_PAIRS = {
-    ("config", "edit"): "`config edit` opens an editor and is not available in Hermes Console.",
-    ("profile", "alias"): "`profile alias` creates shell wrappers and is not available in Hermes Console.",
-    ("skills", "config"): "`skills config` is interactive and is not available in Hermes Console.",
-    ("skills", "publish"): "`skills publish` is not available in Hermes Console.",
-    ("portal", "login"): "`portal login` is interactive and is not available in Hermes Console.",
-    ("portal", "open"): "`portal open` opens a browser and is not available in Hermes Console.",
-    ("kanban", "tail"): "`kanban tail` streams output and is not available in Hermes Console.",
-    ("kanban", "watch"): "`kanban watch` streams output and is not available in Hermes Console.",
-    ("kanban", "daemon"): "`kanban daemon` starts a service and is not available in Hermes Console.",
-    ("kanban", "dispatcher"): "`kanban dispatcher` starts a worker and is not available in Hermes Console.",
-    ("kanban", "swarm"): "`kanban swarm` starts agent work and is not available in Hermes Console.",
-    ("kanban", "decompose"): "`kanban decompose` starts agent work and is not available in Hermes Console.",
-    ("kanban", "specify"): "`kanban specify` starts agent work and is not available in Hermes Console.",
-    ("kanban", "gc"): "`kanban gc` is not available in Hermes Console.",
-    ("sessions", "delete"): "`sessions delete` and `sessions prune` are not available in Hermes Console.",
-    ("sessions", "prune"): "`sessions delete` and `sessions prune` are not available in Hermes Console.",
+    ("config", "edit"): "`config edit` opens an editor and is not available in CTS Console.",
+    ("profile", "alias"): "`profile alias` creates shell wrappers and is not available in CTS Console.",
+    ("skills", "config"): "`skills config` is interactive and is not available in CTS Console.",
+    ("skills", "publish"): "`skills publish` is not available in CTS Console.",
+    ("portal", "login"): "`portal login` is interactive and is not available in CTS Console.",
+    ("portal", "open"): "`portal open` opens a browser and is not available in CTS Console.",
+    ("kanban", "tail"): "`kanban tail` streams output and is not available in CTS Console.",
+    ("kanban", "watch"): "`kanban watch` streams output and is not available in CTS Console.",
+    ("kanban", "daemon"): "`kanban daemon` starts a service and is not available in CTS Console.",
+    ("kanban", "dispatcher"): "`kanban dispatcher` starts a worker and is not available in CTS Console.",
+    ("kanban", "swarm"): "`kanban swarm` starts agent work and is not available in CTS Console.",
+    ("kanban", "decompose"): "`kanban decompose` starts agent work and is not available in CTS Console.",
+    ("kanban", "specify"): "`kanban specify` starts agent work and is not available in CTS Console.",
+    ("kanban", "gc"): "`kanban gc` is not available in CTS Console.",
+    ("sessions", "delete"): "`sessions delete` and `sessions prune` are not available in CTS Console.",
+    ("sessions", "prune"): "`sessions delete` and `sessions prune` are not available in CTS Console.",
 }
 
 
 class HermesConsoleEngine:
-    """Curated line-command executor for Hermes Console."""
+    """Curated line-command executor for CTS Console."""
 
     def __init__(self, *, output_limit: int = 20000):
         self.output_limit = output_limit
@@ -394,8 +394,8 @@ class HermesConsoleEngine:
                 return ConsoleResult("ok", output=self.help_text())
             if _contains_shell_syntax(raw_line, tokens):
                 raise ConsoleCommandError(
-                    "Hermes Console does not run shell syntax. Use one supported "
-                    "Hermes command at a time.")
+                    "CTS Console does not run shell syntax. Use one supported "
+                    "CTS command at a time.")
             builtin = self._execute_builtin(tokens)
             if builtin is not None:
                 if raw_line not in {"history", "clear"}:
@@ -417,7 +417,7 @@ class HermesConsoleEngine:
         if subject:
             command, _args = self._resolve_command(subject.split())
             return f"{command.usage}\n{command.summary}"
-        lines = ["Hermes Console", "", "Supported commands:"]
+        lines = ["CTS Console", "", "Supported commands:"]
         for command in sorted(self.commands.values(), key=lambda c: c.usage):
             marker = " *" if command.mutating else "  "
             lines.append(f"{marker} {command.usage:<32} {_table_summary(command.summary)}")
@@ -538,7 +538,7 @@ def _apply_confirmed_defaults(args: argparse.Namespace) -> None:
         auth_type = getattr(args, "auth_type", None)
         if auth_type in {"api-key", "api_key"} and not getattr(args, "api_key", None):
             raise ConsoleCommandError(
-                "auth add --type api-key requires --api-key in Hermes Console.")
+                "auth add --type api-key requires --api-key in CTS Console.")
     if getattr(args, "import_name", None) is not None:
         return  # profile import has no prompt flag; leave it alone.
     if getattr(args, "skills_action", None) in {"install", "reset", "opt-out", "repair-official"}:
@@ -566,7 +566,7 @@ _cron_status = _simple_command("cron status", "hermes_cli.cron", "cron_status")
 
 def _logs(_engine: HermesConsoleEngine, args: list[str]) -> str:
     if "-f" in args or "--follow" in args:
-        raise ConsoleCommandError("`logs -f` is not available in Hermes Console.")
+        raise ConsoleCommandError("`logs -f` is not available in CTS Console.")
     ns = _parse(
         "logs", args, (("log_name",), dict(nargs="?", default="agent")),
         (("-n", "--lines"), dict(type=int, default=50)),
@@ -791,10 +791,10 @@ def _cron_run(_engine: HermesConsoleEngine, args: list[str]) -> str:
 
 # (path, usage, summary, handler, confirmation prompt) — a non-empty prompt marks it mutating.
 _BUILTIN_COMMANDS = (
-    (("status",), "status", "Show Hermes component status.", _status, ""),
-    (("version",), "version", "Show Hermes version information.", _version, ""),
+    (("status",), "status", "Show CTS component status.", _status, ""),
+    (("version",), "version", "Show CTS version information.", _version, ""),
     (("doctor",), "doctor", "Run diagnostics without auto-fix.", _doctor, ""),
-    (("logs",), "logs [name] [-n N]", "Show recent Hermes logs.", _logs, ""),
+    (("logs",), "logs [name] [-n N]", "Show recent CTS logs.", _logs, ""),
     (("sessions", "list"), "sessions list [--limit N]", "List recent sessions.", _sessions_list,
      ""),
     (("sessions", "stats"), "sessions stats", "Show session store statistics.", _sessions_stats,
@@ -837,7 +837,7 @@ def run_console_repl(
         if interactive:
             print(text, file=stdout, **kw)
 
-    say("Hermes Console. Type `help` for commands, `exit` to quit.")
+    say("CTS Console. Type `help` for commands, `exit` to quit.")
     while True:
         say("hermes> ", end="", flush=True)
         line = stdin.readline()

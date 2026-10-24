@@ -1,4 +1,4 @@
-"""Admission lint: name a plugin's imports of private Hermes core modules (a warning, never a refusal).
+"""Admission lint: name a plugin's imports of private CTS core modules (a warning, never a refusal).
 
 Catalog rule 9 ("public surfaces only") is enforced for runtime rebinds by
 ``plugin_validate_core_override``; an import of a core internal (``tools.tirith_security``,
@@ -120,7 +120,7 @@ def _private_target(module: str, name: str, core: frozenset, local: set[str]) ->
 
 
 def private_import_findings(plugin_dir: Path) -> list[str]:
-    """``["<rel>:<line> <module>[.<name>]", ...]`` for every import of a private Hermes core module:
+    """``["<rel>:<line> <module>[.<name>]", ...]`` for every import of a private CTS core module:
     the first site of each distinct module first (so a truncated list still shows the breadth),
     then the rest, each group in file/line order."""
     plugin_dir = Path(plugin_dir)
@@ -149,7 +149,7 @@ def private_import_findings(plugin_dir: Path) -> list[str]:
 
 
 def check_private_imports(report, plugin_dir: Path) -> None:
-    """Warn (never fail) when the plugin imports private Hermes core modules."""
+    """Warn (never fail) when the plugin imports private CTS core modules."""
     hits = private_import_findings(plugin_dir)
     if hits:
         more = f"; and {len(hits) - _SHOWN} more" if len(hits) > _SHOWN else ""

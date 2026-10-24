@@ -134,7 +134,7 @@ def _normalize_windows_path(value: str) -> str:
 
 def hermes_owns_windows_service(name: str, binpath: str, hermes_roots: tuple[str, ...]) -> bool:
     """Positive ownership of an SCM service: Hermes-named (``hermes*``) or its binary path starts under a
-    Hermes root. Pure so it is testable off-Windows. A Scheduled-Task-launched gateway descends from
+    CTS root. Pure so it is testable off-Windows. A Scheduled-Task-launched gateway descends from
     ``svchost.exe`` hosting ``Schedule``; without this gate the updater took Task Scheduler for the
     gateway's supervisor and ``sc.exe stop Schedule`` aborted every update (#97208)."""
     normalized_name = "".join(char for char in name.casefold() if char.isalnum())
@@ -231,7 +231,7 @@ def _is_running_as_admin() -> bool:
 
 
 def _current_profile_cli_args() -> list[str]:
-    """Return CLI args that preserve the current Hermes profile."""
+    """Return CLI args that preserve the current CTS profile."""
     from hermes_cli.gateway import _profile_arg
 
     profile_arg = _profile_arg()

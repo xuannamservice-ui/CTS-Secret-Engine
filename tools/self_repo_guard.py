@@ -563,5 +563,5 @@ def _block_message(operation: str, root: Path) -> str:
         f"`git clone --shared {root} {scratch}/<task>` — avoid /tmp for "  # no-tmp: ok — guidance telling the model to AVOID /tmp
         "clones that install node/python deps: /tmp is usually RAM-backed tmpfs and a few "  # no-tmp: ok — guidance telling the model to AVOID /tmp
         "dependency installs can fill it and ENOSPC other work. Delete the clone when the branch "
-        "is pushed. To change this checkout, stop Hermes, run the command externally, then restart "
+        "is pushed. To change this checkout, stop CTS, run the command externally, then restart "
         "Hermes.")

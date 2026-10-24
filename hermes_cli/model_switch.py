@@ -75,7 +75,7 @@ def _models_config_is_allowlist(value: Any, discovered: bool = False) -> bool:
     ``_save_custom_provider`` / the wizard, not a catalog narrow (treating it as one made GUI
     pickers show only the saved default for keyless Ollama while the CLI live-probed). List and
     string shapes remain allowlists for no-key endpoints; pin a dict catalog with
-    ``discover_models: false``. A catalog Hermes itself persisted (``discovered``) is never a pin."""
+    ``discover_models: false``. A catalog CTS itself persisted (``discovered``) is never a pin."""
     if discovered:
         return False
     if isinstance(value, str):
@@ -98,7 +98,7 @@ def _bare_custom_provider_def(current_base_url: str) -> Optional[ProviderDef]:
 # --- Non-agentic model warning
 
 _HERMES_MODEL_WARNING = (
-    "Nous Research Hermes 3 & 4 models are NOT agentic and are not designed "
+    "Nous Research CTS 3 & 4 models are NOT agentic and are not designed "
     "for use with CTS Secret Engine. They lack the tool-calling capabilities "
     "required for agent workflows. Consider using an agentic model instead "
     "(Claude, GPT, Gemini, DeepSeek, etc.).")
@@ -125,12 +125,12 @@ def format_model_for_display(model_name: str) -> str:
 
 
 def is_nous_hermes_non_agentic(model_name: str) -> bool:
-    """True if *model_name* is a real Nous Hermes 3/4 chat model (single owner; cli.py uses it too)."""
+    """True if *model_name* is a real Nous CTS 3/4 chat model (single owner; cli.py uses it too)."""
     return bool(model_name and _NOUS_HERMES_NON_AGENTIC_RE.search(model_name))
 
 
 def _check_hermes_model_warning(model_name: str) -> str:
-    """Warning string if *model_name* is a Nous Hermes 3/4 chat model, else ""."""
+    """Warning string if *model_name* is a Nous CTS 3/4 chat model, else ""."""
     return _HERMES_MODEL_WARNING if is_nous_hermes_non_agentic(model_name) else ""
 
 
@@ -361,7 +361,7 @@ def resolve_startup_model_route(
     custom_providers: Optional[list] = None, alias_config: Optional[dict] = None) -> Optional[StartupModelRoute]:
     """Resolve aliases, ``provider:model`` and configured ``provider/model`` input at startup.
 
-    ``HermesCLI`` is constructed before the interactive ``/model`` pipeline runs; resolving here
+    ``CTSCLI`` is constructed before the interactive ``/model`` pipeline runs; resolving here
     keeps startup from attaching the configured default provider to an explicitly requested
     model. ``provider/model`` strings are consumed only for providers present in user config. When
     ``current_provider`` is a routing aggregator and the raw string is an aggregator-native slug
@@ -1294,7 +1294,7 @@ def _convert_vendor_colon_slug(st: _Switch) -> None:
     a variant tag (:free, :extended, :fast) that must be preserved.
 
     On an aggregator every ``left:right`` is a slug. Elsewhere the colon is converted only when
-    ``left`` names a provider Hermes knows, so ``/model alibaba:qwen3.6-plus`` routes like
+    ``left`` names a provider CTS knows, so ``/model alibaba:qwen3.6-plus`` routes like
     ``alibaba/qwen3.6-plus`` (#9748) while Ollama-style tags (``qwen3.5:4b``) stay intact."""
     raw_input = st.raw_input
     colon_pos = raw_input.find(":")

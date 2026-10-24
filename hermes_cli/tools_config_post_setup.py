@@ -32,7 +32,7 @@ def _ensure_browser_use_cli() -> None:
     from tools.browser_use_cli import _find_cli
 
     if _find_cli() is not None:
-        _print_success("    browser_exec ready (browser-harness, bundled with Hermes)")
+        _print_success("    browser_exec ready (browser-harness, bundled with CTS)")
     else:
         _print_warning("    browser-harness is missing from CTS Secret Engine's Python environment")
         _print_info("    Re-sync it with: cts update")
@@ -50,11 +50,11 @@ def _post_setup_lightpanda() -> None:
         _print_warning("    lightpanda binary not found on PATH, ~/.lightpanda or ~/.local/bin")
         _print_info(f"    {LIGHTPANDA_INSTALL_HINT}")
         if os.name == "nt":
-            _print_info("    Lightpanda has no native Windows build; run Hermes under WSL2.")
+            _print_info("    Lightpanda has no native Windows build; run CTS under WSL2.")
 
 
 def _post_setup_chromium() -> None:
-    """Local Browser row: browser_exec launches pm's Chromium. Termux (system Chromium) and the Hermes
+    """Local Browser row: browser_exec launches pm's Chromium. Termux (system Chromium) and the CTS
     Docker image (its baked build) own their payloads, so a miss there is a hint, never a download."""
     import pm
     from hermes_cli.browser_runtime import BAKED_EXECUTABLE_FILE, chromium_executable, chromium_missing_hint

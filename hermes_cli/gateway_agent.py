@@ -1,7 +1,7 @@
-"""The AIAgent surface main's HermesCLI uses, backed by the shared gateway session (CALLMAP §3.2-3.3).
+"""The AIAgent surface main's CTSCLI uses, backed by the shared gateway session (CALLMAP §3.2-3.3).
 
 ``run_conversation`` submits ``prompt.submit`` and replays the gateway's event stream, on the
-calling (agent) thread, into the SAME callbacks HermesCLI passed to ``AIAgent`` on main, then
+calling (agent) thread, into the SAME callbacks CTSCLI passed to ``AIAgent`` on main, then
 returns a dict shaped like ``AIAgent.run_conversation``'s. The CLI process never builds an agent,
 never runs a tool and never writes ``state.db``: the turn runs in the gateway.
 
@@ -1137,7 +1137,7 @@ class GatewayAgent:
 
     def _answer_request(self, frame):
         """A gateway server→client request (``sudo``, ``secret``, the ``vault.*`` prompts, ``clarify``): main's own modal
-        answers it on this (agent) thread, through the callback HermesCLI registered for the turn; the
+        answers it on this (agent) thread, through the callback CTSCLI registered for the turn; the
         answer travels only in the JSON-RPC response frame."""
         method = frame["method"]
         self._open_request = (frame["id"], method)
@@ -1197,7 +1197,7 @@ class GatewayAgent:
         return captured[0] if captured else ""
 
     def _ask_vault_unlock(self, params):
-        """Main's masked password-manager unlock panel, through the callback HermesCLI registered."""
+        """Main's masked password-manager unlock panel, through the callback CTSCLI registered."""
         from agent.vault_backends.unlock import get_unlock_prompt_callback
         callback = get_unlock_prompt_callback()
         if callback is None:
@@ -1220,7 +1220,7 @@ class GatewayAgent:
             answer.clear()
 
     def _ask_vault_code(self, params):
-        """Main's one-time-code panel, through the callback HermesCLI registered."""
+        """Main's one-time-code panel, through the callback CTSCLI registered."""
         from agent.vault_backends.unlock import get_code_prompt_callback
         callback = get_code_prompt_callback()
         if callback is None:
@@ -1431,7 +1431,7 @@ def _moa_handler(kind):
 
 
 def clarify_reply(callback, params) -> dict:
-    """Main's batch clarify panel (``callback(questions)``, ``HermesCLI._clarify_callback``) answering a
+    """Main's batch clarify panel (``callback(questions)``, ``CTSCLI._clarify_callback``) answering a
     ``clarify`` server request's whole question set: its ``ClarifyResult``."""
     questions = [{"qid": q.get("qid"), "question": q.get("question") or "",
                   "choices": list(q.get("choices") or []), "multi_select": bool(q.get("multi_select"))}

@@ -2027,7 +2027,7 @@ def check_compression_model_feasibility(agent: Any) -> None:
                 )
             else:
                 msg = (
-                    "⚠ No auxiliary LLM provider configured: Hermes has no helper model for summarising "
+                    "⚠ No auxiliary LLM provider configured: CTS has no helper model for summarising "
                     "long chats, so older messages will be cut without a summary. Run `cts setup` to add one."
                 )
             _emit_feasibility_notice(agent, msg)

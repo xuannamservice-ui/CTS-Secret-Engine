@@ -25,13 +25,13 @@ def _env_dir(var: str, fallback: Path) -> Path:
 
 
 def desktop_userdata_dir() -> Path:
-    """Electron ``app.getPath('userData')`` for an app named "Hermes" on each platform (GUI-only state)."""
+    """Electron ``app.getPath('userData')`` for an app named "CTS" on each platform (GUI-only state)."""
     home = Path.home()
     if sys.platform == "darwin":
-        return home / "Library" / "Application Support" / "Hermes"
+        return home / "Library" / "Application Support" / "CTS"
     if sys.platform == "win32":
-        return _env_dir("APPDATA", home / "AppData" / "Roaming") / "Hermes"
-    return _env_dir("XDG_CONFIG_HOME", home / ".config") / "Hermes"
+        return _env_dir("APPDATA", home / "AppData" / "Roaming") / "CTS"
+    return _env_dir("XDG_CONFIG_HOME", home / ".config") / "CTS"
 
 
 def source_built_gui_artifacts(hermes_home: Path) -> list[Path]:
@@ -55,7 +55,7 @@ def desktop_install_record() -> Path:
 def packaged_gui_app_paths() -> list[Path]:
     """Standard install locations of the packaged desktop distributable for the current OS. Every candidate
     is returned; the caller filters to those that exist. Never globs system-wide — only the well-known
-    electron-builder output locations for the "Hermes" product."""
+    electron-builder output locations for the "CTS" product."""
     home = Path.home()
     if sys.platform == "darwin":
         return [Path("/Applications/Hermes.app"), home / "Applications" / "Hermes.app"]
@@ -63,8 +63,8 @@ def packaged_gui_app_paths() -> list[Path]:
         local_base = _env_dir("LOCALAPPDATA", home / "AppData" / "Local")
         # NSIS per-user install (perMachine=false), an older/alternate layout, NSIS per-machine (needs admin).
         program_files = os.environ.get("ProgramFiles")
-        return [local_base / "Programs" / "Hermes", local_base / "hermes-desktop"] + (
-            [Path(program_files) / "Hermes"] if program_files else [])
+        return [local_base / "Programs" / "CTS", local_base / "hermes-desktop"] + (
+            [Path(program_files) / "CTS"] if program_files else [])
     # Linux: an AppImage lives wherever the user put it and deb/rpm files belong to the package manager
     # (see the hint in ``uninstall_gui``), so only the desktop entry + hicolor icons are cleaned here.
     from hermes_cli.linux_desktop_entry import LEGACY_DESKTOP_ENTRY_NAME, desktop_entry_path

@@ -1,4 +1,4 @@
-"""Slash-command handlers for the interactive CLI (``HermesCLI`` inherits ``CLICommandsMixin``).
+"""Slash-command handlers for the interactive CLI (``CTSCLI`` inherits ``CLICommandsMixin``).
 
 cli.py-internal symbols (``_cprint``/``_ACCENT``/``save_config_value``…) are imported LAZILY inside
 the helpers/handlers via ``from cli import ...`` — cli.py imports this module (cycle otherwise).
@@ -491,7 +491,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
     # ---- /diff ----------------------------------------------------------------------------
     def _handle_diff_command(self, command: str):
         """Handle /diff [working|staged|all|session] [--stat] [<path>...] — git changes in the
-        cwd; ``session`` is everything Hermes changed since the checkpoint baseline."""
+        cwd; ``session`` is everything CTS changed since the checkpoint baseline."""
         stat_only = False
         mode = "working"
         paths: list[str] = []
@@ -2038,7 +2038,7 @@ class CLICommandsMixin(CLICommandsSessionToolsMixin):
                             scope=_scope_outcome(explicit_global, saved))))
 
     def _handle_busy_command(self, cmd: str):
-        """Handle /busy [status|queue|steer|interrupt] — what Enter does while Hermes is working."""
+        """Handle /busy [status|queue|steer|interrupt] — what Enter does while CTS is working."""
         arg = _command_arg(cmd, lower=True)
         usage = _dim_line(_t("busy.usage"))
         if not arg or arg == "status":

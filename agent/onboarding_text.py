@@ -30,10 +30,10 @@ _GREETINGS = {
     "de": "Hallo, ich bin Hermes. Richten wir alles für Sie ein. Danach machen wir etwas Cooles.",
     "es": "Hola, soy Hermes. Vamos a dejarlo todo listo para ti. Luego haremos algo genial.",
     "fr": "Bonjour, je suis Hermes. Configurons tout pour vous. Ensuite, nous ferons quelque chose de génial.",
-    "ja": "こんにちは、Hermes です。まずはあなたに合わせて設定しましょう。そのあと、何かすごいものを作りましょう。",
+    "ja": "こんにちは、CTS です。まずはあなたに合わせて設定しましょう。そのあと、何かすごいものを作りましょう。",
     "ru": "Привет, я Hermes. Давайте всё настроим под вас. А потом сделаем что-нибудь классное.",
-    "zh": "你好，我是 Hermes。我们先帮你把一切设置好，然后一起做点很酷的事。",
-    "zh-hant": "你好，我是 Hermes。我們先幫你把一切設定好，然後一起做點很酷的事。",
+    "zh": "你好，我是 CTS。我们先帮你把一切设置好，然后一起做点很酷的事。",
+    "zh-hant": "你好，我是 CTS。我們先幫你把一切設定好，然後一起做點很酷的事。",
 }
 
 _NAME_QUESTIONS = {
@@ -100,7 +100,7 @@ _NVIDIA = {
 
 
 def facts_block(facts: Facts) -> str:
-    whose = ("the computer running Hermes, which is not the one in front of the user"
+    whose = ("the computer running CTS, which is not the one in front of the user"
              if facts.facts_source == "remote" else "this computer")
     lines = [f"What you know about {whose}: {facts.os} on {facts.arch or 'an unknown architecture'}, "
              f"a {facts.machine_kind}."]

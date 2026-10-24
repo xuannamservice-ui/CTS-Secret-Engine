@@ -24,7 +24,7 @@ def _find_stale_dashboard_pids(*, exclude_pids: set[int] | None = None,
                                scope_home: str | None = None) -> list[int]:
     """PIDs of running ``dashboard``/``serve`` backends the caller may stop.
 
-    *scope_home*: keep only backends whose resolved Hermes home (see
+    *scope_home*: keep only backends whose resolved CTS home (see
     ``_hermes_home_for_pid``) is this home; unreadable ownership is spared, never guessed.
     ``--stop`` and the post-update cleanup pass their own home so another install's or
     profile's backend on the same machine is never a target (#113978).

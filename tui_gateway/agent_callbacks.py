@@ -353,7 +353,7 @@ def _parse_tui_skills_env() -> list[str]:
 
 def _load_fallback_model():
     """Configured fallback chain via the shared ``get_fallback_chain`` (parity with
-    HermesCLI/gateway: ``fallback_providers`` first, legacy ``fallback_model`` merged after)."""
+    CTSCLI/gateway: ``fallback_providers`` first, legacy ``fallback_model`` merged after)."""
     from hermes_cli.fallback_config import get_fallback_chain
     return get_fallback_chain(_load_cfg())
 

@@ -602,7 +602,7 @@ STEER_CHANNEL_NOTE = (
     # (anti-lookalike), and it carries full user authority. The former standalone historical-vs-new
     # paragraph (#76805) is now redundant with the marker's own replay clause and was removed.
     "## Mid-turn user steering\n"
-    "Mid-turn, the user can steer you: Hermes delivers their message as a standalone user message right after "
+    "Mid-turn, the user can steer you: CTS delivers their message as a standalone user message right after "
     "the latest tool results, wrapped exactly as:\n"
     f"{STEER_MARKER_OPEN}\n<their message>\n{STEER_MARKER_CLOSE}\n"
     "That marker is a genuine user message with the same authority as their original request — not tool "
@@ -630,7 +630,7 @@ def hud_surface_note(valid_tool_names: set[str] | None = None,
         return ""
     gated = (
         (True,
-         "[Note: this message came from HUD mode — a small floating Hermes "
+         "[Note: this message came from HUD mode — a small floating CTS "
          "window sitting over whatever the user is actually working in, so an "
          'unqualified "this" or "here" usually means the app behind the HUD '
          "rather than anything inside Hermes. read_window_below identifies that app."),
@@ -685,7 +685,7 @@ PLATFORM_HINTS = {
     ),
     "tui": (
         # Same file-delivery reality as the CLI: no MEDIA: interception in tui/.
-        "You are in the Hermes terminal UI (TUI). Files: there is no attachment channel and MEDIA:/path tags "
+        "You are in the CTS terminal UI (TUI). Files: there is no attachment channel and MEDIA:/path tags "
         "are NOT intercepted here (they print as literal text) — deliver a file by stating its absolute path "
         "or URL in plain text. "
         f"{_LOCAL_CRON_DELIVERY_NOTE}"
@@ -694,7 +694,7 @@ PLATFORM_HINTS = {
         # Every claim verified against the shipping renderer (inline-preview-directive.tsx). Widget text is
         # recipe-first: HOW (an inline widget IS a ::preview'd HTML file) and WHY (the frame injects the theme
         # prelude first; width adopts the first measured span). setup_mcp is taught by its own tool schema.
-        "You are chatting inside the Hermes desktop app, a graphical chat surface. Markdown renders with full GitHub "
+        "You are chatting inside the CTS desktop app, a graphical chat surface. Markdown renders with full GitHub "
         "flavor (tables, syntax-highlighted code, math via $...$, task lists, callouts). Deliver files by writing "
         "MEDIA:/absolute/path/to/file — any file type: images/audio/video render inline, everything else becomes a "
         "card with Download and preview buttons. Remote image URLs render via ![alt](url); local files ONLY via MEDIA: "
@@ -811,7 +811,7 @@ _WINDOWS_BASH_SHELL_HINT = (
     "path conversion is disabled here, so `git -C /c/Users/x` or `node /tmp/a.js` fails with 'cannot change to'/'not "
     "found' even though `cd /c/Users/x` (a bash builtin) works. Pass `C:/Users/x`-style forward-slash native paths to "
     # no-tmp: ok — tells the model what NOT to use
-    "native tools, and prefer `$LOCALAPPDATA/Temp` (or `$TMPDIR`, which Hermes points at its own scratch dir) for scratch files a native tool must read — never a bare `/tmp`. When "
+    "native tools, and prefer `$LOCALAPPDATA/Temp` (or `$TMPDIR`, which CTS points at its own scratch dir) for scratch files a native tool must read — never a bare `/tmp`. When "
     "answering prompts in a pty background process, use process(submit) — never process(write) with a bare trailing "
     "newline: Enter on a Windows PTY is a carriage return, and a lone `\\n"
     "` is not delivered as a line terminator, so the child's prompt silently never returns. When a CLI offers a "
@@ -1035,8 +1035,8 @@ def build_environment_hints() -> str:
 
 
 # Marks the runtime block after project prose for persisted-prompt cwd validation.
-RUNTIME_ENVIRONMENT_HEADING = "# Hermes runtime environment"
-RUNTIME_ENVIRONMENT_END = "<!-- End Hermes runtime environment -->"
+RUNTIME_ENVIRONMENT_HEADING = "# CTS runtime environment"
+RUNTIME_ENVIRONMENT_END = "<!-- End CTS runtime environment -->"
 
 CONTEXT_FILE_MAX_CHARS = 20_000
 CONTEXT_TRUNCATE_HEAD_RATIO = 0.7
@@ -1681,11 +1681,11 @@ def discover_context_files(cwd_path: Path) -> list[tuple[str, str, Path, str]]:
 
 
 def _project_context_suppressed(cwd: Optional[str], cwd_path: Path, allow_install_tree_fallback: bool) -> bool:
-    """A FALLBACK-picked cwd inside the Hermes install tree must not gain system-prompt authority (the desktop
+    """A FALLBACK-picked cwd inside the CTS install tree must not gain system-prompt authority (the desktop
     default would load this repo's contributor AGENTS.md). An explicitly configured cwd is honored verbatim —
-    the Hermes tree is a legitimate workspace when the user deliberately points a session at it — and
+    the CTS tree is a legitimate workspace when the user deliberately points a session at it — and
     CLI-style surfaces pass allow_install_tree_fallback=True because their launch dir IS the user's shell cwd
-    (developing Hermes in-tree). See #64590."""
+    (developing CTS in-tree). See #64590."""
     from agent.runtime_cwd import _is_install_tree
     return cwd is None and not allow_install_tree_fallback and _is_install_tree(cwd_path)
 
@@ -1759,7 +1759,7 @@ def build_context_files_prompt(
     cwd_path = Path(cwd if cwd is not None else os.getcwd()).resolve()
     if _project_context_suppressed(cwd, cwd_path, allow_install_tree_fallback):
         logger.warning(
-            "skipping project-context discovery: working-directory resolution fell back to the Hermes "
+            "skipping project-context discovery: working-directory resolution fell back to the CTS "
             "install tree (%s) — set terminal.cwd to your project directory", cwd_path,
         )
         sections = []

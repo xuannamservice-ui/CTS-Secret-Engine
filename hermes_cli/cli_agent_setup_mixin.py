@@ -1,4 +1,4 @@
-"""Agent construction + session-resume display for ``HermesCLI``: credential resolution,
+"""Agent construction + session-resume display for ``CTSCLI``: credential resolution,
 per-turn agent config, first-use build, resume preload + recap. ``cli.py`` helpers are
 imported lazily inside each method (import cycle)."""
 
@@ -253,7 +253,7 @@ def _retire_agent(cli) -> None:
 
 
 class CLIAgentSetupMixin:
-    """Agent construction + session-resume display methods for ``HermesCLI``."""
+    """Agent construction + session-resume display methods for ``CTSCLI``."""
 
     def _ensure_runtime_credentials(self) -> bool:
         """Re-resolve provider credentials before agent use so key rotation / token
@@ -898,7 +898,7 @@ class CLIAgentSetupMixin:
 
         # role -> (label, label style, body style, continuation indent)
         you_label = f"  {t('cli.resume.label_you')} "
-        assistant_label = f"  {t('cli.resume.label_assistant', agent_name='Hermes')} "
+        assistant_label = f"  {t('cli.resume.label_assistant', agent_name='CTS')} "
         role_styles = {
             "user": (you_label, f"dim bold {_session_label_c}", "dim", " " * len(you_label)),
             "assistant": (assistant_label, f"dim bold {_assistant_label_c}", "dim", " " * len(assistant_label)),

@@ -1,5 +1,5 @@
 """``browser_exec``: drive a real browser through the Browser Use CLI engine (browser-harness,
-https://browser-use.com), Hermes' only core browser tool.
+https://browser-use.com), CTS' only core browser tool.
 
 The harness speaks CDP to whatever ``tools.browser_session`` resolved for the call: an operator
 ``BU_CDP_*`` endpoint, a ``/browser connect`` override, a cloud provider's session, or a local browser
@@ -243,7 +243,7 @@ def is_legacy_browser_use_cloud_config(browser_cfg: dict) -> bool:
 
 
 def _browser_use_api_key_set() -> bool:
-    """BROWSER_USE_API_KEY for the served profile: the only credential Hermes autospawns BU cloud with.
+    """BROWSER_USE_API_KEY for the served profile: the only credential CTS autospawns BU cloud with.
     Profile-scoped so a multiplexed secondary never inherits the default's cloud mode."""
     from agent.secret_scope import get_secret
     return bool(get_secret("BROWSER_USE_API_KEY", ""))
@@ -396,7 +396,7 @@ def _resolve_backend_cdp(env: dict, task_id: Optional[str], session_name: str = 
     Precedence: (1) ``BU_CDP_WS``/``BU_CDP_URL`` already in env (operator override); (2) ``BROWSER_CDP_URL``
     env / ``browser.cdp_url`` (``/browser connect``); (3) a cloud provider via ``browser_session.get_session_info``
     (per-key cache, expiry, reaper, atexit; a provider failure falls back to a local browser);
-    (4) the local engine — ``browser.engine: lightpanda`` or Hermes' packaged Chromium via the launcher
+    (4) the local engine — ``browser.engine: lightpanda`` or CTS' packaged Chromium via the launcher
     (never the harness's own discovery of the user's installed Chrome); (5) BU direct-API configs WITH
     ``BROWSER_USE_API_KEY`` → None (checked before (3)): the CLI reaches BU cloud natively (BU_AUTOSPAWN); a
     keyless ``browser-use`` provider (managed-gateway autodetect, or a selection missing its key) takes (3).

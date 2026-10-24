@@ -75,7 +75,7 @@ def build_browser_env() -> dict:
 # ── Bot Desktop fence ────────────────────────────────────────────────────────────────────────────────
 
 def shares_bot_desktop_browser(session_info: dict[str, Any]) -> bool:
-    """Every LOCAL session is a browser Hermes launched with this profile's Bot Desktop DISPLAY, so it is the
+    """Every LOCAL session is a browser CTS launched with this profile's Bot Desktop DISPLAY, so it is the
     screen a human who took over is typing into. Cloud / user-supplied CDP sessions are another browser. A
     human lease with the screen already gone still fences (computer_use does the same)."""
     if not (session_info.get("features") or {}).get("local"):

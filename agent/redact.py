@@ -1064,7 +1064,7 @@ def _command_segments(command: str) -> list[str]:
 
 
 def _is_under_hermes_home(path: str) -> bool:
-    """True when an absolute ``config.yaml`` path sits under the active Hermes home or root.
+    """True when an absolute ``config.yaml`` path sits under the active CTS home or root.
 
     The default home's basename is an installation detail — ``.hermes`` on POSIX, ``cts``
     under ``AppData/Local`` on Windows — and a resolved path never spells ``$HERMES_HOME``,
@@ -1090,7 +1090,7 @@ def _is_under_hermes_home(path: str) -> bool:
 
 def _is_secret_file_arg(arg: str) -> bool:
     """``.env``-style or shell rc basename anywhere; ``config.yaml`` only under a
-    ``.hermes`` directory, ``$HERMES_HOME``, or the resolved Hermes home (never arbitrary
+    ``.hermes`` directory, ``$HERMES_HOME``, or the resolved CTS home (never arbitrary
     YAML). The resolved-home arm is what covers native Windows, where the home directory
     is ``%LOCALAPPDATA%\\hermes`` and carries no ``.hermes`` segment."""
     path = arg.strip("\"'").replace("\\", "/")
@@ -1179,7 +1179,7 @@ def redact_for_egress(text: str) -> str:
 def redact_terminal_output(output: str, command: str | None = None, *, force: bool = False) -> str:
     """Single redaction policy for ALL terminal-output surfaces: the ENV/YAML-assignment
     pass runs only when ``command`` is an env dump or reads a secret-bearing file (``.env``,
-    shell rc, Hermes ``config.yaml``); otherwise code_file=True avoids false positives on
+    shell rc, CTS ``config.yaml``); otherwise code_file=True avoids false positives on
     source/config dumps."""
     if not output:
         return output

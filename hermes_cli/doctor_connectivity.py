@@ -279,7 +279,7 @@ def _probe_bedrock() -> ProbeResult:
         n = len(client.list_foundation_models().get("modelSummaries", []))
         return _row(name, "ok", f"({auth_var}, {region}, {n} models)", label=label)
     except ImportError:
-        hint = ("From the Hermes environment, run: "
+        hint = ("From the CTS environment, run: "
                 f"{install_hint('bedrock')}. "
                 "Then restart CTS Secret Engine.")
         return _row(name, "warn", "(boto3 not installed)", [hint], label=label)
@@ -313,7 +313,7 @@ def _probe_azure_entra() -> ProbeResult:
     except Exception as exc:
         return _row(name, "warn", f"(adapter import failed: {exc})", [f"Azure Foundry adapter import failed: {exc}"], label=label)
     if not has_azure_identity_installed():
-        return _row(name, "warn", "(azure-identity not installed)", ["From the Hermes environment, run: "
+        return _row(name, "warn", "(azure-identity not installed)", ["From the CTS environment, run: "
                      f"{install_hint('azure-identity')}. "
                      "Then restart CTS Secret Engine."], label=label)
     entra_cfg = model_cfg.get("entra") or {}

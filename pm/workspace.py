@@ -173,7 +173,7 @@ def _without_release_age(text: str) -> str:
     """Drop ``[tool.uv] exclude-newer`` from a generated root's pyproject text.
 
     The lock already holds checked versions; on the user's machine the cutoff only gates the
-    build tools uv fetches for source builds (setuptools for Hermes itself), and a mirror that
+    build tools uv fetches for source builds (setuptools for CTS itself), and a mirror that
     serves no upload times rejects all of them (#135589). Text-level so the pre-3.11 bootstrap
     python, which has no tomllib, can run it.
     """

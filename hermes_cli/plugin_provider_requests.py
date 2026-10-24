@@ -4,7 +4,7 @@ A plugin that needs the user's subscription sign-in (today: Codex / ChatGPT) mus
 or rewrite CTS Secret Engine's auth store or ``~/.codex/auth.json``. Codex refresh tokens are single-use, so a
 second refresher races CTS Secret Engine's locked refresh and can sign the user out. Instead the plugin declares
 ``requires_auth: [openai-codex]`` in its ``plugin.yaml`` and calls :func:`credentialed_provider_request`.
-Hermes resolves the credential through its own locked-refresh path, attaches ``Authorization``
+CTS resolves the credential through its own locked-refresh path, attaches ``Authorization``
 itself, sends only to that provider's origins, never follows a redirect, and hands back
 status, headers and body.
 
@@ -25,7 +25,7 @@ from hermes_cli.urllib_security import url_origin
 
 
 class ProviderNotSignedIn(RuntimeError):
-    """The user has no usable sign-in for the provider in this Hermes profile."""
+    """The user has no usable sign-in for the provider in this CTS profile."""
 
 
 @dataclass(frozen=True)
@@ -59,7 +59,7 @@ def _codex_auth(url: str) -> tuple[dict[str, str], str]:
     if not token:
         raise ProviderNotSignedIn(
             f"Not signed in to Codex in Hermes. Run `{oauth_relogin_command('openai-codex')}` "
-            "or sign in to OpenAI Codex under Providers in the Hermes desktop app.")
+            "or sign in to OpenAI Codex under Providers in the CTS desktop app.")
     headers = codex_account_headers(token) if url_origin(url)[1] == "chatgpt.com" else {}
     headers["Authorization"] = f"Bearer {token}"
     return headers, str(creds.get("base_url") or "")
@@ -137,7 +137,7 @@ def credentialed_provider_request(
 ) -> ProviderResponse:
     """Send ``method url`` with the user's *provider* sign-in attached by Hermes.
 
-    *provider* is a Hermes sign-in (listed under ``requires_auth``) or an ``id`` the calling plugin
+    *provider* is a CTS sign-in (listed under ``requires_auth``) or an ``id`` the calling plugin
     declares under ``oauth:`` (:mod:`hermes_cli.plugin_oauth`); the plugin's own entry wins.
     Refuses (``PermissionError``) a caller outside an installed plugin, a plugin whose ``plugin.yaml``
     does not list *provider* under ``requires_auth``, and any origin outside the provider's

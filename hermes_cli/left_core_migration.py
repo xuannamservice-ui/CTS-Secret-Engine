@@ -307,7 +307,7 @@ LEFT_CORE: tuple[LeftCoreFeature, ...] = (
     LeftCoreFeature(
         # MCP clients that launch `cts mcp serve` are configured outside Hermes, so no home shows the
         # feature in use: nothing installs automatically, and the old spelling prints where it went.
-        plugin="mcp-serve", label="Hermes as an MCP server", in_use=lambda home, **_: False,
+        plugin="mcp-serve", label="CTS as an MCP server", in_use=lambda home, **_: False,
         unchanged="the conversation tools keep their names; MCP clients change their args to [\"mcp-serve\"]",
         command="mcp-serve", old_command="cts mcp serve",
     ),
@@ -459,7 +459,7 @@ def record_core_use(home: Path, config: dict, version: int) -> bool:
 def _predates_split(home: Path, feature: LeftCoreFeature) -> bool:
     """*home* ran *feature* in core: its config is still below ``left_at`` (this pass ran before the
     config step), that step recorded the feature in use, or config.yaml is missing or unstamped. Every
-    config.yaml Hermes writes carries a stamp, and the first save that stamps one records the rows in use
+    config.yaml CTS writes carries a stamp, and the first save that stamps one records the rows in use
     (``config_version_stamp.note_first_stamp``), so only a home from before the split lacks it; core ran
     the feature there from its .env alone."""
     if not feature.left_at:
@@ -792,7 +792,7 @@ def recover_for_command(name: Optional[str]) -> None:
     """``cts <name>`` names a command a left-core plugin registers, and the active home uses that
     feature but lacks the plugin: run :func:`recover_at_startup` now, before plugin commands are
     discovered, so the command it installs runs in this same invocation. A home nothing migrated yet
-    (a Docker image swap runs no ``cts update``) whose only Hermes process is a scheduled
+    (a Docker image swap runs no ``cts update``) whose only CTS process is a scheduled
     ``cts import-agent --sync`` never starts an agent or a gateway to do it."""
     from hermes_constants import get_hermes_home
     home = Path(get_hermes_home())

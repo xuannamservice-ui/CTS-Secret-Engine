@@ -232,7 +232,7 @@ async def run_codex_hygiene_compaction(
 
     See #73503.
     * Evicting the cached live agent afterwards destroys the only real context: the next turn spawns an
-    EMPTY thread and the model starts blank while Hermes still mirrors a full history (abrupt amnesia — the
+    EMPTY thread and the model starts blank while CTS still mirrors a full history (abrupt amnesia — the
     user-facing damage documented on #73503).
     """
     mode = str(auto_mode or "native").lower()
@@ -420,7 +420,7 @@ _GATEWAY_ENDPOINT_UNREACHABLE_RE = re.compile(
     "(" + "|".join(_ENDPOINT_UNREACHABLE_MARKERS) + ")", re.IGNORECASE)
 
 def _ensure_windows_gateway_venv_imports() -> None:
-    """Make detached Windows gateway runs see the Hermes venv packages.
+    """Make detached Windows gateway runs see the CTS venv packages.
 
     Patched before MCP discovery so tool injection does not depend on launchers preserving PYTHONPATH."""
     if sys.platform != "win32":
@@ -2873,7 +2873,7 @@ def _teams_pipeline_plugin_enabled() -> bool:
 
 
 def _gateway_config_home() -> Path:
-    """Return the Hermes home that gateway config reads should use."""
+    """Return the CTS home that gateway config reads should use."""
     override = get_hermes_home_override()
     return Path(override) if override else _hermes_home
 
@@ -2933,7 +2933,7 @@ def _get_channel_override(
 
 
 def _resolve_hermes_bin() -> Optional[list[str]]:
-    """Hermes update/restart argv: the running interpreter's ``python -m hermes_cli.main``
+    """CTS update/restart argv: the running interpreter's ``python -m hermes_cli.main``
     (exactly this install), else ``cts`` on PATH, else None. The module argv must win: a
     PATH-first lookup lets an attacker-planted ``cts`` shadow the running install when
     /update or /restart re-execs it (#111569)."""
@@ -4917,7 +4917,7 @@ def _claim_host_gateway_role(force: bool = False) -> None:
         # The lock is per OS user, so a second tenant root can never win it against the first:
         # refusing 75 here would retry forever and its gateway would never start (#121352).
         logger.warning(
-            "Another Hermes home's gateway owns this host (%s); starting this home's gateway beside it.",
+            "Another CTS home's gateway owns this host (%s); starting this home's gateway beside it.",
             hr.describe(owner))
         return
     if profile_is_standalone(get_hermes_home()):

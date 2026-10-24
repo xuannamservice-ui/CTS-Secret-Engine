@@ -547,7 +547,7 @@ def _normalize_to_mcp_wire(name: str) -> str:
     """OAuth wire form of a tool name (no aliasing): ``mcp__<...>``. Anthropic's OAuth billing
     classifier treats a single-underscore ``mcp_`` tool name as a third-party-app fingerprint
     (HTTP 400 "Third-party apps now draw from extra usage"); ``mcp__foo`` is accepted. Both bare
-    Hermes tools (``read_file``) and native MCP tools registered as ``mcp_<server>_<tool>`` must
+    CTS tools (``read_file``) and native MCP tools registered as ``mcp_<server>_<tool>`` must
     land on the double-underscore form. normalize_response reverses both via registry lookup."""
     if name.startswith("mcp__"):
         return name  # already correct, don't double-prefix
@@ -575,7 +575,7 @@ def _oauth_wire_namer(anthropic_tools: list[dict[str, Any]]):
 
 
 _OAUTH_SYSTEM_REPLACEMENTS = (
-    ("CTS Secret Engine", "Claude Code"), ("Hermes agent", "Claude Code"), ("Nous Research", "Anthropic"),
+    ("CTS Secret Engine", "Claude Code"), ("CTS agent", "Claude Code"), ("Nous Research", "Anthropic"),
 )
 # The slug is rewritten only as a standalone prose word. Joined to a host, path, repo, mailbox
 # or quoted as an identifier (``hermes-agent.nousresearch.com``, ``~/.hermes/hermes-agent/venv``,
@@ -617,7 +617,7 @@ def _thinking_kwargs(reasoning_config: dict[str, Any], model: str, effective_max
     """Map ``reasoning_config`` to Anthropic thinking kwargs. Adaptive models (Claude 4.6+,
     Kimi/Moonshot) get ``thinking.type=adaptive`` + ``output_config.effort``; older models and
     manual-only compat endpoints (MiniMax) get budget_tokens. Haiku through 4.5 gets none. On
-    4.7+ ``thinking.display`` defaults to "omitted", hiding the reasoning Hermes shows in its CLI,
+    4.7+ ``thinking.display`` defaults to "omitted", hiding the reasoning CTS shows in its CLI,
     so "summarized" is requested to keep the activity feed populated."""
     if reasoning_config.get("enabled") is False:
         # Adaptive models think by DEFAULT, so omitting the parameter is not a disable — the user

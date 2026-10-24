@@ -1,4 +1,4 @@
-"""Profile distributions — shareable, packaged Hermes profiles via git.
+"""Profile distributions — shareable, packaged CTS profiles via git.
 
 Sources: a git URL (``github.com/user/repo``, ``https://...``, ``git@...``, ``ssh://``,
 ``git://``) or a local directory that already contains ``distribution.yaml`` (profile
@@ -48,7 +48,7 @@ _CRON_STORE_REL = ("cron", "jobs.json")
 
 
 def _is_installer_owned_path(parts: tuple[str, ...]) -> bool:
-    """Entries a distribution never writes: credential stores (and Hermes' copies of them) at any
+    """Entries a distribution never writes: credential stores (and CTS' copies of them) at any
     depth, and runtime-owned entries nested under otherwise distribution-owned roots."""
     if profile_path_is_private(parts):
         return True
@@ -206,7 +206,7 @@ def check_hermes_requires(spec: str, current_version: str) -> None:
 def _env_template_from_manifest(manifest: DistributionManifest) -> str:
     """Generate a ``.env.template`` body from env_requires."""
     lines = [
-        "# Environment variables required by this Hermes distribution.",
+        "# Environment variables required by this CTS distribution.",
         "# Copy to `.env` and fill in your own values before running.", "",
     ]
     for req in manifest.env_requires:
@@ -262,7 +262,7 @@ def _stage_source(source: str, workdir: Path) -> tuple[Path, str]:
         rmtree_readonly(staged / ".git")
         missing = (
             f"No {MANIFEST_FILENAME} at the root of {src_str!r}. "
-            "This repository is not a Hermes profile distribution."
+            "This repository is not a CTS profile distribution."
         )
     elif (path_guess := Path(src_str).expanduser()).is_dir():
         staged = path_guess.resolve()

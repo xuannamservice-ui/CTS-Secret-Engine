@@ -1,7 +1,7 @@
 """Session lifecycle for the interactive CLI: new/resume/save, undo/retry rewinds, yolo
 persistence, manual compression, and exit summary.
 
-Mixin bound onto ``HermesCLI`` via the MRO. cli.py-internal symbols are imported LAZILY
+Mixin bound onto ``CTSCLI`` via the MRO. cli.py-internal symbols are imported LAZILY
 inside each method (``from cli import ...``) — never at module load time (import cycle).
 """
 
@@ -481,7 +481,7 @@ class CLISessionMixin:
                 continue
 
             _cli_visible_print(
-                f"\n  {t('cli.session.history_assistant_header', agent_name='Hermes', index=visible_index)}{_ts_suffix(msg)}")
+                f"\n  {t('cli.session.history_assistant_header', agent_name='CTS', index=visible_index)}{_ts_suffix(msg)}")
             n_calls = len(msg.get("tool_calls") or [])
             if not content_text:
                 suffix = ""

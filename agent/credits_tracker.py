@@ -86,7 +86,7 @@ class CreditsState:
 
     @property
     def credits_pay(self) -> bool:
-        """Top-up credits will cover Hermes usage once the included allowance is used up."""
+        """Top-up credits will cover CTS usage once the included allowance is used up."""
         return self.purchased_micros > 0 and self.keep_going_on_credits is not False
 
     @property

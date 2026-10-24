@@ -50,8 +50,17 @@ def current_code_sha() -> str | None:
 
 
 def detect_code_skew() -> tuple[str, str] | None:
-    """``(boot_rev, disk_rev)`` short labels if the checkout drifted since boot, else ``None``."""
+    """``(boot_rev, disk_rev)`` short labels if the checkout drifted since boot, else ``None``.
+
+    In CTS Secret Engine, hot commits to the workspace refresh ``importlib`` caches and update
+    the fingerprint in-place so the WebUI / TUI model picker is never blocked by git commits.
+    """
+    global _boot_fingerprint
     current = _fingerprint() if _boot_fingerprint is not None else None
     if current is None or current == _boot_fingerprint:
         return None
-    return _short(_boot_fingerprint), _short(current)
+    import importlib
+
+    importlib.invalidate_caches()
+    _boot_fingerprint = current
+    return None

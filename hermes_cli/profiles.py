@@ -1,4 +1,4 @@
-"""Profile management for multiple isolated Hermes instances."""
+"""Profile management for multiple isolated CTS instances."""
 
 import contextlib
 import json
@@ -95,7 +95,7 @@ NO_BUNDLED_SKILLS_MARKER = ".no-bundled-skills"
 
 # Header seeded into a profile's empty .env so it owns a credentials file from day one.
 _PLACEHOLDER_ENV = (
-    "# Per-profile secrets for this Hermes profile.\n"
+    "# Per-profile secrets for this CTS profile.\n"
     "# API keys and tokens set here override the shell environment.\n"
     "# Behavioral settings belong in config.yaml, not here.\n"
 )
@@ -307,7 +307,7 @@ def _wrapper_path(alias: str) -> Path:
 
 
 def _find_our_wrapper(alias: str) -> Optional[Path]:
-    """The Hermes wrapper for *alias*: :func:`_wrapper_path`, else a pre-``.bat`` bare Windows one."""
+    """The CTS wrapper for *alias*: :func:`_wrapper_path`, else a pre-``.bat`` bare Windows one."""
     candidates = [_wrapper_path(alias), _get_wrapper_dir() / alias] if sys.platform == "win32" else [_wrapper_path(alias)]
     return next((p for p in candidates if _is_our_wrapper(p)), None)
 
@@ -1579,7 +1579,7 @@ _HERMES_CONSOLE_SCRIPT_NAMES = frozenset({"hermes", "hermes-agent", "hermes-acp"
 
 
 def _is_hermes_argv(argv: list) -> bool:
-    """True for a Hermes process: entrypoint marker in argv, executable named ``hermes*``,
+    """True for a CTS process: entrypoint marker in argv, executable named ``hermes*``,
     or a python interpreter directly exec'ing a known ``cts`` console-script shim."""
     joined = " ".join(argv)
     exe_name = os.path.basename(argv[0]).lower()
@@ -1601,7 +1601,7 @@ def _argv_profile_selectors(argv: list):
 
 
 def _profile_bound_backend_pids(canon: str, profile_dir: Path) -> list[int]:
-    """PIDs of running Hermes *backends* bound to this profile (``gateway.pid`` only tracks
+    """PIDs of running CTS *backends* bound to this profile (``gateway.pid`` only tracks
     the messaging gateway). Tightly scoped: current-user processes, backend subcommands only
     (never an interactive ``chat``/``tui``), never this process or its ancestors. Empty when
     ``psutil`` can't inspect anything."""
@@ -1999,7 +1999,7 @@ def _stop_gateway_process(profile_dir: Path) -> None:
 # Active profile (sticky default)
 
 def get_active_profile(root: Path | None = None) -> str:
-    """Read the sticky active profile name (of *root*, default: this process's Hermes root)."""
+    """Read the sticky active profile name (of *root*, default: this process's CTS root)."""
     path = root / "active_profile" if root is not None else _get_active_profile_path()
     try:
         name = path.read_text(encoding="utf-8-sig").strip()
@@ -2429,7 +2429,7 @@ def rename_profile(old_name: str, new_name: str) -> Path:
 # Profile env resolution (called from _apply_profile_override)
 
 def profile_root_for_env_home(env_home: str, default_root: Path) -> Path:
-    """Hermes root named by an exported ``HERMES_HOME``: the grandparent of a profile-shaped value
+    """CTS root named by an exported ``HERMES_HOME``: the grandparent of a profile-shaped value
     (``<root>/profiles/<name>``, mirrors ``get_default_hermes_root()``), the value itself otherwise,
     *default_root* when unset. Pure: callers pass any process's env, not only ``os.environ``."""
     env_home = env_home.strip()

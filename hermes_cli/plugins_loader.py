@@ -182,7 +182,7 @@ def _serialized_replacement(method):
 
 @contextmanager
 def _plugin_home_scope(home: Path):
-    """Bind discovery and loading to the manager's immutable Hermes home."""
+    """Bind discovery and loading to the manager's immutable CTS home."""
     token = set_hermes_home_override(home)
     try:
         yield

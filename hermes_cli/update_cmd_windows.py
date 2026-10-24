@@ -242,7 +242,7 @@ def _holder_value_flags() -> frozenset:
 
 
 def _hermes_holder_subcommand(cmdline: str) -> str | None:
-    """The actual Hermes SUBCOMMAND a venv-holder argv runs, or None (callers must NOT guess a label).
+    """The actual CTS SUBCOMMAND a venv-holder argv runs, or None (callers must NOT guess a label).
 
     Token-based, never substring (``kanban --preserve-cache`` contains "serve"): find the ``hermes_cli.main`` /
     ``hermes(.exe)`` entry token, return the first following token that isn't a flag or a flag's value.
@@ -315,7 +315,7 @@ def _venv_holder_kind(cmdline: str) -> str:
     """Machine-readable class of one venv holder for ``--list-venv-holders``.
 
     ``gateway`` (the pausable gateway matcher), ``backend`` (``serve``/``dashboard`` -- the Desktop
-    app's backend shape), ``hermes:<subcommand>`` for any other Hermes entry, else ``python``.
+    app's backend shape), ``hermes:<subcommand>`` for any other CTS entry, else ``python``.
     Derived from the same classifiers the refusal path uses so automation stops exactly what the
     guard would refuse on."""
     from hermes_cli._scan_venv_blockers import _is_pausable_gateway
@@ -864,7 +864,7 @@ def _pause_windows_gateway_services(service_gateways, token: dict, profiles: dic
 def _owned_gateway_pids(pids, *, keep=(), quiet: bool = True) -> list[int]:
     """*pids* whose live home this update owns, plus *keep* (PIDs mapped to this install's profile
     PID files / services). The same home scope the POSIX fleet restart uses (#93349): a gateway of
-    another Hermes install, or one whose home cannot be read, is named (unless *quiet*) and left
+    another CTS install, or one whose home cannot be read, is named (unless *quiet*) and left
     running, never paused, force-killed or replayed (#124659)."""
     from hermes_cli.update_cmd_fleet import _scoped_manual_gateway_pids
     return _scoped_manual_gateway_pids(list(pids), keep=keep, quiet=quiet)
@@ -969,7 +969,7 @@ def _pause_windows_gateways_for_update() -> dict | None:
     # record, whose argv-only match lets another home's gateway retire this debt.
     homes = {int(pid): gateway_pid_home(int(pid)) for pid in unmapped_pids}
     if None in homes.values():
-        raise RuntimeError("Could not prove the Hermes home of unmapped gateway PID(s) "
+        raise RuntimeError("Could not prove the CTS home of unmapped gateway PID(s) "
                            + ", ".join(str(p) for p, h in homes.items() if h is None) + "; nothing was stopped")
     unmapped = [
         {"pid": int(pid), "argv": _try_call(lambda p=int(pid): _capture_gateway_argv(p),

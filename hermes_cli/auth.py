@@ -1256,7 +1256,7 @@ def _config_selects_provider(normalized: str) -> bool:
 
 
 def _explicit_pool_entry_present(normalized: str) -> bool:
-    """Pool rows from EXPLICIT Hermes flows (manual add / device-code / PKCE) or live env keys;
+    """Pool rows from EXPLICIT CTS flows (manual add / device-code / PKCE) or live env keys;
     ambient borrowed sources (gh_cli / claude_code / qwen-cli) are deliberately excluded."""
     return any(_pool_entry_is_explicit(entry) for entry in read_credential_pool(normalized))
 
@@ -1304,7 +1304,7 @@ def _explicit_env_credentials_present(normalized: str) -> bool:
 
 
 def _pool_entry_is_explicit(entry: Any) -> bool:
-    """True for pool rows the user created via an explicit Hermes flow (or a still-live env key)."""
+    """True for pool rows the user created via an explicit CTS flow (or a still-live env key)."""
     if not isinstance(entry, dict):
         return False
     source = str(entry.get("source") or "").strip().lower()
@@ -2093,7 +2093,7 @@ def _external_process_auth_evidence(provider_id: str, resolved_command: Optional
 
     False means "not verifiable from here", NOT "signed out". Subprocess-free (spawning the CLI from
     status endpoints/pickers re-creates the cold-start stall copilot_auth.py avoids). Generic evidence
-    for any external-process profile is its binary resolving: the subprocess owns real auth and Hermes
+    for any external-process profile is its binary resolving: the subprocess owns real auth and CTS
     has nothing else to inspect, so out-of-tree ACP rows pass credential-gated surfaces (Desktop
     ``explicit_only`` picker) like the bundled one, whose CLI additionally exposes readable token stores."""
     if provider_id == "copilot-acp":
@@ -2249,7 +2249,7 @@ def _get_azure_foundry_auth_status() -> dict[str, Any]:
                     "azure-identity is installed; live credential validation "
                     "is skipped here. Run `cts doctor` to verify token acquisition."
                 ) if installed else (
-                    "azure-identity not installed. From the Hermes environment, run: "
+                    "azure-identity not installed. From the CTS environment, run: "
                     f"{install_hint('azure-identity')}. "
                     "Then restart CTS Secret Engine."))
         except Exception as exc:
@@ -2497,6 +2497,6 @@ def logout_command(args) -> None:
     if not should_reset_config:
         print("Model provider configuration was unchanged.")
     elif os.getenv("OPENROUTER_API_KEY"):
-        print("Hermes will use OpenRouter for inference.")
+        print("CTS will use OpenRouter for inference.")
     else:
         print("Run `cts model` or configure an API key to use Hermes.")

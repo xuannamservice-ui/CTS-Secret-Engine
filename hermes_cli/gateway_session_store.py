@@ -1,4 +1,4 @@
-"""``HermesCLI._session_db`` backed by the shared gateway session (CALLMAP §3.5).
+"""``CTSCLI._session_db`` backed by the shared gateway session (CALLMAP §3.5).
 
 Main's classic CLI holds a ``SessionDB`` writer. Rewired, the gateway is the single writer:
 

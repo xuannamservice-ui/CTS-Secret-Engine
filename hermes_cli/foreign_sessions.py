@@ -229,7 +229,7 @@ def _list_sessions(source: str, root: Optional[Path]) -> list[ForeignSession]:
 
 
 def import_foreign_session(source: str, path, db=None) -> str:
-    """Import one foreign session into the Hermes SessionDB; returns the new Hermes session id.
+    """Import one foreign session into the CTS SessionDB; returns the new CTS session id.
 
     Raises ``ValueError`` on unknown source or a session with no usable conversation turns."""
     source = (source or "").strip().lower().lstrip("@")

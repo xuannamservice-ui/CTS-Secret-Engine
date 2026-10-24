@@ -105,7 +105,7 @@ SCREEN_ACTIONS = {"status": _screen_status, "start": _screen_start, "stop": _scr
 def build_screen_parser(computer_use_sub, add_json_flag) -> None:
     screen = computer_use_sub.add_parser(
         "screen", help="Bot Desktop: the headless screen this profile's computer_use drives (Linux)",
-        description="On a headless Linux gateway host Hermes gives each profile its own Xfce screen\n"
+        description="On a headless Linux gateway host CTS gives each profile its own Xfce screen\n"
             "(TigerVNC Xvnc on a private Unix socket). The agent's computer_use and headed\n"
             "browser act on it; CTS Secret Engine Desktop shows it live and lets a human take over for\n"
             "logins, 2FA or CAPTCHAs, then hand control back.\n\n"

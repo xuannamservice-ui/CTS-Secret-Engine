@@ -364,7 +364,7 @@ class OnboardingStateParams(Params):
 
 class OnboardingRunStateResult(Result):
     """``run``: onboarding opens on this launch (root config ``onboarding.run``, else a machine that
-    never used Hermes). ``eligible``: this is the desktop's local backend and the welcome trial or a
+    never used CTS). ``eligible``: this is the desktop's local backend and the welcome trial or a
     configured provider can carry the first chat.
     ``session_id``: the stored id of the onboarding chat still in progress, so a relaunch reopens it;
     ``run_id``: that run's id, which ``onboarding.ended`` names."""

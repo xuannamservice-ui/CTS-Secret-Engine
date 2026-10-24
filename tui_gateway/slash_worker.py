@@ -1,4 +1,4 @@
-"""Persistent slash-command worker — one HermesCLI per TUI session.
+"""Persistent slash-command worker — one CTSCLI per TUI session.
 
 Protocol: reads JSON lines from stdin {id, command}, writes {id, ok, output|error} to stdout.
 """
@@ -59,7 +59,7 @@ def _watchdog_parent(parent_pid: int, *, is_windows: bool, getppid=os.getppid) -
 
 
 def _prepare_slash_worker_runtime() -> None:
-    """Start bounded MCP discovery before HermesCLI snapshots tools: each slash_worker child is its
+    """Start bounded MCP discovery before CTSCLI snapshots tools: each slash_worker child is its
     own process — the parent ``cts serve`` discovery thread does not populate this registry.
 
     See #61891.
@@ -112,7 +112,7 @@ def _refuse_skill_slash(command: str) -> None:
         raise SkillSlashRefused(base)
 
 
-def _run(cli: "HermesCLI", command: str) -> str:
+def _run(cli: "CTSCLI", command: str) -> str:
     """Run one command; return its captured, ANSI-stripped output.
 
     A command like /prompt or /blueprint parks the composed text on the one-shot

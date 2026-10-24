@@ -1,7 +1,7 @@
 """Status bar, spinner, turn-summary, pet pane, and prompt-stash rendering for the
 interactive CLI.
 
-Mixin bound onto ``HermesCLI`` via the MRO. cli.py-internal symbols are imported LAZILY
+Mixin bound onto ``CTSCLI`` via the MRO. cli.py-internal symbols are imported LAZILY
 inside each method (``from cli import ...``) — never at module load time (import cycle).
 """
 
@@ -1128,7 +1128,7 @@ class CLIStatusBarMixin:
                 text = (" · " if width < 76 else " │ ").join(parts)
             return self._right_align_status_title(text, session_title, width)
         except Exception:
-            return f"[CTS] {self.model if getattr(self, 'model', None) else 'Hermes'}"
+            return f"[CTS] {self.model if getattr(self, 'model', None) else 'CTS'}"
 
     def _get_status_bar_fragments(self):
         if (

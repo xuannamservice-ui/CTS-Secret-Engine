@@ -1,6 +1,6 @@
 """Per-admission turn inputs the classic CLI sends with ``prompt.submit`` (CALLMAP W2).
 
-Main's HermesCLI calls ``AIAgent.run_conversation`` with an API-only message (voice prefix,
+Main's CTSCLI calls ``AIAgent.run_conversation`` with an API-only message (voice prefix,
 model-switch / skills-reload notes) while persisting the clean text, names the turn's author for
 memory attribution, and runs ``/model --once`` and ``/moa`` as a one-turn runtime swap. Over the
 session authority those are facts about ONE admitted turn, committed with the admission row as
@@ -145,7 +145,7 @@ _RESULT_PASSTHROUGH = ('pre_transform_response', 'billing_block', 'last_reasonin
 
 def classic_cli_turn(turn):
     """A local-viewer turn on a classic-CLI surface session (``cli`` / ``oneshot`` / ``tool``): the
-    viewer is main's HermesCLI, which reads the run_conversation-shaped result itself."""
+    viewer is main's CTSCLI, which reads the run_conversation-shaped result itself."""
     from gateway.run_turn_progress import local_viewer_turn
     if not local_viewer_turn(turn):
         return False

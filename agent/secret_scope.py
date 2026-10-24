@@ -292,7 +292,7 @@ def _strip_inline_comment(value: str) -> str:
 
 
 def _parse_env_value(raw_value: str) -> str:
-    """Parse the small .env value subset Hermes writes itself (bare, 'single', or "double" with
+    """Parse the small .env value subset CTS writes itself (bare, 'single', or "double" with
     ``\\"`` / ``\\\\`` escapes)."""
     value = raw_value.strip()
     if len(value) >= 2 and value[0] == value[-1] == '"':

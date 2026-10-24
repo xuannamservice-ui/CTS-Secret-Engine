@@ -302,7 +302,7 @@ def advice_lines(advice: Advice, *, command_prefix: str = "/") -> list[str]:
         # Automatic compaction runs only past a free-page threshold most prunes never reach, so the
         # disk gets the space back reliably only from an explicit VACUUM.
         lines.append("Deleted history frees space inside state.db; to give it back to the disk, run "
-                     "`cts sessions optimize` with other Hermes windows closed.")
+                     "`cts sessions optimize` with other CTS windows closed.")
     p = command_prefix
     lines.append(f"{p}autoprune on to enable, {p}autoprune off to keep everything (never asked again), "
                  f"{p}autoprune later to be reminded in a week.")

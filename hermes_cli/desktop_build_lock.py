@@ -12,8 +12,8 @@ class DesktopBuildLock:
     """Advisory lock held while npm installs and packages CTS Secret Engine Desktop.
 
     ``node_modules`` and ``apps/desktop/release`` are checkout-scoped even
-    when two commands use different Hermes profiles.  The lock therefore
-    lives under the profile-common Hermes root and is keyed by the resolved
+    when two commands use different CTS profiles.  The lock therefore
+    lives under the profile-common CTS root and is keyed by the resolved
     checkout path.  Keeping it out of the checkout preserves ``--skip-build``
     launches from read-only/prebuilt source trees.  The open handle owns the
     lock, so the OS releases it automatically if a builder crashes.
@@ -82,7 +82,7 @@ class DesktopBuildLock:
             if not wait:
                 return False
             if not announced:
-                print("→ Waiting for a running Hermes update to release this checkout...")
+                print("→ Waiting for a running CTS update to release this checkout...")
                 announced = True
             time.sleep(1.0)
         self._checkout = lock
@@ -108,7 +108,7 @@ class DesktopBuildLock:
         # Blocking mode queues behind the holder; say so instead of appearing
         # to hang with no output (the update path would rather wait for the
         # in-flight build it depends on than fail the update).
-        print("→ Waiting for another Hermes desktop dependency install or build to finish...")
+        print("→ Waiting for another CTS desktop dependency install or build to finish...")
         print(f"  Lock: {self.path}")
         from gateway.status import _release_file_lock
 

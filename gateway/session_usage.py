@@ -1,6 +1,6 @@
 """Session-cumulative usage for a local viewer (wave A2 / CALLMAP W3).
 
-Main's HermesCLI read its status bar (context, ``◷`` latency, ``t/s``, the spinner's ``↓ N tok``),
+Main's CTSCLI read its status bar (context, ``◷`` latency, ``t/s``, the spinner's ``↓ N tok``),
 ``/usage`` and the exit summary straight off the in-process agent's ``session_*`` counters,
 ``context_compressor`` and ``get_rate_limit_state()``. On the session authority the agent lives in
 the gateway, so the same numbers are projected here: published as ``session.usage`` after every API

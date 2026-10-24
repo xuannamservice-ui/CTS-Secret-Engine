@@ -1,10 +1,10 @@
-"""OAuth clients a plugin declares in ``plugin.yaml``: Hermes signs in, stores and refreshes the grant.
+"""OAuth clients a plugin declares in ``plugin.yaml``: CTS signs in, stores and refreshes the grant.
 
 A plugin that calls a third-party API with the user's own OAuth client (a Google Cloud client, for example)
 declares it under ``oauth:``. ``cts auth add <plugin>:<id>`` runs the PKCE login of
 :mod:`hermes_cli.auth_oauth_pkce_plugin` in a terminal, the grant lives in the active profile's
-``auth.json`` (section ``plugin_oauth``) and Hermes refreshes it. The plugin calls
-``credentialed_provider_request(<id>, ...)``: Hermes attaches the bearer for the declared hosts only, so
+``auth.json`` (section ``plugin_oauth``) and CTS refreshes it. The plugin calls
+``credentialed_provider_request(<id>, ...)``: CTS attaches the bearer for the declared hosts only, so
 the plugin never holds a token (#139077; the same contract as the Codex lane, #136117).
 
 Each grant remembers a fingerprint of the ``oauth:`` entry it was made for. A later version of the plugin
@@ -79,8 +79,8 @@ def _url_problems(where: str, url: Any) -> list[str]:
 
 
 def _hermes_owned_env(name: str) -> bool:
-    """A variable Hermes itself reads (a provider key, a platform secret): never a plugin's client variable,
-    or a manifest could have Hermes POST that secret to the token URL it names."""
+    """A variable CTS itself reads (a provider key, a platform secret): never a plugin's client variable,
+    or a manifest could have CTS POST that secret to the token URL it names."""
     from hermes_cli.auth import PROVIDER_REGISTRY
     from hermes_cli.config_env_routing import is_registered_env_name
 
@@ -170,7 +170,7 @@ def oauth_notice(manifest: Mapping[str, Any]) -> str:
     name = str((manifest or {}).get("name") or "<plugin>")
     return "; ".join(
         f"Signs in to {c.id} at {_idp_hosts(c)} for {', '.join(c.hosts)} with `cts auth add {name}:{c.id}` "
-        "(Hermes stores and refreshes the token; the plugin never receives it)"
+        "(CTS stores and refreshes the token; the plugin never receives it)"
         for c in parse_oauth_clients(manifest)[0])
 
 
@@ -217,7 +217,7 @@ def _parent(host: str) -> str:
 
 def oauth_admission_warnings(manifest: Mapping[str, Any], plugin_dir: Path) -> list[str]:
     """Reviewer warnings: a host outside the sign-in provider's domains (does the IdP own it?), and plugin
-    code that names a declared token URL (Hermes refreshes the grant)."""
+    code that names a declared token URL (CTS refreshes the grant)."""
     clients = parse_oauth_clients(manifest)[0]
     warnings = [f"oauth {c.id!r}: host {host} shares no domain with {_idp_hosts(c)}; check the provider owns it"
                 for c in clients for host in c.hosts

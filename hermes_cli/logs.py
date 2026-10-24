@@ -1,4 +1,4 @@
-"""``cts logs`` — view and filter Hermes log files.
+"""``cts logs`` — view and filter CTS log files.
 
 Supports tailing, following, session filtering, level filtering,
 component filtering, and relative time ranges.  All log files live

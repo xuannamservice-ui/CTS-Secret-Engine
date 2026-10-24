@@ -131,9 +131,9 @@ def check_local_provenance(prov: Provenance) -> CheckResult:
 
 
 def held_for_newer_hermes(result: CheckResult) -> Optional[str]:
-    """``needs Hermes <spec>; this is <version>`` when the update's ``min_hermes`` (a feed floor or the
-    catalog entry's ``requires_hermes``) rejects the running Hermes, else ``None``. The update path refuses
-    such an update, so listings name it as waiting on a Hermes update instead of offering it."""
+    """``needs CTS <spec>; this is <version>`` when the update's ``min_hermes`` (a feed floor or the
+    catalog entry's ``requires_hermes``) rejects the running CTS, else ``None``. The update path refuses
+    such an update, so listings name it as waiting on a CTS update instead of offering it."""
     if not result.min_hermes:
         return None
     from hermes_cli.plugins_manifest import requires_hermes_error, running_hermes_version

@@ -87,7 +87,7 @@ def _run_portal_one_shot(config: dict) -> None:
 
 def _imported_model_label(config: dict) -> str:
     """``"<provider> · <model>"`` when *config* (just written by an agent import) names a model
-    Hermes has credentials for, else ``""``."""
+    CTS has credentials for, else ``""``."""
     from hermes_cli.auth import AuthError, resolve_provider
     from hermes_cli.models import provider_label
     from hermes_cli.setup_migration import _model_section_has_credentials
@@ -198,7 +198,7 @@ def _print_macos_fda_tip() -> None:
           "  System Settings → Privacy & Security → Full Disk Access → enable",
           "  your terminal (and Hermes.app if you use Desktop), or run:",
           "    open \"x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles\"",
-          "  The grant is permanent — it survives every Hermes update.")
+          "  The grant is permanent — it survives every CTS update.")
 
 
 def _blank_slate_minimal_toolsets(config: dict):
@@ -273,7 +273,7 @@ def _run_blank_slate_setup(config: dict, hermes_home, is_existing: bool):
           "Everything else (web, browser, code exec, memory,",
           "delegation, cron, plugins, MCP, …) starts disabled. The",
           "essential `hermes-agent` skill is always kept so the agent",
-          "can help you drive and configure Hermes itself.", None)
+          "can help you drive and configure CTS itself.", None)
 
     # Step 1: Provider & Model (REQUIRED — the agent cannot run without it)
     print_header("Step 1 — Provider & Model (required)")
@@ -413,7 +413,7 @@ def _run_quick_setup(config: dict, hermes_home):
             _prompt_api_key(missing_tools[idx])
     if missing_messaging:  # checklist, then prompt for each selected platform's vars
         print_header("Messaging Platforms", gap=True)
-        _info("Connect Hermes to messaging apps to chat from anywhere.",
+        _info("Connect CTS to messaging apps to chat from anywhere.",
               "You can configure these later with 'cts setup gateway'.")
         # Group by platform in first-seen order; vars matching no platform are dropped.
         grouped: dict[str, list] = {}

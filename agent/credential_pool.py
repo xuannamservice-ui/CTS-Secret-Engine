@@ -328,7 +328,7 @@ def label_from_token(token: str, fallback: str) -> str:
 def _codex_principal_identity(access_token: Any) -> Optional[tuple[str, str]]:
     """``(chatgpt_account_id, sub)`` of a Codex access token, or None when either claim is missing.
 
-    Decoded without signature verification: this only decides whether two credentials Hermes
+    Decoded without signature verification: this only decides whether two credentials CTS
     already holds belong to the same principal, never whether a token is valid. Both claims are
     required because members of one ChatGPT workspace share ``chatgpt_account_id`` yet have their
     own subjects and quotas.
@@ -2755,7 +2755,7 @@ def _seed_minimax_singleton(seed: _Seeder) -> None:
 def _seed_tokens_singleton(seed: _Seeder, auth_store: dict[str, Any]) -> None:
     """Codex / xAI: surface the auth.json ``providers.<id>.tokens`` singleton as ``device_code``.
 
-    Hermes owns its own Codex auth state and does NOT auto-import
+    CTS owns its own Codex auth state and does NOT auto-import
     ~/.codex/auth.json: refresh tokens are single-use, so sharing them with
     Codex CLI / VS Code causes refresh_token_reused races. Adoption is an
     explicit one-time prompt via `cts auth openai-codex`.

@@ -505,7 +505,7 @@ def load_hermes_dotenv(
     project_env: str | os.PathLike | None = None,
     load_external_secrets: bool = True,
 ) -> list[Path]:
-    """Load Hermes env files: ``~/.cts/.env`` overrides stale shell exports; project ``.env`` is a dev
+    """Load CTS env files: ``~/.cts/.env`` overrides stale shell exports; project ``.env`` is a dev
     fallback that only fills gaps when the user env exists (and overrides shell vars when it does not)."""
     from agent.safe_worker_policy import worker_config_snapshot
 
@@ -685,7 +685,7 @@ def _revoke_secret_source_writes(home_path: Path, *, keep) -> None:
 
 def _apply_external_secret_sources(home_path: Path) -> None:
     """Pull secrets from every enabled external source into env — AFTER dotenv (sources need .env bootstrap
-    tokens), BEFORE Hermes reads credentials; failures never block startup. Precedence/conflicts/provenance
+    tokens), BEFORE CTS reads credentials; failures never block startup. Precedence/conflicts/provenance
     live in ``registry.apply_all``; this wrapper owns the once-per-home guard, the post-apply ASCII sweep,
     the ``_SECRET_SOURCES`` map and status lines."""
     home_key = str(Path(home_path).resolve())

@@ -60,7 +60,7 @@ def _extract_inherited_flags(argv: Sequence[str]) -> list[str]:
 
 
 def resolve_hermes_bin() -> Optional[str]:
-    """Hermes entry point: ``sys.argv[0]`` if a real executable, else ``which hermes``, else ``None``
+    """CTS entry point: ``sys.argv[0]`` if a real executable, else ``which hermes``, else ``None``
     (caller falls back to ``python -m hermes_cli.main``).
 
     Python launchers are never returned: on Windows a ``.py`` can't be exec'd directly, and on

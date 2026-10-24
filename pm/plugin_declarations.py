@@ -97,7 +97,7 @@ class PythonDeclaration:
 def applicable_requirements(specs: tuple[str, ...] | list[str]) -> tuple[str, ...]:
     """Index requirements only; let uv evaluate markers for the target interpreter.
 
-    The application checkout supplies Hermes itself. Installing it from an index
+    The application checkout supplies CTS itself. Installing it from an index
     would replace that checkout; direct URLs bypass the reviewed package source.
     Markers must survive snapshots built for a different Python or platform.
     """

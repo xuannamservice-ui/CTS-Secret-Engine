@@ -443,7 +443,7 @@ def noninteractive_git_env(base: Mapping[str, str] | None = None) -> dict[str, s
     ``stdin=subprocess.DEVNULL``. Internal plumbing only — the agent-facing terminal tool has its
     own policy layer and visible PTY.
 
-    Hermes shells out to git from many non-interactive contexts — MCP catalog installs, plugin
+    CTS shells out to git from many non-interactive contexts — MCP catalog installs, plugin
     install/update, profile distribution staging, worktree base fetches, desktop review-pane fetch/push.
     When the remote is private, misconfigured, or requires auth, git's default behavior is to prompt on the
     inherited terminal (or via an askpass helper), which silently hangs the operation until its timeout — or
@@ -683,7 +683,7 @@ def _process_start_time(pid: int) -> int | None:
 
 
 def _text_names_hermes(text: str) -> bool:
-    r"""True when *text* names Hermes at a path-segment / token boundary.
+    r"""True when *text* names CTS at a path-segment / token boundary.
 
     A bare ``"hermes" in text`` substring test would also match unrelated processes whose paths
     merely contain the letters (``...\shermesa\...``) — the false-positive class this prevents.
@@ -693,7 +693,7 @@ def _text_names_hermes(text: str) -> bool:
 
 
 def _process_command_is_hermes(pid: int) -> bool:
-    """Best-effort check that *pid* currently runs Hermes code."""
+    """Best-effort check that *pid* currently runs CTS code."""
     try:
         import psutil
 
@@ -708,7 +708,7 @@ def _process_command_is_hermes(pid: int) -> bool:
 def pid_is_hermes(pid: int, *, expected_start_time: int | None = None) -> bool:
     """Whether it is safe to use ``taskkill`` for *pid*.
 
-    The PID must be valid, currently exist, and identify a Hermes process. When the caller captured
+    The PID must be valid, currently exist, and identify a CTS process. When the caller captured
     a start-time fingerprint before the destructive action, the live process must still have the
     same ``(pid, start_time)`` identity. Any ambiguity fails closed.
     """

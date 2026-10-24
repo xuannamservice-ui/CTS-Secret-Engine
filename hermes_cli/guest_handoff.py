@@ -2,7 +2,7 @@
 
 The account service moves a free-tier identity's connected apps (and its preview cohort) into a
 signed-in account with one call, ``POST /api/anonymous/claim {"token": "<anon_...>"}``, authorized by
-the account's own ``hermes-cli`` Bearer token. Hermes never asks first: the move just happens after
+the account's own ``hermes-cli`` Bearer token. CTS never asks first: the move just happens after
 the account is saved, and the result (the account email, what moved, what needs reconnecting) is
 shown afterwards. Two halves:
 
@@ -368,7 +368,7 @@ def result_lines(status: dict[str, Any]) -> list[str]:
     moved = [app_title(slug) for slug in status.get("moved_toolkits") or []]
     dropped = [app_title(slug) for slug in status.get("dropped_toolkits") or []]
     if state in _ACTIVE:
-        return ["Moving your free-tier apps to this account; Hermes keeps trying in the background."]
+        return ["Moving your free-tier apps to this account; CTS keeps trying in the background."]
     if state == FAILED:
         reason = _FAILURE_COPY.get(str(status.get("error") or ""))
         return ["Your free-tier apps could not be moved." + (f" {reason}" if reason else "")]

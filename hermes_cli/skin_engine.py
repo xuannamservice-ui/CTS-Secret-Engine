@@ -1,4 +1,4 @@
-"""Hermes skin/theme engine — the theme SDK for every surface."""
+"""CTS skin/theme engine — the theme SDK for every surface."""
 
 import logging
 from dataclasses import dataclass, field

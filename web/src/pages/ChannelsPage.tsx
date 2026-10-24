@@ -899,7 +899,7 @@ export function WhatsAppOnboardingPanel({
         : "waiting";
   const setupHelp =
     phase === "connected" || phase === "applying"
-      ? "WhatsApp is linked but Hermes is not listening yet. Save and restart the gateway to finish setup."
+      ? "WhatsApp is linked but CTS is not listening yet. Save and restart the gateway to finish setup."
       : setup?.status === "installing"
         ? "Preparing the WhatsApp bridge. The QR code will appear here when it is ready."
         : setup?.status === "starting"
@@ -910,24 +910,24 @@ export function WhatsAppOnboardingPanel({
     : setup?.account_name || setup?.account_id || "";
   const linkedAccountDetail =
     setup?.account_phone || setup?.account_id
-      ? "This is the WhatsApp account Hermes is now logged into."
-      : "Hermes is logged into the WhatsApp account that scanned the QR code.";
+      ? "This is the WhatsApp account CTS is now logged into."
+      : "CTS is logged into the WhatsApp account that scanned the QR code.";
   const linkedAccountChatUrl = setup?.account_phone
     ? `https://wa.me/${setup.account_phone}`
     : "";
   const messageInstruction =
     mode === "self-chat"
-      ? "After the restart, open Message Yourself on the linked account and send Hermes a message."
-      : "After the restart, start a chat from another WhatsApp account with the linked account and send Hermes a message.";
+      ? "After the restart, open Message Yourself on the linked account and send CTS a message."
+      : "After the restart, start a chat from another WhatsApp account with the linked account and send CTS a message.";
   const hasSavedAllowedUsers = Boolean(platform.whatsapp_setup?.allowed_users_set);
   const pairingInstruction =
     mode === "self-chat" && !allowedUsers.trim()
       ? hasSavedAllowedUsers
-        ? "Hermes will keep the saved WhatsApp allowlist."
+        ? "CTS will keep the saved WhatsApp allowlist."
         : "Self-chat mode will allow the linked account automatically when you save."
       : !allowedUsers.trim() && hasSavedAllowedUsers
-        ? "Hermes will keep the saved WhatsApp allowlist."
-        : "If no allowed numbers were entered, Hermes replies with a pairing code. Approve it from the dashboard Pairing page.";
+        ? "CTS will keep the saved WhatsApp allowlist."
+        : "If no allowed numbers were entered, CTS replies with a pairing code. Approve it from the dashboard Pairing page.";
   const pairingBusy = ["starting", "waiting", "applying"].includes(phase);
 
   return (

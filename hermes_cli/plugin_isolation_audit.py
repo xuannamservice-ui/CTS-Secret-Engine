@@ -1,16 +1,16 @@
 """Static answer to "will this plugin run in the plugin host?" (``plugins.isolation: host``).
 
 Reads a plugin directory's manifest and Python source (never imports it) and reports whether the
-plugin reaches Hermes only through ``ctx`` surfaces that cross the host boundary. The rules come
+plugin reaches CTS only through ``ctx`` surfaces that cross the host boundary. The rules come
 from :mod:`hermes_cli.plugin_isolation`, the same tables the host enforces at runtime, so a plugin
 the audit calls host-ready loads in the host, and one it flags fails there with the same reason.
 
 What it cannot see in a process boundary it flags:
 
 * ctx methods that hand over live objects (platform adapters, SDK clients, argparse);
-* writing attributes of Hermes modules (monkeypatching): the patch lands in the host's copy;
+* writing attributes of CTS modules (monkeypatching): the patch lands in the host's copy;
 * mutating a global registry directly instead of through ``ctx``: the registration lands in the
-  host's registry, which Hermes never reads;
+  host's registry, which CTS never reads;
 * gateway platform adapters (``kind: platform``), model-provider profiles that build their own SDK
   client (``create_client``), and dashboard APIs that stream (the host bridge buffers responses).
 
@@ -41,7 +41,7 @@ _DIRECT_REGISTRY_CALLS: frozenset = frozenset({
     ("gateway.platform_registry", "register"), ("providers", "register_provider"),
 })
 _MANIFEST_KIND_REASONS: dict[str, str] = {
-    "platform": "kind 'platform': gateway platform adapters run in the Hermes process",
+    "platform": "kind 'platform': gateway platform adapters run in the CTS process",
 }
 _STREAMING_MARKERS = ("StreamingResponse", "EventSourceResponse", ".websocket(", "WebSocket")
 _SKIP_DIRS = frozenset({"tests", "test", ".git", "__pycache__", "node_modules", ".venv", "venv", "docs"})

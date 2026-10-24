@@ -2,8 +2,8 @@
 """MCP OAuth 2.1 client support: browser authorization-code flow with PKCE.
 
 The SDK's ``OAuthClientProvider`` does discovery, client identification, PKCE, exchange and
-refresh; this module supplies ``HermesTokenStorage`` (on-disk persistence), the localhost callback
-listener and ``build_oauth_auth()`` (legacy entry point). client_id is Hermes' Client ID Metadata
+refresh; this module supplies ``CTSTokenStorage`` (on-disk persistence), the localhost callback
+listener and ``build_oauth_auth()`` (legacy entry point). client_id is CTS' Client ID Metadata
 Document URL (CIMD) when the server supports it, else RFC 7591 DCR. ``mcp_servers.<name>.oauth`` keys
 (all optional): client_id, client_secret, scope, redirect_port, redirect_uri (proxy callback),
 redirect_host, client_name, client_metadata_url, cimd, user_agent, timeout."""
@@ -275,7 +275,7 @@ def _reserve_callback_port() -> int:
     return _bind_reserved(0)  # type: ignore[return-value]  # port 0 never returns None
 
 
-def _cached_client_info(storage: "HermesTokenStorage | None") -> dict | None:
+def _cached_client_info(storage: "CTSTokenStorage | None") -> dict | None:
     """The on-disk client registration for *storage*, or None."""
     try:
         info = _read_json(storage._client_info_path()) if storage is not None else None
@@ -286,7 +286,7 @@ def _cached_client_info(storage: "HermesTokenStorage | None") -> dict | None:
     return info if isinstance(info, dict) else None
 
 
-def _cached_redirect(storage: "HermesTokenStorage | None") -> tuple[str | None, int | None]:
+def _cached_redirect(storage: "CTSTokenStorage | None") -> tuple[str | None, int | None]:
     """``(https proxy URI, loopback callback port)`` from the cached client registration (None when
     absent): a DCR ``client_id`` is bound to its registered redirect URI, so a new random port under
     it gets ``redirect_uri does not match any registered URIs``."""
@@ -984,7 +984,7 @@ def _pick_cimd_port() -> int | None:
 
 def _server_declined_cimd(storage: HermesTokenStorage | None) -> bool:
     """True when cached metadata shows this server doesn't advertise CIMD. The SDK decides CIMD vs DCR
-    in its 401 branch — after Hermes must fix the redirect URI — so cached metadata closes the gap;
+    in its 401 branch — after CTS must fix the redirect URI — so cached metadata closes the gap;
     only a genuinely unknown server pays the optimistic pin."""
     try:
         metadata = storage.load_oauth_metadata() if storage is not None else None
@@ -1209,7 +1209,7 @@ def humanize_oauth_registration_error(
     server_name: str, exc: BaseException | str, *, server_url: str | None = None) -> str | None:
     """Turn a DCR 403/Forbidden or 404 into a useful next step; None for anything else so the caller keeps the
     original text. Figma gates DCR on exact ``client_name`` (auto-set to ``Claude Code``), so this fires
-    when the user overrode it or an older Hermes is running."""
+    when the user overrode it or an older CTS is running."""
     msg = str(exc)
     lowered = msg.lower()
     from tools.mcp_oauth_provider import _DISCOVERY_CONTEXT_LEAD
@@ -1263,7 +1263,7 @@ def build_oauth_auth(server_name: str, server_url: str, oauth_config: dict | Non
     if HermesOAuthClientProvider is None:
         from tools.mcp_oauth_provider import HermesProviderMixin
 
-        HermesOAuthClientProvider = type("HermesOAuthClientProvider", (HermesProviderMixin, _sdk_class("OAuthClientProvider")), {
-            "__doc__": "SDK provider plus Hermes' token-endpoint fixes (see ``HermesProviderMixin``).",
+        HermesOAuthClientProvider = type("CTSOAuthClientProvider", (HermesProviderMixin, _sdk_class("OAuthClientProvider")), {
+            "__doc__": "SDK provider plus CTS' token-endpoint fixes (see ``HermesProviderMixin``).",
             "__module__": __name__, "_hermes_logger": logger})
     return HermesOAuthClientProvider(server_url=server_url, **kwargs)

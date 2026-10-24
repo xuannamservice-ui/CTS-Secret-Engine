@@ -1,4 +1,4 @@
-"""OpenAI-compatible shim that forwards Hermes requests to `copilot --acp`.
+"""OpenAI-compatible shim that forwards CTS requests to `copilot --acp`.
 
 Each request starts a short-lived ACP session, sends the formatted conversation
 as one prompt, collects text chunks, and returns the minimal OpenAI-client shape.
@@ -57,10 +57,10 @@ _INITIALIZE_PARAMS = {
     "clientInfo": {"name": "hermes-agent", "title": "CTS Secret Engine", "version": "0.0.0"},
 }
 _DEPRECATED_CLI_ERROR = (
-    "Hermes ACP mode requires the NEW GitHub Copilot CLI (github.com/github/copilot-cli), but the binary it just "
+    "CTS ACP mode requires the NEW GitHub Copilot CLI (github.com/github/copilot-cli), but the binary it just "
     "spawned is the deprecated `gh copilot` extension.\n\n"
     "Install the new CLI:\n  npm install -g @github/copilot\n  # then verify with: copilot --help\n\n"
-    "If `copilot` already resolves to the new CLI but you still see this,\npoint Hermes at it explicitly:\n"
+    "If `copilot` already resolves to the new CLI but you still see this,\npoint CTS at it explicitly:\n"
     "  export HERMES_COPILOT_ACP_COMMAND=/path/to/new/copilot\n\n"
     "Alternative: use the `copilot` provider (no ACP, hits the Copilot API\ndirectly with a Copilot subscription "
     "token) via `cts setup`.\n\nOriginal error:\n"

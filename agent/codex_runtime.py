@@ -147,7 +147,7 @@ def _queue_token_counts(agent, fail_msg: str, *fail_extra: Any, counts: Callable
 
 
 def _record_codex_app_server_usage(agent, turn, messages=None) -> dict[str, Any]:
-    """Translate Codex app-server token usage into Hermes accounting. Prompt bucket = uncached + cached
+    """Translate Codex app-server token usage into CTS accounting. Prompt bucket = uncached + cached
     input (the protocol exposes no cache-write tokens); a turn with no usage still counts as one API call.
     ``messages`` (the transcript mirror) lets real usage anchor the next preflight: this runtime bypasses
     the main loop's capture, and the mirror is never compacted natively, so without an anchor the rough
@@ -299,7 +299,7 @@ def _item_changes(item: dict) -> list[dict]:
 
 
 def _codex_item_to_tool_name(item: dict) -> str:
-    """Synthetic Hermes tool name for a codex item (mirrors CodexEventProjector)."""
+    """Synthetic CTS tool name for a codex item (mirrors CodexEventProjector)."""
     item_type = item.get("type") or ""
     if item_type == "mcpToolCall":
         server, tool = item.get("server") or "mcp", item.get("tool") or "unknown"
@@ -540,7 +540,7 @@ def _start_codex_thread(agent) -> str:
 
 def _codex_model_provider(agent) -> str | None:
     """codex's ``[model_providers.<id>]`` for a named custom provider (``providers.<name>``); None means codex's
-    own provider. Only the stable id is sent and codex resolves base_url/env_key itself, so Hermes' credential
+    own provider. Only the stable id is sent and codex resolves base_url/env_key itself, so CTS' credential
     never enters the JSON-RPC payload (#75186)."""
     if str(getattr(agent, "provider", "") or "").strip().lower() != "custom":
         return None
@@ -562,7 +562,7 @@ def _codex_wire_model(agent, model_provider: str | None) -> str | None:
 
 
 def _codex_turn_effort(agent, model: str | None) -> str | None:
-    """``turn/start.effort``: only an explicit Hermes reasoning setting overrides codex's own default, clamped
+    """``turn/start.effort``: only an explicit CTS reasoning setting overrides codex's own default, clamped
     to the route's vocabulary like the Responses path (a level the model lacks fails the turn with 400
     "Unsupported value"). ``ultra`` stays ``ultra`` where the model reaches ``max``: codex runs it as its
     harness mode. Disabled reasoning goes out as ``none`` where the route accepts it."""
@@ -589,7 +589,7 @@ def _codex_turn_effort(agent, model: str | None) -> str | None:
 
 
 def _codex_turn_service_tier(agent) -> str | None:
-    """``turn/start.serviceTier``: the tier Hermes' own Responses path would request this turn (a static
+    """``turn/start.serviceTier``: the tier CTS' own Responses path would request this turn (a static
     ``/fast`` tier pinned in request_overrides, or an open ``auto``/``cold`` window), in codex's words: the
     OpenAI ``priority`` tier is codex's ``fast``. A tier codex has no word for (``ultrafast``) is not sent."""
     from agent.fast_mode import CODEX_TIER_WORDS, effective_request_overrides

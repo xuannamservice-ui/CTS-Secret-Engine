@@ -1,4 +1,4 @@
-"""Hermes update pipeline: dispatchers (``_cmd_update_impl``/``_cmd_update_check``) + git plumbing.
+"""CTS update pipeline: dispatchers (``_cmd_update_impl``/``_cmd_update_check``) + git plumbing.
 
 Each concern lives in ``update_cmd_<concern>.py`` and is re-imported here so
 ``hermes_cli.update_cmd.<name>`` keeps resolving (and stays monkeypatchable). Imports are one-way:
@@ -1703,7 +1703,7 @@ def _handle_update_called_process_error(
             print(f"✗ {stage} (the code update itself succeeded).")
             _print_called_process_error_tail(e)
             print()
-            print("  Hermes may not start until the dependencies are installed. Fix the error above")
+            print("  CTS may not start until the dependencies are installed. Fix the error above")
             print("  (usually network or disk space), then run `cts update` again.")
             if _m()._is_windows():
                 print("  If `cts update` itself will not start, retry through the venv interpreter:")

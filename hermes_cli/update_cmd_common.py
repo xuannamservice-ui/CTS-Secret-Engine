@@ -1,4 +1,4 @@
-"""Shared leaf helpers for the ``cts update`` modules (no Hermes imports; no cycle)."""
+"""Shared leaf helpers for the ``cts update`` modules (no CTS imports; no cycle)."""
 
 import logging
 import sys

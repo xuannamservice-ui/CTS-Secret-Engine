@@ -117,7 +117,7 @@ def find_shell_configs() -> list:
 
 
 def remove_path_from_shell_configs():
-    """Remove Hermes PATH entries from shell configuration files."""
+    """Remove CTS PATH entries from shell configuration files."""
     removed_from = []
     for config_path in find_shell_configs():
         try:
@@ -209,7 +209,7 @@ def remove_node_symlinks(hermes_home: Path) -> list:
     We check all candidate directories so that uninstall works regardless of
     how the install was done (e.g. a root FHS install that placed links in
     ``/usr/local/bin``, or an older install that used ``~/.local/bin`` before
-    the FHS fix).  Only symlinks that resolve into this Hermes home's ``node``
+    the FHS fix).  Only symlinks that resolve into this CTS home's ``node``
     directory are removed — links the user has repointed elsewhere (nvm, fnm,
     etc.) are left untouched.
     """
@@ -532,7 +532,7 @@ def remove_legacy_runtime_trees(hermes_home: Path) -> list[Path]:
 
 
 def remove_windows_bin_launchers(*, windows: bool | None = None) -> list[Path]:
-    """Delete the managed binary dir (the default Hermes root's ``bin``).
+    """Delete the managed binary dir (the default CTS root's ``bin``).
 
     The dir holds only hermes-owned launcher copies (the relocatable venv's
     console scripts, staged onto PATH by first-run repair) — pm keeps uv in
@@ -678,11 +678,11 @@ def run_data_uninstall(args):
     for path in removed:
         log_success(f"Removed {path}")
     if failed:
-        print("Hermes data was only partially removed. Surviving targets:")
+        print("CTS data was only partially removed. Surviving targets:")
         for path, reason in failed:
             log_warn(f"{path}: {reason}")
         raise SystemExit(1)
-    log_success("Hermes data removed.")
+    log_success("CTS data removed.")
 
 
 def run_gui_uninstall(args):
@@ -711,11 +711,11 @@ def run_gui_uninstall(args):
     print()
 
     if not summary["gui_installed"]:
-        print("No Hermes Chat GUI installation was found.")
+        print("No CTS Chat GUI installation was found.")
         print(f"  Checked: {hermes_home}, and the standard app locations for this OS.")
         return
 
-    print(color("This removes the Chat GUI only. The Hermes agent stays installed.", Colors.CYAN))
+    print(color("This removes the Chat GUI only. The CTS agent stays installed.", Colors.CYAN))
     print()
     print(color("Will remove:", Colors.YELLOW, Colors.BOLD))
     for p in (*summary["source_built_artifacts"], *summary["packaged_app_paths"]):
@@ -748,7 +748,7 @@ def run_gui_uninstall(args):
     print()
     _print_box("│            ✓ Chat GUI Uninstalled!                      │", Colors.GREEN)
     print()
-    print("The Hermes agent is still installed. Run 'hermes' to use the CLI,")
+    print("The CTS agent is still installed. Run 'hermes' to use the CLI,")
     print("or 'cts uninstall' to remove the agent too.")
     print()
 
@@ -846,12 +846,12 @@ def run_uninstall(args):
     # Final confirmation
     print()
     if full_uninstall:
-        print(color("⚠️  WARNING: This will permanently delete ALL Hermes data!", Colors.RED, Colors.BOLD))
+        print(color("⚠️  WARNING: This will permanently delete ALL CTS data!", Colors.RED, Colors.BOLD))
         print(color("   Including: configs, API keys, sessions, scheduled jobs, logs", Colors.RED))
         if remove_profiles:
             print(color(f"   Plus {n_profiles} profile(s): {profile_names}", Colors.RED))
     else:
-        print("This will remove the Hermes code but keep your configuration and data.")
+        print("This will remove the CTS code but keep your configuration and data.")
 
     print()
     if not _confirm_yes("to confirm"):
@@ -869,8 +869,8 @@ def _print_uninstall_dry_run(*, project_root: Path, hermes_home: Path, full_unin
     print()
     print(color("Would inspect/remove:", Colors.YELLOW, Colors.BOLD))
     print("  • Gateway services and standalone gateway processes")
-    print("  • Hermes PATH entries from shell configs / Windows User PATH")
-    print("  • Hermes wrapper scripts and Hermes-managed node/npm/npx symlinks")
+    print("  • CTS PATH entries from shell configs / Windows User PATH")
+    print("  • CTS wrapper scripts and Hermes-managed node/npm/npx symlinks")
     print("  • Desktop Chat GUI artifacts")
     print(f"  • Code checkout: {project_root}")
     from hermes_cli.gui_uninstall import desktop_userdata_dir
@@ -923,7 +923,7 @@ def _macos_cache_leftover_dirs() -> list[Path]:
     (``Application Support/Hermes``) but never these (#62209)."""
     caches = Path.home() / "Library" / "Caches"
     return [
-        caches / "Hermes",
+        caches / "CTS",
         caches / "com.nousresearch.hermes",
         caches / "hermes-setup",
         caches / "com.nousresearch.hermes.setup",

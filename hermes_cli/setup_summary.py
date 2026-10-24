@@ -203,7 +203,7 @@ def _print_setup_summary(config: dict, hermes_home):
         resolve_provider()
     except Exception:
         print()
-        _setup.print_warning("No inference provider is configured — Hermes cannot chat yet.")
+        _setup.print_warning("No inference provider is configured — CTS cannot chat yet.")
         _setup._info("  Finish this one step with either of:",
               "    cts model            (pick any provider/model)",
               "    cts setup --portal   (Nous Portal OAuth, no API key)")

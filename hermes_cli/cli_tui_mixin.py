@@ -1,6 +1,6 @@
 # health: allow FILE_LINES -- usage-window plans: /model picker hooks only (a multi-row hint, Large/Free row labels); the logic lives in hermes_cli/model_picker_usage.py
 """prompt_toolkit TUI construction, key-binding handlers, and overlay display fragments for the
-interactive CLI. Mixin bound onto ``HermesCLI`` via the MRO; cli.py-internal symbols are imported
+interactive CLI. Mixin bound onto ``CTSCLI`` via the MRO; cli.py-internal symbols are imported
 LAZILY inside each method (``from cli import ...``) — never at module load (import cycle)."""
 
 from __future__ import annotations
@@ -68,9 +68,9 @@ def _approval_choice_label(choice: str) -> str:
 def _agent_name() -> str:
     try:
         from hermes_cli.skin_engine import get_active_skin
-        return get_active_skin().get_branding("agent_name", "Hermes")
+        return get_active_skin().get_branding("agent_name", "CTS")
     except Exception:
-        return "Hermes"
+        return "CTS"
 
 
 def _tn(key: str, count: int, **kwargs) -> str:

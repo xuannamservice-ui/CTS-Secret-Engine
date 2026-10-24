@@ -251,8 +251,8 @@ def _refuse_unsupported_catalog_platform(entry: PluginCatalogEntry) -> None:
 
 
 def catalog_hermes_error(entry: PluginCatalogEntry) -> Optional[str]:
-    """``<name> needs Hermes <spec>; this is <version>.`` when the entry's ``requires_hermes`` rejects the
-    running Hermes, else ``None``. The verdict IS the plugin.yaml gate's
+    """``<name> needs CTS <spec>; this is <version>.`` when the entry's ``requires_hermes`` rejects the
+    running CTS, else ``None``. The verdict IS the plugin.yaml gate's
     (:func:`~hermes_cli.plugins_manifest.requires_hermes_error`): same version source, same comparison, so
     a dev checkout or canary build is judged the same by both, and an unknown version never blocks."""
     from hermes_cli.plugins_manifest import requires_hermes_error, running_hermes_version
@@ -743,7 +743,7 @@ def pin_label(entry: PluginCatalogEntry) -> str:
 def _render_entries(entries: list[PluginCatalogEntry], console) -> None:
     from hermes_cli.plugins_cmd import _table
     table = _table(((("Name", "bold")), ("Category", None), ("Tier", None), ("Description", None),
-                    ("Pinned", "dim"), ("Capabilities", "dim")), title="Hermes Plugin Catalog (curated)")
+                    ("Pinned", "dim"), ("Capabilities", "dim")), title="CTS Plugin Catalog (curated)")
     rank = {name: i for i, name in enumerate(CATALOG_TIERS)}
     style = {"official": "cyan", "verified": "green", "community": "magenta"}
     for e in sorted(entries, key=lambda e: (e.category, rank.get(e.tier, len(rank)), e.name)):

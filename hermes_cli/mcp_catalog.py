@@ -376,7 +376,7 @@ def list_catalog() -> list[CatalogEntry]:
 
 def catalog_diagnostics() -> list[tuple]:
     """``(entry_name, kind, message)`` tuples from the most recent :func:`list_catalog` call;
-    ``kind`` is ``future_manifest`` (newer than this Hermes) or ``invalid`` (malformed)."""
+    ``kind`` is ``future_manifest`` (newer than this CTS) or ``invalid`` (malformed)."""
     return list(_CATALOG_DIAGNOSTICS)
 
 

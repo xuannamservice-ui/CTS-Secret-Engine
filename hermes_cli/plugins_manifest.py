@@ -156,7 +156,7 @@ def _parse_manifest_v2_fields(data: Mapping, key: str) -> dict[str, Any]:
                        "Plugin %s: manifest_version %r is not an integer; treating as 1", 1)
     if mv > SUPPORTED_MANIFEST_VERSION:
         logger.warning(
-            "Plugin %s: manifest_version %d is newer than this Hermes "
+            "Plugin %s: manifest_version %d is newer than this CTS "
             "supports (%d); loading anyway and ignoring unknown fields", key, mv, SUPPORTED_MANIFEST_VERSION,
         )
     raw_api = data.get("api_version")
@@ -440,7 +440,7 @@ _VERSION_COMPARATOR_RE = re.compile(r"^\s*(>=|<=|==|!=|>|<)\s*(.+?)\s*$")
 
 
 def running_hermes_version() -> str:
-    """Base release version of the Hermes code that is running."""
+    """Base release version of the CTS code that is running."""
     from hermes_cli.version_info import get_version_info
 
     return get_version_info().base_version

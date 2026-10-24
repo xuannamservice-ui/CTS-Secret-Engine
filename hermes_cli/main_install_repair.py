@@ -145,7 +145,7 @@ def _filter_pending_shim_renames(entries: list[str], shims: list[Path]) -> tuple
 
 
 def _cleanup_pending_shim_renames(scripts_dir: Path) -> int:
-    """Drop reboot renames older Hermes versions queued for our shims: ``MOVEFILE_DELAY_UNTIL_REBOOT``
+    """Drop reboot renames older CTS versions queued for our shims: ``MOVEFILE_DELAY_UNTIL_REBOOT``
     fallbacks outlive the update that queued them and move away whatever sits at the shim path
     at next boot — even a shim a later repair just wrote. Needs elevation; a no-op otherwise."""
     if not _is_windows():

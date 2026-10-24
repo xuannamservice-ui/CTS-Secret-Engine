@@ -288,7 +288,7 @@ class GatewaySlashCommandsMixin(
         return None
 
     def _typed_command_prefix_for(self, platform) -> str:
-        """The prefix users can always type to reach Hermes commands (adapter ``typed_command_prefix``,
+        """The prefix users can always type to reach CTS commands (adapter ``typed_command_prefix``,
         default "/"). Slack and Matrix use "!" because typed "/" is blocked/reserved there; their
         adapters rewrite "!command" to "/command"."""
         adapter = self.adapters.get(platform) if getattr(self, "adapters", None) else None
@@ -1004,7 +1004,7 @@ class GatewaySlashCommandsMixin(
             return f"{description}\n" + t("gateway.verbose.save_failed", error=e)
 
     async def _handle_busy_command(self, event: MessageEvent) -> str | EphemeralReply:
-        """Handle /busy — control what happens when messaging while Hermes is working."""
+        """Handle /busy — control what happens when messaging while CTS is working."""
         from gateway.session_setting_commands import local_live, session_busy_mode
         arg = event.get_command_args().strip().lower()
         live = local_live(self, event.source)

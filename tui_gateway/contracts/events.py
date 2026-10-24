@@ -33,7 +33,7 @@ class OpenPayload(Payload):
 
 
 class SkinPayload(OpenPayload):
-    """``tui_gateway/change_watcher.py::resolve_skin`` — the resolved active skin (``HermesSkin``).
+    """``tui_gateway/change_watcher.py::resolve_skin`` — the resolved active skin (``CTSSkin``).
     ``{}`` when the skin engine failed to load. Colour maps are token → colour string."""
 
     name: str = ""

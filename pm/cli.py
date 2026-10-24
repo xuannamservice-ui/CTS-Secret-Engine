@@ -298,7 +298,7 @@ def _install_flag_error(args, *, extras: list[str], cross_target, tools_only: bo
 def _install_defaults(names: list[str], *, verify: bool) -> None:
     """Install the optional defaults; a failure warns and never fails the install.
 
-    They are the browser and computer-use tools, not what Hermes needs to run:
+    They are the browser and computer-use tools, not what CTS needs to run:
     a Chromium download that fails behind a proxy must not abort an install
     whose required closure and venv are fine.
     """

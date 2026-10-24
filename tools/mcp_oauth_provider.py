@@ -1,4 +1,4 @@
-"""Shared ``OAuthClientProvider`` customizations for Hermes MCP OAuth.
+"""Shared ``OAuthClientProvider`` customizations for CTS MCP OAuth.
 
 Two code paths build an SDK provider — ``tools.mcp_oauth.build_oauth_auth`` (legacy public
 API) and ``tools.mcp_oauth_manager.MCPOAuthManager`` — and both need the same real-world
@@ -163,7 +163,7 @@ class HermesProviderMixin:
         installed on the context here and the SDK is handed an empty 204: ``handle_auth_metadata_response``
         reads that as "stop trying", leaving the installed document in place. ``auth_server_url`` is left
         untouched, so the SEP-2352 credential binding still uses the advertised identifier (stable across
-        runs), while the RFC 9207 ``iss`` check and Hermes' refresh-token binding use the document's issuer.
+        runs), while the RFC 9207 ``iss`` check and CTS' refresh-token binding use the document's issuer.
         Every other response goes back to the SDK unchanged, including its issuer check."""
         # This compatibility shim is only for authorization-server metadata
         # responses. Never consume arbitrary 200 responses here: MCP resource
@@ -203,7 +203,7 @@ class HermesProviderMixin:
         return stamp_default_user_agent(request)
 
     def _coerce_client_secret_post(self) -> None:
-        """Same rule as ``HermesTokenStorage._coerce_secret_auth_method``, applied to the
+        """Same rule as ``CTSTokenStorage._coerce_secret_auth_method``, applied to the
         in-memory client info BEFORE the SDK builds a token-endpoint request from it."""
         info = self.context.client_info
         if not info:
@@ -329,7 +329,7 @@ class HermesProviderMixin:
         """True when the installed token is not known to be past due.
 
         Storage clamps a past-due token to ``expires_in == 0`` on read (see
-        HermesTokenStorage.get_tokens); the SDK's is_token_valid() compares
+        CTSTokenStorage.get_tokens); the SDK's is_token_valid() compares
         ``time.time() <= expiry`` and still reports True for that boundary,
         which would make us adopt a token the server rejects immediately.
         ``expires_in`` is optional in RFC 6749: None means no expiry was
@@ -489,7 +489,7 @@ class HermesProviderMixin:
         Returns True only when disk holds a pair that is BOTH different from
         the one we just failed with AND still live. That is the signature of
         a writer outside the fence (an interactive ``cts mcp login`` or a
-        pre-fence Hermes) having rotated the grant between our read and our
+        pre-fence CTS) having rotated the grant between our read and our
         POST -- a recoverable race, not a dead credential.
 
         Returns False for the genuinely-expired case (nobody wrote a newer
@@ -567,7 +567,7 @@ def google_offline_access_params(context: Any) -> dict[str, str]:
 
 def bind_issuer_from_context(context: Any) -> None:
     """Record the discovered issuer so the next ``storage.set_tokens`` (exchange or refresh) carries
-    it. No-op when metadata is not discovered yet or storage is not Hermes'."""
+    it. No-op when metadata is not discovered yet or storage is not CTS'."""
     from tools.mcp_oauth import HermesTokenStorage
     storage = getattr(context, "storage", None)
     issuer = _metadata_issuer(context)

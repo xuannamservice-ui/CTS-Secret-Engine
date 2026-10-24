@@ -74,7 +74,7 @@ def _project(cwd):
 
 
 def _cli_startup_notices(enabled):
-    """The lines main's HermesCLI printed under its banner, computed where the tools run: the toolset
+    """The lines main's CTSCLI printed under its banner, computed where the tools run: the toolset
     availability warning (``cli.py::_show_tool_availability_warnings``). The classic CLI renders them
     with its own console."""
     notices: dict = {"tool_availability_warnings": []}
@@ -93,7 +93,7 @@ def _cli_startup_notices(enabled):
 
 
 def _unknown_toolsets(enabled, config):
-    """Main's "Unknown toolsets" startup warning (``HermesCLI._init_toolsets``), judged where the plugins
+    """Main's "Unknown toolsets" startup warning (``CTSCLI._init_toolsets``), judged where the plugins
     load: the session's toolset names the profile's registry, MCP servers, plugin toolsets and platform
     bundles cannot place (an uninstalled plugin's stale ``platform_toolsets`` entry)."""
     if "all" in enabled or "*" in enabled:
@@ -107,7 +107,7 @@ def _unknown_toolsets(enabled, config):
 
 def _cli_skills():
     """``hermes_cli.banner.get_available_skills`` as main's classic CLI computed it: ``cmd_chat`` pins
-    ``HERMES_KANBAN_BOARD`` before HermesCLI starts, so ``environments: [kanban]`` skills are offered.
+    ``HERMES_KANBAN_BOARD`` before CTSCLI starts, so ``environments: [kanban]`` skills are offered.
     The owner never sets that env; the kanban relevance is scoped to this scan (a ContextVar) and the
     catalog cache entry it would poison is restored, so other surfaces keep their own view."""
     from tools import skills_tool

@@ -167,7 +167,7 @@ def _managed_install() -> bool:
 
 
 def _secure_cache_dir(new_subpath: str, old_name: str) -> Path:
-    """Resolve a Hermes media-cache dir, creating it owner-only (0700).
+    """Resolve a CTS media-cache dir, creating it owner-only (0700).
 
     A downloaded image or video is as sensitive as whatever the user pointed
     the agent at — a private attachment, an internal screenshot, a document
@@ -201,7 +201,7 @@ def _secure_cache_dir(new_subpath: str, old_name: str) -> Path:
     ``ensure_hermes_home``'s managed branch and its ``logs/curator``
     lazy-mkdir precedent.
 
-    Running it unconditionally also heals a directory an older Hermes left at
+    Running it unconditionally also heals a directory an older CTS left at
     0755. That retroactive tighten is safe *here* because this is
     Hermes-private scratch that the same user re-reads in the same call —
     there is no user-shared content to strand. Note ``parents=True`` applies

@@ -370,7 +370,7 @@ _RETIRING = frozenset({"idle_exit", "replaced"})
 
 
 def _observe_replacing_stale(home: Path, deadline: float, replaced: set[Path]) -> GatewayDiscovery:
-    """Discovery, except that a gateway an older Hermes left on this home is stopped once (like
+    """Discovery, except that a gateway an older CTS left on this home is stopped once (like
     ``cts gateway stop``) and reported as retiring; a refusal keeps ``incompatible`` + its remedy."""
     from hermes_cli.gateway_runtime_service import remaining
     observed = discover_gateway_endpoint(home, timeout=remaining(deadline))
@@ -391,7 +391,7 @@ def ensure_gateway_runtime(profile_home: str | Path, *, timeout: float = DEFAULT
                            idle_exit: bool = False) -> GatewayDiscovery:
     """Ensure once; pending remains pending at deadline.
 
-    Never installs anything. The one owner it replaces is a gateway an older Hermes left running on
+    Never installs anything. The one owner it replaces is a gateway an older CTS left running on
     this install's own home (``incompatible``/``runtime_protocol``, the upgrade case): it is stopped
     the way ``cts gateway stop`` stops it, once, and the current one started like any absent
     owner. Another install's or a newer CTS Secret Engine's gateway stays refused, with the reason in ``detail``

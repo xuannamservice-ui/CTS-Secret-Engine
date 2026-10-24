@@ -163,7 +163,7 @@ def session_already_owned_message(session_id: str, entry: dict[str, Any]) -> str
     (no lease/pid/owner jargon); the second line is ``Details: ...`` for logs and bug reports.
     """
     return (
-        "This chat is open in another Hermes window/terminal. Use it there, or start a new chat here.\n"
+        "This chat is open in another CTS window/terminal. Use it there, or start a new chat here.\n"
         + session_owner_details(session_id, entry)
     )
 

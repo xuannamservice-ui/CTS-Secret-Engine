@@ -21,7 +21,7 @@ def build_update_parser(subparsers, *, cmd_update: Callable) -> None:
     update_parser.add_argument(
         "--plan", action="store_true", default=False,
         help="Show the update plan and exit without changing anything: install "
-            "kind (git/docker/nix), every running Hermes service across all "
+            "kind (git/docker/nix), every running CTS service across all "
             "profiles with its supervisor and running code version, and how "
             "each will be restarted. Read-only; safe on a live fleet.")
     update_parser.add_argument(
