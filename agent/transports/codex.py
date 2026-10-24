@@ -260,7 +260,7 @@ def _alias_wire_tools(
         response_tools, _oc_aliases = _alias_reserved_tools(response_tools, _OPENCODE_RESERVED_TOOL_NAMES)
         wire_aliases.update(_oc_aliases)
     # Perplexity's Agent API reserves the same names as server-side tools.
-    # Keep Hermes's client-side functions available under wire aliases.
+    # Keep CTS Secret Engine's client-side functions available under wire aliases.
     if response_tools and _is_perplexity_responses_backend(params):
         response_tools, _pplx_aliases = _alias_reserved_tools(response_tools, _PERPLEXITY_RESERVED_TOOL_NAMES)
         wire_aliases.update(_pplx_aliases)

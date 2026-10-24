@@ -79,7 +79,7 @@ _DOTENV_LOCK = threading.RLock()
 # Per-process credentials a parent mints and injects into the child's environment (the Desktop shell /
 # a link-style launcher spawns `cts dashboard` with a fresh HERMES_DASHBOARD_SESSION_TOKEN and keeps
 # the same token for its own /api probes). They are never .env configuration, so a persisted value in
-# ~/.hermes/.env must not replace an injected one — the parent would then 401 against its own child
+# ~/.cts/.env must not replace an injected one — the parent would then 401 against its own child
 # (#115955). A value an earlier dotenv pass published is still reloaded normally.
 _SPAWN_CREDENTIAL_KEYS: frozenset[str] = frozenset({"HERMES_DASHBOARD_SESSION_TOKEN"})
 
@@ -505,7 +505,7 @@ def load_hermes_dotenv(
     project_env: str | os.PathLike | None = None,
     load_external_secrets: bool = True,
 ) -> list[Path]:
-    """Load Hermes env files: ``~/.hermes/.env`` overrides stale shell exports; project ``.env`` is a dev
+    """Load Hermes env files: ``~/.cts/.env`` overrides stale shell exports; project ``.env`` is a dev
     fallback that only fills gaps when the user env exists (and overrides shell vars when it does not)."""
     from agent.safe_worker_policy import worker_config_snapshot
 
@@ -599,10 +599,10 @@ def load_hermes_dotenv(
     _apply_managed_env(load_pass=load_pass)
 
     # config.yaml owns terminal.*, but the override=True loads above let a stale TERMINAL_ENV=docker in
-    # ~/.hermes/.env win on every reload and flip the backend mid-session in long-lived processes.
+    # ~/.cts/.env win on every reload and flip the backend mid-session in long-lived processes.
     # Re-apply the explicit terminal keys LAST, after the managed overlay, so the merged config lands.
     # config.yaml is the documented source of truth for terminal.* settings, but the dotenv loads above run
-    # with override=True — so a stale TERMINAL_ENV=docker left in ~/.hermes/.env (e.g. written by an older
+    # with override=True — so a stale TERMINAL_ENV=docker left in ~/.cts/.env (e.g. written by an older
     # `cts setup` before the user switched terminal.backend in config.yaml) silently wins again on every
     # reload. Startup launchers bridge config→env once, but long-lived processes (gateway per-turn reload,
     # cron standalone runs) call load_hermes_dotenv() repeatedly and used to flip the effective backend back

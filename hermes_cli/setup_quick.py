@@ -306,7 +306,7 @@ def _run_blank_slate_setup(config: dict, hermes_home, is_existing: bool):
     # Blank Slate means no bundled skills; record the opt-out so future `cts update` runs
     # don't re-inject them.
     _set_bundled_skills_opt_out(True, "skill opt-out")
-    _blank_slate_done(config, hermes_home, "  Enable tools:        cts tools", "  Enable plugins:      hermes plugins",
+    _blank_slate_done(config, hermes_home, "  Enable tools:        cts tools", "  Enable plugins:      cts plugins",
                       intro="Enable anything later, on demand:")
 
 

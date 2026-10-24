@@ -56,7 +56,7 @@ export const connectionEn = {
     },
     notice: {
       answerNotDelivered: 'That answer did not reach Hermes. Try again.',
-      restartFailed: 'Hermes could not start that again. Try again.',
+      restartFailed: 'CTS Secret Engine could not start that again. Try again.',
       browserDidNotOpen: 'The browser did not open. Copy the link above.'
     }
   },

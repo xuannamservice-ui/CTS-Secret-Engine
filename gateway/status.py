@@ -539,7 +539,7 @@ def _read_process_cmdline(pid: int) -> Optional[str]:
 
 
 def _gateway_command_subcommand(command: str | None) -> str | None:
-    """Hermes gateway lifecycle subcommand from a command line, or None. No loose substring matches
+    """CTS gateway lifecycle subcommand from a command line, or None. No loose substring matches
     (``"gateway" in cmdline`` also matched ``gateway status`` / ``python -m tui_gateway``): needs a
     Hermes entrypoint plus the ``gateway`` subcommand, or a gateway-dedicated entrypoint. Tokenizes
     quote-aware (Windows paths with spaces); ``--profile``/``-p`` selectors are stripped anywhere in
@@ -656,7 +656,7 @@ def looks_like_gateway_runtime_command_line(command: str | None) -> bool:
 
 
 def _looks_like_gateway_process(pid: int) -> bool:
-    """True when the live PID still looks like the Hermes gateway."""
+    """True when the live PID still looks like the CTS gateway."""
     cmdline = _read_process_cmdline(pid)
     return bool(cmdline) and looks_like_gateway_command_line(cmdline)
 

@@ -33,7 +33,7 @@ export const pickersEn = {
       key: {
         // {0} = provider display name.
         title: (providerName: string) => `Configure ${providerName}`,
-        pasteBelow: 'Paste your API key below (saved to ~/.hermes/.env)',
+        pasteBelow: 'Paste your API key below (saved to ~/.cts/.env)',
         empty: '(empty)',
         saving: 'saving…',
         hint: 'Enter save · Ctrl+U clear · Esc back'

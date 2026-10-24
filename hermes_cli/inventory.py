@@ -889,7 +889,7 @@ def _attach_nous_plan_usage(row: dict, *, warm: bool):
 
 
 def _plan_usage_window(g) -> dict:
-    """One window-plan allowance in main's ``ProviderUsageWindow`` shape. The label is Hermes's row title
+    """One window-plan allowance in main's ``ProviderUsageWindow`` shape. The label is CTS Secret Engine's row title
     (``Today``), like the other providers' English window labels."""
     from datetime import datetime
     from agent.usage_gauges import WindowGauge, gauge_title

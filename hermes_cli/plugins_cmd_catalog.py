@@ -269,7 +269,7 @@ def refuse_incompatible_catalog_entry(entry: PluginCatalogEntry) -> None:
     _refuse_unsupported_catalog_platform(entry)
     reason = catalog_hermes_error(entry)
     if reason:
-        raise PluginOperationError(f"{reason} Update Hermes (`{recommended_update_command()}`) and install again.",
+        raise PluginOperationError(f"{reason} Update CTS (`{recommended_update_command()}`) and install again.",
                                    failure_class="incompatible")
 
 
@@ -611,7 +611,7 @@ def repin_catalog_plugin(
         raise PluginOperationError(
             f"Update of {catalog_name} to {entry.sha[:8]} not applied: {held} {catalog_name} stays at "
             f"{str(sidecar.get('sha') or '')[:8] or 'its installed version'}; the update is available after "
-            f"you update Hermes (`{recommended_update_command()}`).", failure_class="incompatible")
+            f"you update CTS (`{recommended_update_command()}`).", failure_class="incompatible")
 
     local, modified = _local_changes(target)
     old_sha8 = str(sidecar.get("sha") or "old")[:8]
@@ -754,7 +754,7 @@ def _render_entries(entries: list[PluginCatalogEntry], console) -> None:
     console.print()
     console.print(table)
     console.print()
-    console.print("[dim]Details:[/dim] hermes plugins info <name>    [dim]Install:[/dim] hermes plugins install <name>")
+    console.print("[dim]Details:[/dim] cts plugins info <name>    [dim]Install:[/dim] cts plugins install <name>")
 
 
 def cmd_search(term: str = "", *, json_output: bool = False) -> None:
@@ -807,9 +807,9 @@ def cmd_info(name: str) -> None:
     held = catalog_hermes_error(entry)
     if held:
         from hermes_cli.config import recommended_update_command
-        console.print(f"[yellow]⚠ {held} Update Hermes (`{recommended_update_command()}`) to install it.[/yellow]")
+        console.print(f"[yellow]⚠ {held} Update CTS (`{recommended_update_command()}`) to install it.[/yellow]")
         console.print()
-    console.print(f"[dim]Install:[/dim]     hermes plugins install {entry.name}")
+    console.print(f"[dim]Install:[/dim]     cts plugins install {entry.name}")
     console.print()
 
 

@@ -58,7 +58,7 @@ def _azure_entra_preflight(current_entra: dict):
              "  The preflight requests it through PM if lazy installs are enabled.",
              "  To install explicitly, run from the Hermes environment:",
              f"    {install_hint('azure-identity')}",
-             "  Then restart Hermes.")
+             "  Then restart CTS Secret Engine.")
 
     # Only the optional scope override is persisted; identity selection (tenant,
     # user-assigned MI, workload identity, SP) stays in AZURE_* SDK env vars.

@@ -141,7 +141,7 @@ class UnscopedSecretError(RuntimeError):
             secret_name, developer_detail = "", secret_name
         what = f"this profile's {secret_name}" if secret_name else "this profile's API key"
         super().__init__(
-            f"Hermes could not read {what} (an internal profile-scoping bug on the multiplexed "
+            f"CTS Secret Engine could not read {what} (an internal profile-scoping bug on the multiplexed "
             "gateway, not your configuration). Run `cts gateway restart`; if it keeps happening, "
             "report it with `cts debug share`."
         )
@@ -320,7 +320,7 @@ def _parse_env_value(raw_value: str) -> str:
 # 39146191939). The open keeps close-to-open revalidation on NFS, and a vanished/unreadable file
 # fails the open and is never cached (a transient EACCES must not become "this profile has no
 # secrets"). ``invalidate_env_file_cache()`` is the explicit knob; ``hermes_cli.config.
-# invalidate_env_cache()`` calls it for Hermes's own .env writers.
+# invalidate_env_cache()`` calls it for CTS Secret Engine's own .env writers.
 _ENV_FILE_CACHE: OrderedDict[str, tuple[bytes, dict[str, str]]] = OrderedDict()
 _ENV_FILE_CACHE_LOCK = threading.Lock()
 _ENV_FILE_CACHE_MAX = 64  # one entry per profile home in practice

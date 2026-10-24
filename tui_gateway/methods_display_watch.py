@@ -1,4 +1,4 @@
-"""Cross-process lease watcher: ``display.lease`` for transitions made OUTSIDE ``hermes serve``.
+"""Cross-process lease watcher: ``display.lease`` for transitions made OUTSIDE ``cts serve``.
 
 The lease (``tools.bot_desktop.lease``) lives on disk and is changed by whatever process hosts the
 agent — a ``hermes computer-use screen`` takeover from the CLI, a cron worker's release.

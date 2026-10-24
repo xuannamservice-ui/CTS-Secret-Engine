@@ -49,7 +49,7 @@ def _session_pair(event: dict[str, Any], key: str) -> tuple[str, str] | None:
 
 
 def _retry_ordinal(event: dict[str, Any]) -> int:
-    """Hermes's provider-local retry ordinal; 0 when absent or malformed."""
+    """CTS Secret Engine's provider-local retry ordinal; 0 when absent or malformed."""
     value = event.get("retry_count")
     return value if isinstance(value, int) and not isinstance(value, bool) and value > 0 else 0
 
@@ -409,7 +409,7 @@ class _Runtime:
                 existing.fields = fields
                 if task is not None:
                     # Every repeated start for one logical request is another physical
-                    # attempt. Provider fallback resets Hermes's provider-local retry
+                    # attempt. Provider fallback resets CTS Secret Engine's provider-local retry
                     # ordinal, so ordinal deltas are not a reliable task-level counter.
                     task.retry_count += 1
                 return
@@ -1409,7 +1409,7 @@ def observe_lifecycle(hook_name: str, **kwargs: Any) -> None:
 
 
 def _with_runtime_toolset(event: dict[str, Any]) -> dict[str, Any]:
-    """Attach the toolset already declared by Hermes's runtime registry."""
+    """Attach the toolset already declared by CTS Secret Engine's runtime registry."""
     tool_name = _text(event, "tool_name")
     if event.get("toolset") or not tool_name:
         return event

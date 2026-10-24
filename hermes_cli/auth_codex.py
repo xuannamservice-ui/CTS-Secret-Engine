@@ -590,7 +590,7 @@ def resolve_codex_runtime_credentials(
     *, force_refresh: bool = False, refresh_if_expiring: bool = True,
     refresh_skew_seconds: int = CODEX_ACCESS_TOKEN_REFRESH_SKEW_SECONDS,
     read_only: bool = False) -> dict[str, Any]:
-    """Resolve runtime credentials from Hermes's own Codex token store.
+    """Resolve runtime credentials from CTS Secret Engine's own Codex token store.
 
     ``read_only=True`` (status / doctor / pickers) reports the stored state as-is: no Codex CLI
     adoption, no token refresh, no auth-store write — and it wins over ``force_refresh``. A

@@ -744,7 +744,7 @@ def _run_full_backup() -> None:
         display_path = str(out_path)
 
     print(f"  Saved:    {display_path} ({format_bytes(size_bytes)}, {elapsed:.1f}s)")
-    print(f"  Restore:  hermes import {out_path}")
+    print(f"  Restore:  cts import {out_path}")
     print("  Disable:  set updates.pre_update_backup: quick (or off) in config.yaml")
     print()
 

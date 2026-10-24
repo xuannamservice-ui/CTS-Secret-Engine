@@ -524,7 +524,7 @@ def try_acquire_active_session(
         )
         if loaded is None:
             return None, ActiveSessionRefusal(
-                "Hermes could not read the active-session registry at "
+                "CTS Secret Engine could not read the active-session registry at "
                 f"{state_path}, so it cannot prove this session has no other "
                 "live owner. Fix or remove that file and try again.",
                 SESSION_COORDINATION_UNAVAILABLE,

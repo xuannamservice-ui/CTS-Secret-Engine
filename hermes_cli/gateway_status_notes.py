@@ -5,8 +5,8 @@ from hermes_cli.config import get_hermes_home
 
 
 def _incompatible_owner_verdict() -> str | None:
-    """``incompatible: <reason>`` when the gateway answering for this home is one this Hermes's clients
-    (TUI, Desktop, chat) refuse, e.g. an older Hermes's daemon left running across an upgrade."""
+    """``incompatible: <reason>`` when the gateway answering for this home is one this CTS Secret Engine's clients
+    (TUI, Desktop, chat) refuse, e.g. an older CTS Secret Engine's daemon left running across an upgrade."""
     from hermes_cli.gateway_runtime import discover_gateway_endpoint
     try:
         observed = discover_gateway_endpoint(get_hermes_home(), timeout=1.5)

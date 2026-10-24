@@ -148,7 +148,7 @@ def _install_command(name: str, home: Path) -> str:
     from hermes_constants import profile_name_for_home
     profile = profile_name_for_home(home)
     if profile is None or (profile == "default" and get_active_profile() == "default"):
-        return f"hermes plugins install {name}"
+        return f"cts plugins install {name}"
     return f"cts -p {profile} plugins install {name}"
 
 

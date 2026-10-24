@@ -80,7 +80,7 @@ def print_qr_code(url: str, *, include_link: bool = True) -> None:
     print(render_qr_terminal(url) or (
         "  (QR code unavailable. From the Hermes environment, run: "
         f"{install_hint('messaging')}. "
-        "Then restart Hermes.)"))
+        "Then restart CTS Secret Engine.)"))
     if include_link:
         print(f"  Link: {url}")
 

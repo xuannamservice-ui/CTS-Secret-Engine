@@ -29,7 +29,7 @@ VERDICT_HOST = "host"
 VERDICT_IN_PROCESS = "in_process"
 VERDICT_PORTABLE = "portable"
 
-# Top-level packages that are Hermes's own process state when imported by a plugin.
+# Top-level packages that are CTS Secret Engine's own process state when imported by a plugin.
 HERMES_PACKAGES: frozenset = frozenset({
     "agent", "tools", "hermes_cli", "gateway", "cron", "providers", "plugins", "tui_gateway",
     "acp_adapter", "run_agent", "cli", "model_tools", "toolsets", "hermes_state", "hermes_constants",

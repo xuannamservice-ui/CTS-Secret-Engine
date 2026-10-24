@@ -279,7 +279,7 @@ class _SlashWorker:
         # The worker runs the agent → needs provider credentials; tier-1 secrets (gateway/GitHub/
         # infra) are still stripped. A served profile's worker gets THAT profile's home + secrets and
         # none of the launch profile's .env / TERMINAL_* residue, exactly what a standalone
-        # `hermes -p X` would load itself. The launch profile is a profile too: once the process hosts
+        # `cts -p X` would load itself. The launch profile is a profile too: once the process hosts
         # a second home (multiplex flipped), its worker must name its own home or the fail-closed
         # no-target/no-scope path raises UnscopedSecretError (#115427).
         env = _prepend_tool_paths(served_profile_child_env(
@@ -545,7 +545,7 @@ def _canonical_profile_request(name: str) -> str:
     """Canonicalize profile basenames emitted by older session-info payloads.
 
     ``Path(default_home).name`` was historically sent as a profile id. Those basenames are
-    installation details — unless a real named profile of that name exists (``hermes`` is a legal
+    installation details — unless a real named profile of that name exists (``cts`` is a legal
     id), in which case it wins; other unknown names keep failing closed in ``_profile_home``.
     """
     if name.casefold() in {".hermes", "hermes"}:
@@ -739,7 +739,7 @@ _server_requests.bind_sinks(lambda frame: write_json(frame), lambda event, sid, 
 _live_transports: set[Transport] = set()
 _live_transports_lock = threading.Lock()
 # True only when real stdout IS the JSON-RPC client channel (``tui_gateway.entry.main``, the stdio TUI).
-# `hermes serve` / dashboard processes speak JSON-RPC over WS only: their stdout is captured into
+# `cts serve` / dashboard processes speak JSON-RPC over WS only: their stdout is captured into
 # desktop.log, so a peer-less global broadcast (the change watcher keeps ticking after the last WS client
 # leaves) must be dropped there, not printed.
 _stdio_is_rpc_channel = False
@@ -855,7 +855,7 @@ def _emit_approval_request(sid: str, data: dict | None) -> None:
             if request_id:
                 _approval.withdraw_gateway_approval(session_key, request_id,
                                                     "the attached client cannot answer approval requests "
-                                                    "(update the Hermes app)")
+                                                    "(update the CTS app)")
             return
         choice = str(result.get("choice") or "deny")
         _approval.resolve_gateway_approval(session_key, choice, resolve_all=bool(result.get("all")),
@@ -1121,9 +1121,9 @@ _TOUR_PROBE_TIMEOUT_S = 10
 
 _TOUR_BRIDGE_UNAVAILABLE = json.dumps({
     "success": False,
-    "error": ("No Hermes Desktop window answered the tour request. The tour is driven by the desktop app's "
+    "error": ("No CTS Desktop window answered the tour request. The tour is driven by the desktop app's "
               "renderer, which updates separately from this backend, so an app build older than the tour tool "
-              "has nothing listening. Update the Hermes Desktop app and start a new session. Do not retry tour "
+              "has nothing listening. Update the CTS Desktop app and start a new session. Do not retry tour "
               "in this session.")})
 
 
@@ -1164,10 +1164,10 @@ _PREVIEW_ACTION_REPROBE_COOLDOWN_S = 30
 
 _PREVIEW_ACTION_BRIDGE_UNAVAILABLE = json.dumps({
     "success": False,
-    "error": ("No Hermes Desktop window answered the preview action request. The drive_preview / "
+    "error": ("No CTS Desktop window answered the preview action request. The drive_preview / "
               "annotate_preview bridge is served by the desktop app's renderer, which updates "
               "separately from this backend, so an app build older than the tool has nothing "
-              "listening. Update the Hermes Desktop app, open a page with open_preview, and try "
+              "listening. Update the CTS Desktop app, open a page with open_preview, and try "
               "again in this session after a short cooldown.")})
 
 # One in-flight cooldown-expiry reprobe per session: concurrent callers fail fast.
@@ -1744,7 +1744,7 @@ def _hydrate_session_cwd(sid: str, key: str, session_db, profile_home: str | Non
             elif (not (row and row.get("cwd")) or _is_other_profiles_cwd(row["cwd"], profile_home)) and hasattr(
                 db, "update_session_cwd"
             ) and not _is_remote_launch_cwd(_sessions.get(sid)):
-                # A stored cwd that was set aside (Hermes's own host tree) stays as stored: only an empty row is filled,
+                # A stored cwd that was set aside (CTS Secret Engine's own host tree) stays as stored: only an empty row is filled,
                 # or a named profile's row holding another profile's dir (#87584), repaired to this session's own.
                 try:
                     _persist_session_cwd_and_schedule_git_meta(_sessions[sid], _sessions[sid]["cwd"], db=db)
@@ -2106,17 +2106,17 @@ _WORKER_BLOCKED_COMMANDS: frozenset[str] = frozenset({"snapshot", "snap"})
 
 # argv shapes that must not run headless in the gateway process → user hint.
 _CLI_EXEC_BLOCKED = {
-    ("setup",): "`hermes setup` needs a full terminal — run it outside the TUI",
-    ("gateway",): "`hermes gateway` is long-running — run it in another terminal",
-    ("sessions", "browse"): "`hermes sessions browse` is interactive — use /resume here, or run browse in another terminal",
-    ("config", "edit"): "`hermes config edit` needs $EDITOR in a real terminal",
+    ("setup",): "`cts setup` needs a full terminal — run it outside the TUI",
+    ("gateway",): "`cts gateway` is long-running — run it in another terminal",
+    ("sessions", "browse"): "`cts sessions browse` is interactive — use /resume here, or run browse in another terminal",
+    ("config", "edit"): "`cts config edit` needs $EDITOR in a real terminal",
 }
 
 
 def _cli_exec_blocked(argv: list[str]) -> str | None:
     """Return user hint if this argv must not run headless in the gateway process."""
     if not argv:
-        return "bare `hermes` is interactive — use `/hermes chat -q …` or run `hermes` in another terminal"
+        return "bare `cts` is interactive — use `/cts chat -q …` or run `cts` in another terminal"
     head = tuple(a.lower() for a in argv[:2])
     return _CLI_EXEC_BLOCKED.get(head[:1]) or _CLI_EXEC_BLOCKED.get(head)
 

@@ -11,7 +11,7 @@ from hermes_cli.doctor_report import (
 
 
 def _has_provider_env_config(content: str) -> bool:
-    """Return True when ~/.hermes/.env contains provider auth/base URL settings."""
+    """Return True when ~/.cts/.env contains provider auth/base URL settings."""
     from hermes_cli.doctor import _PROVIDER_ENV_HINTS
     return any(key in content for key in _PROVIDER_ENV_HINTS)
 
@@ -169,7 +169,7 @@ def _check_mcp_security(should_fix: bool, f: Finding) -> None:
 
 @doctor_check()
 def _check_env_file(should_fix: bool, f: Finding) -> None:
-    """Managed scope plus ~/.hermes/.env presence and provider credentials."""
+    """Managed scope plus ~/.cts/.env presence and provider credentials."""
     from hermes_cli.doctor import HERMES_HOME, PROJECT_ROOT, _DHH
     managed_scope_check()
     env_path = HERMES_HOME / '.env'

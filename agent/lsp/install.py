@@ -242,7 +242,7 @@ def _install_npm(pkg: str, bin_name: str, extra_pkgs: Optional[list] = None) -> 
     pm = _node_package_manager()
     if pm is None:
         return None
-    # npm is Hermes's own PM-managed copy, never the user's; pnpm/yarn are an explicit user choice.
+    # npm is CTS Secret Engine's own PM-managed copy, never the user's; pnpm/yarn are an explicit user choice.
     pm_bin = find_node_executable(pm)
     if pm_bin is None and pm == "npm":
         try:

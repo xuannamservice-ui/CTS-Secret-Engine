@@ -93,7 +93,7 @@ def find_removal_step(provider: str, source: str) -> Optional[RemovalStep]:
 
 
 def _remove_env_source(provider: str, removed) -> RemovalResult:
-    """env:<VAR> — clear from ~/.hermes/.env; hint when the shell exports it."""
+    """env:<VAR> — clear from ~/.cts/.env; hint when the shell exports it."""
     from hermes_cli.config import get_env_path, remove_env_value
 
     result = RemovalResult()
@@ -122,7 +122,7 @@ def _remove_env_source(provider: str, removed) -> RemovalResult:
     if env_in_process and not env_in_dotenv:
         result.hints.extend([
             f"Note: {env_var} is still set in your shell environment "
-            f"(not in ~/.hermes/.env).",
+            f"(not in ~/.cts/.env).",
             "  Unset it there (shell profile, systemd EnvironmentFile, "
             "launchd plist, etc.) or it will keep being visible to Hermes.",
             f"  The pool entry is now suppressed — Hermes will ignore "

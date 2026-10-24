@@ -720,7 +720,7 @@ def _restart_killed_backends(
     """Update path: restart systemd units, kickstart launchd jobs (macOS), respawn manual argv
     (detached, headless, logged to logs/dashboard-restart.log; one per profile, no ``--port 0``).
     Returns PIDs not brought back."""
-    # Two categories: Without this, a remote backend (hermes serve) under Restart=on-failure never comes
+    # Two categories: Without this, a remote backend (cts serve) under Restart=on-failure never comes
     # back after our clean SIGTERM, and the Desktop can't reconnect (#68934). Filtered so Desktop
     # ``serve|dashboard --port 0`` backends are not resurrected and duplicates collapse to one per profile
     # (#78821).
@@ -801,7 +801,7 @@ def _is_desktop_local_serve_cmdline(command: str) -> bool:
     """
     from hermes_cli.update_cmd_windows import _hermes_holder_subcommand
     # Canonical token matcher, never argv substrings: ``kanban --preserve-cache`` contains "serve" and
-    # ``vim notes about hermes serve`` contains both markers — this predicate decides a kill.
+    # ``vim notes about cts serve`` contains both markers — this predicate decides a kill.
     if _hermes_holder_subcommand(command) != "serve":
         return False
     tokens = command.lower().split()
@@ -955,7 +955,7 @@ def _process_age_seconds(pid: int) -> float:
 
 
 def _reap_orphaned_desktop_local_serves(
-    *, reason: str = "orphaned desktop-local hermes serve", signal_term=None, signal_kill=None,
+    *, reason: str = "orphaned desktop-local cts serve", signal_term=None, signal_kill=None,
     sleep_fn=None, lock_owned_pids_fn=None, process_age_seconds_fn=None) -> dict[str, list]:
     """Kill leftover Desktop-local ``cts serve`` backends with no parent. Never raises.
 

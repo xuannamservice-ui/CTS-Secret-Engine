@@ -898,7 +898,7 @@ def build_execute_code_schema(enabled_sandbox_tools: set | None = None,
             "Scripts run in the session's working directory. Interpreter: "
             "the project's activated venv/conda python when one is active "
             "(VIRTUAL_ENV/CONDA_PREFIX — matches terminal()); otherwise "
-            "Hermes's own python (the common case — stdlib plus Hermes's "
+            "CTS Secret Engine's own python (the common case — stdlib plus CTS Secret Engine's "
             "deps; check `import x` before relying on project packages)."
         )
     # Remote hosts that fail open to per-call are not worth schema words; the result's

@@ -111,7 +111,7 @@ def _ensure_sdk(extra: str) -> None:
             _setup.print_warning(f"Install failed: {exc}")
             _setup.print_info("Retry with: cts setup terminal")
         else:
-            _setup.print_success(f"{extra} SDK installed. Restart Hermes to use it.")
+            _setup.print_success(f"{extra} SDK installed. Restart CTS Secret Engine to use it.")
 
 
 def _report_binary(found: str | None, missing: str, install_hint: str, found_prefix: str = "Found: ") -> None:

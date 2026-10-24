@@ -642,7 +642,7 @@ def _apply_profile_override() -> None:
                     file=sys.stderr,
                 )
             else:
-                error = f"Saved profile '{profile_name}' no longer exists. Switch back with: hermes profile use default"
+                error = f"Saved profile '{profile_name}' no longer exists. Switch back with: cts profile use default"
         if not hermes_home:
             print(f"Error: {error}", file=sys.stderr)
             sys.exit(1)
@@ -705,7 +705,7 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# Load .env from ~/.hermes/.env first, then project root as dev fallback.
+# Load .env from ~/.cts/.env first, then project root as dev fallback.
 # User-managed env files should override stale shell exports on restart.
 from hermes_cli.config import get_hermes_home
 from hermes_cli.env_loader import load_hermes_dotenv
@@ -1057,7 +1057,7 @@ def _termux_should_prefetch_update_check() -> bool:
 
 
 def _dotenv_has_provider_key(env_file: Path, provider_env_vars: set) -> bool:
-    """True if ~/.hermes/.env assigns a non-empty value to any provider key."""
+    """True if ~/.cts/.env assigns a non-empty value to any provider key."""
     if not env_file.exists():
         return False
     try:
@@ -2066,7 +2066,7 @@ def select_provider_and_model(args=None):
     _offer_reasoning_after_pick(current_model, saves_before)
 
     # Post-switch cleanup: switching to a named provider (anything except
-    # "custom") leaves a stale OPENAI_BASE_URL in ~/.hermes/.env that poisons
+    # "custom") leaves a stale OPENAI_BASE_URL in ~/.cts/.env that poisons
     # auxiliary clients using provider:auto — clear it proactively. (#5161)
     if selected_provider not in {
         "custom",
@@ -2520,7 +2520,7 @@ def _dashboard_validate_serve_args(args, headless_backend, token_file):
     if ssh_owner_nonce and not re.fullmatch(r"[0-9a-f]{16}", ssh_owner_nonce):
         raise SystemExit("--ssh-owner-nonce must be 16 lowercase hex characters")
     if token_file and not headless_backend:
-        raise SystemExit("--ssh-session-token-file is only valid with hermes serve")
+        raise SystemExit("--ssh-session-token-file is only valid with cts serve")
     return ssh_owner_nonce
 
 

@@ -166,7 +166,7 @@ def cmd_gateway_enroll(args) -> None:
     tenant = str(result.get("tenant") or "")
     resolved_gateway_id = str(result.get("gatewayId") or gateway_id)
 
-    # Persist idempotently; save_env_value writes the sensitive values to ~/.hermes/.env and never
+    # Persist idempotently; save_env_value writes the sensitive values to ~/.cts/.env and never
     # logs them. Explicitly supplied URLs are persisted too: the ws(s):// dial target so the runtime
     # needn't re-specify it, and the wake URL so self_provision_relay forwards it to the connector
     # (which pokes it when buffered work arrives while idle; omitted ⇒ drains on next reconnect).

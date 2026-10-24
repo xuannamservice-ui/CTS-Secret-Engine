@@ -74,7 +74,7 @@ def build_relay_command_manifest() -> list[dict[str, Any]]:
         _cmd("reload-skills", "Re-scan skills for new or removed entries"),
         _cmd("voice", "Toggle voice reply mode"),
         _cmd("update", "Update CTS Secret Engine to the latest version"),
-        _cmd("restart", "Gracefully restart the Hermes gateway"),
+        _cmd("restart", "Gracefully restart the CTS gateway"),
         _cmd("approve", "Approve a pending dangerous command",
              _opt("scope", "Approval scope", choices=["once", "session", "always", "all"])),
         _cmd("deny", "Deny a pending dangerous command",

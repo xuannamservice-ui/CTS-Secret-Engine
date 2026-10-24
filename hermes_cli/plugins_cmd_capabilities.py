@@ -1,4 +1,4 @@
-"""Capability consent (#64228): declared-vs-granted reads, the consent screen, ``hermes plugins
+"""Capability consent (#64228): declared-vs-granted reads, the consent screen, ``cts plugins
 capabilities`` and the legacy ``allow_tool_override`` grant.
 
 Sibling of :mod:`hermes_cli.plugins_cmd` (the facade re-exports the names other modules use and is

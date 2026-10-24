@@ -188,7 +188,7 @@ def _report_requires_managed_execution(report: Any) -> bool:
 
     def keep_enabled() -> bool:
         logger.warning(
-            "Hermes could not determine whether the Relay plugin configuration is empty; keeping managed "
+            "CTS Secret Engine could not determine whether the Relay plugin configuration is empty; keeping managed "
             "execution enabled"
         )
         return True
@@ -1298,7 +1298,7 @@ def resolve_execution_context(session_id: str) -> tuple[RelayRuntime | None, Rel
 
 
 def apply_tool_request_intercepts(*, session_id: str, tool_name: str, args: dict[str, Any]) -> dict[str, Any]:
-    """Return Relay-rewritten arguments at Hermes's authorization boundary."""
+    """Return Relay-rewritten arguments at CTS Secret Engine's authorization boundary."""
     runtime = get_runtime(create=False) if session_id else None
     if runtime is None:
         return args

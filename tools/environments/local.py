@@ -590,7 +590,7 @@ def _prepend_missing_path_entries(existing_path: str, dirs: list[str]) -> str:
 
 
 def _user_tools_first(existing_path: str) -> str:
-    """*existing_path* with the user's tools before Hermes's (``pm.user_facing``) and, on
+    """*existing_path* with the user's tools before CTS Secret Engine's (``pm.user_facing``) and, on
     Windows, Git Bash's dirs first. They go first even when already listed: they are store
     dirs that now sit behind the user's entries, and a non-login ``bash -c`` needs its
     coreutils ahead of System32's lookalikes."""

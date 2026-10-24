@@ -1579,7 +1579,7 @@ from hermes_constants import get_hermes_home, get_hermes_home_override, get_proc
 # settings into the launch process env for every later launch-profile turn.
 _hermes_home = get_process_hermes_home()
 
-# Load ~/.hermes/.env first: user-managed env files must override stale shell exports on restart.
+# Load ~/.cts/.env first: user-managed env files must override stale shell exports on restart.
 from hermes_cli.env_loader import load_hermes_dotenv
 _env_path = _hermes_home / '.env'
 load_hermes_dotenv(hermes_home=_hermes_home, project_env=Path(__file__).resolve().parents[1] / '.env')
@@ -1935,7 +1935,7 @@ def _platform_has_bot_credential(platform: "Platform", platform_config: "Platfor
     # transient failure — after which it stays down until the gateway is restarted by hand. Mirror the
     # adapter's own gate: homeserver + user_id + password. Read ONLY from extra, never os.getenv:
     # build_config() already copies all three env vars onto extra, and importing this module loads
-    # ~/.hermes/.env, so an env fallback would report "has credential" for every Matrix config on the box —
+    # ~/.cts/.env, so an env fallback would report "has credential" for every Matrix config on the box —
     # including the empty-primary multiplex case (#64674) this check exists to evict.
     if platform is not Platform.MATRIX:
         return False

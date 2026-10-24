@@ -387,7 +387,7 @@ def _(rid, params: dict) -> dict:
     the call blocks up to ``SETUP_READY_WAIT_SECONDS`` for it, so a client's first poll lands after
     the free-tier identity exists (or has been refused) rather than racing the mint. A record that
     says ``False`` is reconciled with the config files first (``reconcile_record``): a provider
-    added after boot — the Models page, a picker key, ``hermes setup`` from a shell — flips it
+    added after boot — the Models page, a picker key, ``cts setup`` from a shell — flips it
     without a restart. If the record
     is still missing after the wait, or a named profile is asked about, today's live probe answers.
     The record's fields ride along additively (``ready``, ``free_tier_account``, ``free_tier_route``,
@@ -462,7 +462,7 @@ def _(rid, params: dict) -> dict:
                         "source": src, "error": error, **scoped}
             if (not provider_configured and provider == "bedrock"
                     and source in {"iam-role", "aws-sdk-default-chain"}):
-                return fail("No Hermes provider is configured.", source)
+                return fail("No CTS provider is configured.", source)
             api_key = runtime.get("api_key")
             api_key_text = "" if callable(api_key) else str(api_key or "").strip()
             if not (callable(api_key) or api_key_text in {"aws-sdk", "no-key-required"}

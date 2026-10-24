@@ -1065,7 +1065,7 @@ async def update_profile_model_endpoint(name: str, body: ProfileModelUpdate):
 
 @router.post("/api/profiles/{name}/describe-auto")
 async def describe_profile_auto_endpoint(name: str, body: ProfileDescribeAuto):
-    """Auto-generate a profile's description via the auxiliary LLM (mirrors ``hermes profile
+    """Auto-generate a profile's description via the auxiliary LLM (mirrors ``cts profile
     describe <name> --auto``). A failed generation is ``ok: false`` with a reason rather than
     an HTTP error so the UI can surface it inline and let the operator retry."""
     # Resolution stays on the loop: it owns the 400/404 mapping the 500 fallback would flatten.

@@ -155,8 +155,8 @@ def _build_child_env(*, rpc_endpoint: str, rpc_token: str, tmpdir: str,
         child_env["HERMES_HOME"] = _home_override
         apply_scratch_tmp_env(child_env)  # TMPDIR follows the routed home, like HOME does
     # PYTHONPATH: the staging dir (hermes_tools.py) must always be importable even when project
-    # mode changes CWD. Hermes's root is added ONLY when the child runs in Hermes's Python env —
-    # exposing Hermes's site-packages to an external interpreter can mix incompatible compiled
+    # mode changes CWD. CTS Secret Engine's root is added ONLY when the child runs in CTS Secret Engine's Python env —
+    # exposing CTS Secret Engine's site-packages to an external interpreter can mix incompatible compiled
     # extensions (3.12 NumPy under a 3.9 venv). Inherited Hermes-owned entries are stripped first.
     # Before re-injecting PYTHONPATH, strip Hermes-owned entries that leaked through _scrub_child_env
     # (PYTHONPATH is in _SAFE_ENV_PREFIXES so it passes the scrub). External project interpreters
@@ -253,7 +253,7 @@ def _python_environment_prefix(python_path: str) -> str:
 
 
 def _uses_hermes_python_environment(python_path: str) -> bool:
-    """Whether *python_path* belongs to Hermes's active Python environment. Short-circuits when
+    """Whether *python_path* belongs to CTS Secret Engine's active Python environment. Short-circuits when
     it IS the running interpreter (by path or realpath — covers ``uv run`` venvs) so no probe
     runs on the default strict path and a flaky probe can never drop the hermes root."""
     if python_path == sys.executable or os.path.realpath(python_path) == os.path.realpath(sys.executable):

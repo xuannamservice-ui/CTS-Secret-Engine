@@ -261,7 +261,7 @@ def env_uses_host_filesystem(env: object) -> bool:
 
 
 class BaseEnvironment(ABC):
-    """Common interface and unified execution flow for all Hermes backends. Subclasses
+    """Common interface and unified execution flow for all CTS backends. Subclasses
     implement ``_run_bash()`` and ``cleanup()``; the base provides ``execute()`` with
     snapshot sourcing, CWD tracking, interrupt handling and timeout enforcement."""
 

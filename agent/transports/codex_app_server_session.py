@@ -824,13 +824,13 @@ def _apply_accounting_notification(result: TurnResult, note: dict) -> None:
         result.turn_id = params.get("turnId") or result.turn_id
 
 
-# Hermes approval choice -> codex decision (app-server-protocol v2). "deny" and
+# CTS approval choice -> codex decision (app-server-protocol v2). "deny" and
 # "timeout" both decline — codex has no "prompt expired" wire value.
 _APPROVAL_CHOICE_TO_DECISION = {"once": "accept", "session": "acceptForSession", "always": "acceptForSession"}
 
 
 def _approval_choice_to_codex_decision(choice: str) -> str:
-    """Map a Hermes approval choice onto codex's approval decision wire value."""
+    """Map a CTS approval choice onto codex's approval decision wire value."""
     return _APPROVAL_CHOICE_TO_DECISION.get(choice, "decline")
 
 

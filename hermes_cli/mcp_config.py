@@ -394,7 +394,7 @@ def _resolve_mcp_server_config(config: dict) -> dict:
     Mirrors ``_load_mcp_config()`` in ``tools/mcp_tool.py``; without it the discovery probe sent
     literal placeholders in header templates and auth-requiring servers returned 401.
 
-    Mirrors ``_load_mcp_config()`` in ``tools/mcp_tool.py``: load ``~/.hermes/.env`` into ``os.environ`` and
+    Mirrors ``_load_mcp_config()`` in ``tools/mcp_tool.py``: load ``~/.cts/.env`` into ``os.environ`` and
     recursively interpolate any ``${VAR}`` placeholders. The CLI builds header templates like
     ``Authorization: Bearer ${MCP_X_API_KEY}`` but the probe path never resolved them, so the discovery
     probe sent the literal placeholder and auth-requiring servers (e.g. n8n) returned 401 — while runtime
@@ -826,7 +826,7 @@ def _probe_failure_next_step(name: str, exc: BaseException) -> str:
     if _is_auth_error(root) or getattr(getattr(root, "response", None), "status_code", None) in (401, 403):
         return f"The server rejected the sign-in. Run: cts mcp login {name}"
     if isinstance(root, NodeAbiMismatchError):
-        return f"After rebuilding it under Hermes's Node as above, run: cts mcp test {name}"
+        return f"After rebuilding it under CTS Secret Engine's Node as above, run: cts mcp test {name}"
     if "missing executable" in _format_connect_error(exc):
         return (f"Install that command, or set mcp_servers.{name}.command in {display_hermes_home()}/config.yaml "
                 "to its full path.")

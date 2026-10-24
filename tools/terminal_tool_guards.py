@@ -268,7 +268,7 @@ def gateway_lifecycle_block(
     subprocess — before completing, so the service may never come back.
     Applies unconditionally (``force=True`` cannot bypass it). Gated on the
     SUPERVISED-gateway probe, not the raw ``_HERMES_GATEWAY`` marker: that
-    marker leaks into every process that merely imports gateway.run (hermes
+    marker leaks into every process that merely imports gateway.run (cts
     serve, CLI, web server), which must still be able to restart the gateway;
     an unsupervised foreground ``cts gateway run`` has no KeepAlive to turn
     a self-restart into a respawn loop, so it passes too.

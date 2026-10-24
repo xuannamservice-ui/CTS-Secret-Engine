@@ -99,7 +99,7 @@ def _reserve_abandoned_loader_slot() -> None:
             return
     raise PluginLoadTimeout(
         f"not loaded: {_MAX_ABANDONED_LOADERS} abandoned plugin loader thread(s) are still running "
-        f"(plugins.load_timeout_seconds); restart Hermes to retry"
+        f"(plugins.load_timeout_seconds); restart CTS Secret Engine to retry"
     )
 
 
@@ -233,7 +233,7 @@ def missing_python_dependencies(manifest: Any) -> list[str]:
 
 
 def _declared_requirements(manifest: Any) -> tuple[str, ...]:
-    """What PM installs into Hermes's environment for this plugin: its declaration read the way
+    """What PM installs into CTS Secret Engine's environment for this plugin: its declaration read the way
     admission reads it (``pm.plugin_declarations.read_python_declaration`` — an authored
     ``pyproject.toml`` first, then ``python_dependencies`` / ``pip_dependencies``; nothing for a
     ``python_runtime: external`` sidecar). A plugin with no directory (an entry point) has only its
@@ -505,7 +505,7 @@ class PluginLoaderMixin:
         if installed_in_selected_environment(missing):
             logger.warning(
                 "Plugin %s's Python dependencies were installed after this process started: %s. "
-                "A running process never switches dependency environments; restart Hermes "
+                "A running process never switches dependency environments; restart CTS Secret Engine "
                 "(cts gateway restart for the gateway) to load them.",
                 key, ", ".join(missing),
             )
@@ -513,7 +513,7 @@ class PluginLoaderMixin:
             logger.warning(
                 "Plugin %s declares Python dependencies that are not "
                 "installed: %s. For an enabled plugin, run cts pm repair, "
-                "then restart Hermes. Discovery does not install dependencies.",
+                "then restart CTS Secret Engine. Discovery does not install dependencies.",
                 key, ", ".join(missing),
             )
 

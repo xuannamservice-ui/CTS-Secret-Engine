@@ -718,7 +718,7 @@ def _context_files_part(agent: Any, ctx_len: Optional[int], soul_loaded: bool) -
     install-tree fallback is only legitimate for cli/tui where the launch dir
     IS the user's shell cwd. Desktop launch artifacts skip the session cwd but
     still honor the profile-scoped TERMINAL_CWD; without one, the fallback guard
-    can reject Hermes's bundled AGENTS.md."""
+    can reject CTS Secret Engine's bundled AGENTS.md."""
     if agent.skip_context_files:
         return []
     launch_artifact = getattr(agent, "_context_cwd_is_launch_artifact", False)

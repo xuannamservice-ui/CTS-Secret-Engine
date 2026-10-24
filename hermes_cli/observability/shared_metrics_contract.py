@@ -1815,7 +1815,7 @@ _TOOL_ERROR_TYPES = {
 
 
 def tool_error_class(kwargs: dict[str, Any], outcome: str | None = None) -> str:
-    """Closed failure class from Hermes's own error_type; exception class names become
+    """Closed failure class from CTS Secret Engine's own error_type; exception class names become
     ``exception`` so plugin-defined identifiers never leave the machine. A connector entry's
     gateway error code names its class instead of ``tool_error``."""
     outcome = outcome or tool_outcome(kwargs)

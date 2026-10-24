@@ -445,7 +445,7 @@ if TYPE_CHECKING:
 
 GATEWAY_SECRET_CAPTURE_UNSUPPORTED_MESSAGE = (
     "Secure secret entry is not supported over messaging. "
-    "Load this skill in the local CLI to be prompted, or add the key to ~/.hermes/.env manually.")
+    "Load this skill in the local CLI to be prompted, or add the key to ~/.cts/.env manually.")
 
 # One sentence for every "you may not press/run this" refusal on every platform (slash commands,
 # approval buttons, pickers, prompts). ``{platform}`` is the ``Platform.value`` for the
@@ -897,7 +897,7 @@ def _path_under_denied_prefix(resolved: Path) -> bool:
     """True if ``resolved`` lives under a deny-listed system path — except a denied prefix that
     IS the running user's own home: ``/root`` is listed so a non-root gateway can't deliver
     another user's home, but a root-run gateway's own deliverables live under ``$HOME=/root``.
-    Credential sub-dirs (``~/.ssh``, ``~/.hermes/.env``) stay blocked (more-specific entries)."""
+    Credential sub-dirs (``~/.ssh``, ``~/.cts/.env``) stay blocked (more-specific entries)."""
     home = _resolve_path(Path(os.path.expanduser("~")))
     for denied in _media_delivery_denied_paths():
         resolved_denied = _resolve_path(denied, expand=True)

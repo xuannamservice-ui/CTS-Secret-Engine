@@ -820,8 +820,8 @@ def find_windows_gateway_services(
     *, psutil_module=None, profile_processes: list[ProfileGatewayProcess] | None = None
 ) -> list[WindowsGatewayService]:
     """Profile gateways supervised by real, Hermes-owned Windows services. Service-logon processes may
-    hide their command lines, so identity = Hermes's own PID file + a parent chain ending at a running
-    SCM service PID whose name or binary path is Hermes's (``gateway_windows.hermes_owns_windows_service``).
+    hide their command lines, so identity = CTS Secret Engine's own PID file + a parent chain ending at a running
+    SCM service PID whose name or binary path is CTS Secret Engine's (``gateway_windows.hermes_owns_windows_service``).
     The whole service subtree is returned so the Desktop preflight exempts exactly what the updater stops
     through the SCM; a gateway under any other service (a Scheduled Task's svchost) is a plain process."""
     if sys.platform != "win32":
@@ -846,7 +846,7 @@ def find_windows_gateway_services(
                 # PID nor its status may steer the pause. Only Hermes-owned services reach the guards below.
                 # The name alone settles Hermes-named services; binpath (QueryServiceConfig) is asked only
                 # for the rest, and a service that refuses even that to this user is one this user could
-                # not `sc stop` either — never Hermes's, never a reason to abort the enumeration.
+                # not `sc stop` either — never CTS Secret Engine's, never a reason to abort the enumeration.
                 owned = hermes_owns_windows_service(service_name, "", hermes_roots)
                 if not owned:
                     try:
@@ -2606,7 +2606,7 @@ def _find_legacy_hermes_units() -> list[tuple[str, Path, bool]]:
 
 
 def has_legacy_hermes_units() -> bool:
-    """Return True when any legacy Hermes gateway unit files exist."""
+    """Return True when any legacy CTS gateway unit files exist."""
     return bool(_find_legacy_hermes_units())
 
 
@@ -2615,7 +2615,7 @@ def print_legacy_unit_warning() -> None:
     legacy = _find_legacy_hermes_units()
     if not legacy:
         return
-    print_warning("Legacy Hermes gateway unit(s) detected from an older install:")
+    print_warning("Legacy CTS gateway unit(s) detected from an older install:")
     for name, path, is_system in legacy:
         print_info(f"    {path}  ({_service_scope_label(is_system)} scope)")
     print_info("  These run alongside the current hermes-gateway service and")
@@ -2629,11 +2629,11 @@ def remove_legacy_hermes_units(interactive: bool = True, dry_run: bool = False) 
     only lists. Returns ``(removed_count, remaining_paths)`` (remaining: e.g. system-scope when not root)."""
     legacy = _find_legacy_hermes_units()
     if not legacy:
-        print("No legacy Hermes gateway units found.")
+        print("No legacy CTS gateway units found.")
         return 0, []
 
     print()
-    print("Legacy Hermes gateway unit(s) found:")
+    print("Legacy CTS gateway unit(s) found:")
     for name, path, is_system in legacy:
         print(f"  {path}  ({_service_scope_label(is_system)} scope)")
     print()
@@ -3024,7 +3024,7 @@ def _installed_unit_ld_library_path(system: bool) -> str:
 
 def _ld_library_path_line(system: bool, target_home_dir: str | None = None) -> str:
     """Carry the installer's LD_LIBRARY_PATH into the unit (glibc reads it only at process start, so
-    ~/.hermes/.env is too late for CUDA libs — #14613); system units remap caller-home components.
+    ~/.cts/.env is too late for CUDA libs — #14613); system units remap caller-home components.
 
     The installed unit is the fallback source: the unit is regenerated and compared on every
     start/restart/status, and a shell without the export (ssh, cron, ``sudo`` strips ``LD_*``)
@@ -4423,7 +4423,7 @@ def _guard_official_docker_root_gateway() -> None:
     if not _is_official_docker_checkout():
         return
 
-    print_error("Refusing to run the Hermes gateway as root inside the official Docker image.")
+    print_error("Refusing to run the CTS gateway as root inside the official Docker image.")
     print(
         "  The image entrypoint normally drops privileges to the 'hermes' user. "
         "If you override entrypoint in Docker Compose, include "
@@ -5079,7 +5079,7 @@ _NO_BACKEND_MESSAGES = {
         "or run the gateway in foreground mode:", *_WSL_FOREGROUND_HINT),
     ("install", "s6"): (None,
         "Per-profile gateways are auto-registered when you create a profile.", "",
-        "  hermes profile create <name>     # creates the s6 service slot",
+        "  cts profile create <name>     # creates the s6 service slot",
         "  cts -p <name> gateway start   # bring it up via s6",
         "  cts status                    # see currently-supervised gateways"),
     ("install", "container"): (0,
@@ -5095,7 +5095,7 @@ _NO_BACKEND_MESSAGES = {
         "Stop manual runs with: cts gateway stop"),
     ("uninstall", "s6"): (None,
         "Per-profile gateways are auto-unregistered when you delete the profile.", "",
-        "  hermes profile delete <name>     # tears down the s6 service slot",
+        "  cts profile delete <name>     # tears down the s6 service slot",
         "  cts -p <name> gateway stop    # stop without deleting the profile"),
     ("uninstall", "container"): (0,
         "Service uninstall is not applicable inside a Docker container.",
@@ -5616,7 +5616,7 @@ def _cmd_status(args):
     else:
         pids = list(snapshot.gateway_pids)
         if pids and report_incompatible_owner(pids):
-            pass  # an older Hermes's gateway: alive, but every client of this version refuses it
+            pass  # an older CTS Secret Engine's gateway: alive, but every client of this version refuses it
         elif pids:
             print(f"✓ Gateway is running (PID: {', '.join(map(str, pids))})")
             print("  (Running manually, not as a system service)")
@@ -5650,7 +5650,7 @@ def _cmd_list(args):
 
 
 def _cmd_migrate_legacy(args):
-    """Stop, disable, and remove legacy Hermes gateway unit files (e.g. hermes.service)."""
+    """Stop, disable, and remove legacy CTS gateway unit files (e.g. hermes.service)."""
     dry_run = getattr(args, "dry_run", False)
     yes = getattr(args, "yes", False)
     if not supports_systemd_services() and not is_macos():

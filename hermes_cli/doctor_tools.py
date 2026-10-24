@@ -243,7 +243,7 @@ def _check_daytona_backend(issues: list[str]) -> None:
         from daytona import Daytona
         check_ok("daytona SDK", "(installed)")
     except ImportError:
-        _fail_and_issue("daytona SDK not installed", "(run cts setup terminal)", "Run cts setup terminal and select Daytona, then restart Hermes", issues)
+        _fail_and_issue("daytona SDK not installed", "(run cts setup terminal)", "Run cts setup terminal and select Daytona, then restart CTS Secret Engine", issues)
 
 
 def _check_vercel_backend(issues: list[str]) -> None:
@@ -257,7 +257,7 @@ def _check_vercel_backend(issues: list[str]) -> None:
              "Vercel Sandbox does not support custom container_disk; use the shared default 51200", issues)
     _require(importlib.util.find_spec("vercel") is not None, ("vercel SDK", "(installed)"),
              ("vercel SDK not installed", "(run cts setup terminal)"),
-             "Run cts setup terminal and select Vercel Sandbox, then restart Hermes", issues)
+             "Run cts setup terminal and select Vercel Sandbox, then restart CTS Secret Engine", issues)
     auth_status = describe_vercel_auth()
     if auth_status.ok:
         check_ok("Vercel auth", f"({auth_status.label})")

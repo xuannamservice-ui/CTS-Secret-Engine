@@ -259,7 +259,7 @@ def format_nous_portal_entitlement_message(
             return None
     if account_info is None:
         return (
-            f"Hermes could not verify your Nous Portal entitlement, so {capability} is unavailable. "
+            f"CTS Secret Engine could not verify your Nous Portal entitlement, so {capability} is unavailable. "
             f"Run `cts model` to refresh your login, or check billing at {billing_url}."
         )
     if not account_info.logged_in:
@@ -274,7 +274,7 @@ def format_nous_portal_entitlement_message(
             f"Billing and credits are managed at {billing_url}."
         )
     if account_info.paid_service_access is None:
-        detail = f"Hermes could not verify your Nous Portal paid access, so {capability} is unavailable."
+        detail = f"CTS Secret Engine could not verify your Nous Portal paid access, so {capability} is unavailable."
         if account_info.error:
             detail += f" Account lookup failed: {account_info.error}."
         if include_refresh_hint:
@@ -284,7 +284,7 @@ def format_nous_portal_entitlement_message(
     reason = access.reason if access else None
     if reason == "account_missing":
         return (
-            f"Hermes could not find a Nous Portal account or organisation for this login, so {capability} "
+            f"CTS Secret Engine could not find a Nous Portal account or organisation for this login, so {capability} "
             f"is unavailable. Run `cts model` to authenticate again; if the problem persists, contact Nous support."
         )
     if reason == "no_usable_credits" or account_info.paid_service_access is False:

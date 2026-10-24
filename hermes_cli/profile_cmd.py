@@ -254,7 +254,7 @@ def _profile_create(args):
         collision = check_alias_collision(name)
         if collision:
             print(f"\n⚠ Cannot create alias '{name}' — {collision}")
-            print(f"  Choose a custom alias:  hermes profile alias {name} --name <custom>")
+            print(f"  Choose a custom alias:  cts profile alias {name} --name <custom>")
             print(f"  Or access via flag:     cts -p {name} chat")
         else:
             wrapper_path = create_wrapper_script(name)
@@ -461,7 +461,7 @@ def _profile_migrate_identity(args):
         _die(f"Error: {e}")
     if not migrated:
         _die(f"Error: session identity was not migrated. Restart or stop the gateway, then run:\n"
-             f"    hermes profile migrate-identity {args.old_name} {args.new_name}", err=True)
+             f"    cts profile migrate-identity {args.old_name} {args.new_name}", err=True)
     print(f"✓ Session/routing identity migrated: {args.old_name} → {args.new_name}")
 
 
@@ -476,7 +476,7 @@ def _profile_purge_identity(args):
         _die(f"Error: {e}")
     if not purged:
         _die(f"Error: session identity was not purged. Restart or stop the gateway, then run:\n"
-             f"    hermes profile purge-identity {args.profile_name}", err=True)
+             f"    cts profile purge-identity {args.profile_name}", err=True)
     print(f"✓ Session/routing identity purged: {args.profile_name}")
 
 

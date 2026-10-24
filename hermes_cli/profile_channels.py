@@ -548,5 +548,5 @@ def format_stripped_notice(profile: str, platforms: list[str], clone_flag: str =
         f"Messaging channels were NOT cloned ({', '.join(platforms)}): a copied bot token or allowlist "
         "would make two gateways fight over one bot.",
         f"  Configure this profile's own bots:  cts -p {profile} setup   (or the dashboard Messaging page)",
-        f"  To copy the source's channels anyway:  hermes profile create {profile} {clone_flag} --clone-channels",
+        f"  To copy the source's channels anyway:  cts profile create {profile} {clone_flag} --clone-channels",
     ]

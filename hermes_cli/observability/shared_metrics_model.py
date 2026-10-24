@@ -135,7 +135,7 @@ def tool_call_issue(
     """The first problem with one emitted call, most severe first; ``none`` when clean.
 
     Empty arguments are only an issue when the tool declares required parameters: for a
-    parameterless tool Hermes's normalization to ``{}`` is exactly what the model meant.
+    parameterless tool CTS Secret Engine's normalization to ``{}`` is exactly what the model meant.
     """
     if name not in valid_names:
         return "unknown_tool"

@@ -912,7 +912,7 @@ def _offer_elevated_install(headline: str, force: bool, start_now: bool, start_o
     print("  UAC is Windows' admin approval prompt; it is needed to create/update the Scheduled Task.")
     if prompt_yes_no("  Open the UAC prompt now?", False):
         if _launch_elevated_install(force=force, start_now=start_now, start_on_login=start_on_login):
-            print("✓ Launched elevated Hermes gateway install prompt.")
+            print("✓ Launched elevated CTS gateway install prompt.")
             if start_now:
                 print("  Approve the Windows UAC prompt; the elevated install will start the gateway afterwards.")
             else:
@@ -1340,7 +1340,7 @@ def uninstall() -> None:
             print("  UAC is Windows' admin approval prompt; it is needed to remove the Scheduled Task.")
             if prompt_yes_no("  Open the UAC prompt now?", False):
                 if _launch_elevated_gateway_command("uninstall"):
-                    print("✓ Launched elevated Hermes gateway uninstall prompt.")
+                    print("✓ Launched elevated CTS gateway uninstall prompt.")
                     print("  Approve the Windows UAC prompt, then run: cts gateway status")
                     return
                 print("⚠ Elevated uninstall prompt was unavailable or cancelled.")

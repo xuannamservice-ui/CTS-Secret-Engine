@@ -44,11 +44,11 @@ export const userMessagesEn = {
       shellBackendRefusedUnnamed:
         "!commands run on the gateway host, but this session's terminal backend isn't local, so the command was not run. Ask the agent to run it instead.",
       versionSkew:
-        'The terminal UI and the Hermes backend are out of sync (different versions). Run /update, or exit and run `cts update`, then start the TUI again.',
+        'The terminal UI and the CTS backend are out of sync (different versions). Run /update, or exit and run `cts update`, then start the TUI again.',
       sessionNotFound:
         'This chat is no longer attached to the backend (it was idle or the backend restarted). Your history is saved: type /resume to reopen it.',
       notConnected:
-        'Hermes is not connected right now, so that was not sent. It reconnects automatically; wait a moment and try again, or type /logs if this persists.',
+        'CTS Secret Engine is not connected right now, so that was not sent. It reconnects automatically; wait a moment and try again, or type /logs if this persists.',
       /** `{0}` = timeout in seconds. */
       timedOut: (secs: string) =>
         `Hermes did not answer within ${secs}s. Try again; if it keeps happening, type /logs and report the last lines.`,
@@ -127,13 +127,13 @@ export const userMessagesEn = {
           title: 'The model provider reports no credit left',
           hint: 'Top up the account or switch with /model.'
         },
-        disk: { title: 'The disk is full, so Hermes could not save the turn', hint: 'Free some space, then /retry.' },
+        disk: { title: 'The disk is full, so CTS Secret Engine could not save the turn', hint: 'Free some space, then /retry.' },
         endpoint: {
           title: 'Your custom model endpoint did not answer',
           hint: 'Check the endpoint is running, then /retry.'
         },
         gateway: {
-          title: 'Hermes hit an internal error while running this turn',
+          title: 'CTS Secret Engine hit an internal error while running this turn',
           hint: 'Send /retry; type /logs for the trace.',
           hintNoRetry: 'Pick another model with /model; type /logs for the trace.'
         },

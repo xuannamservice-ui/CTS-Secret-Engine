@@ -11,7 +11,7 @@ The surface is the entry point that is running: ``set_process_surface`` from the
 dispatch (``tools`` / ``config`` / ``skills`` / ``plugins`` / chat slash commands / the web server) and
 the TUI gateway. A process with no surface (setup wizard, updates) records nothing, nor does a write
 Hermes makes itself inside a surfaced process (migrations, under :func:`hermes_applied_write`): those
-are Hermes applying choices, not a user turning something off.
+are CTS applying choices, not a user turning something off.
 
 ``save_config``'s callers may hold their own write lock (the dashboard's ``_CONFIG_MUTATION_LOCK``), so
 the hook only runs the cheap gate inline; the diff and the record run on a thread bound to the owning

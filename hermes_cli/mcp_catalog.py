@@ -63,7 +63,7 @@ class TransportSpec:
     url: Optional[str] = None
     version: Optional[str] = None  # informational, pinned
     # Static env for the stdio subprocess (telemetry opt-outs, mode flags). NOT for secrets — those
-    # go through auth.env so they are prompted for and land in ~/.hermes/.env.
+    # go through auth.env so they are prompted for and land in ~/.cts/.env.
     env: dict[str, str] = field(default_factory=dict)
 
 
@@ -354,7 +354,7 @@ def list_catalog() -> list[CatalogEntry]:
     """Return all valid catalog entries, sorted by name.
 
     Invalid manifests are skipped silently (CI catches them); future ``manifest_version`` ones are
-    skipped too but surfaced via :func:`catalog_diagnostics` so UIs can say "update Hermes".
+    skipped too but surfaced via :func:`catalog_diagnostics` so UIs can say "update CTS".
     """
     root = _catalog_root()
     if not root.exists():
@@ -492,7 +492,7 @@ def _expand_install_dir(value: str, install_dir: Optional[Path]) -> str:
 def _prompt_env_vars(specs: list[EnvVarSpec], preloaded: Optional[dict[str, str]] = None) -> dict[str, str]:
     """Prompt for each env spec.
 
-    Secrets persist to ~/.hermes/.env. Non-secrets are only collected and
+    Secrets persist to ~/.cts/.env. Non-secrets are only collected and
     returned — the caller inlines them into the server config (config.yaml),
     since .env is secrets-only. Values already supplied by the caller
     (``preloaded``, e.g. from a dashboard form) skip the prompt.

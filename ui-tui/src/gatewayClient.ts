@@ -99,7 +99,7 @@ const redactUrl = (raw: string): string => {
 
 // Reconnects after the first launch are discovery-only, except that a bounded number per window
 // re-ensure an owner that is not ready (gateway_bootstrap.py --recover): crashed, idle-exited,
-// stopped with `cts gateway stop` while this TUI is open, or an older Hermes's gateway. Main's
+// stopped with `cts gateway stop` while this TUI is open, or an older CTS Secret Engine's gateway. Main's
 // TUI owned its sidecar, so an open TUI comes back on its own; the budget keeps a crash-looping
 // owner from being respawned without pause.
 export const OWNER_RECOVERY_LIMIT = 3

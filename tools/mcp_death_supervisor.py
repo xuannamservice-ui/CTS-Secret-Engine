@@ -63,7 +63,7 @@ MCP children with a boot-unique env marker and checking that some member still
 carries it before signalling.  That was judged not worth putting a ``ps`` parse
 into the one process whose job is to stay simple enough to always work; it is
 the obvious next step if this class of bug ever actually bites.  Note the same
-exposure already exists in Hermes's own killpg-based orphan cleanup, which this
+exposure already exists in CTS Secret Engine's own killpg-based orphan cleanup, which this
 module did not introduce (see upstream issue #88350).
 """
 

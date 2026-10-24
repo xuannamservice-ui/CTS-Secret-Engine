@@ -108,7 +108,7 @@ def binding_gauge(gauges: Iterable[WindowGauge]) -> Optional[WindowGauge]:
     return max(alls, key=lambda g: g.used_bp)
 
 
-# Hermes's words for the ids it knows: (row title, "for <phrase>", "your <name> limit", picker short name).
+# CTS Secret Engine's words for the ids it knows: (row title, "for <phrase>", "your <name> limit", picker short name).
 _WORDS: dict[str, tuple[str, str, str, str]] = {
     "day": ("Today", "today", "daily", "today"),
     "week": ("This week", "this week", "weekly", "week"),

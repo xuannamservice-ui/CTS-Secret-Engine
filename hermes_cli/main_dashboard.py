@@ -675,7 +675,7 @@ def _maybe_setup_dashboard_auth_interactively(args) -> None:
             "the dashboard again:\n"
             "    cts dashboard register\n"
             "  It provisions a Nous Portal OAuth client and writes "
-            "HERMES_DASHBOARD_OAUTH_CLIENT_ID into ~/.hermes/.env for you.\n"
+            "HERMES_DASHBOARD_OAUTH_CLIENT_ID into ~/.cts/.env for you.\n"
             "  Docs: https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/"
             "user-guide/features/web-dashboard#authentication-gated-mode"
         )

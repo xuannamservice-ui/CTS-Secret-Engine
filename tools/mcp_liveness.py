@@ -165,7 +165,7 @@ def status(server_name: str) -> Status | None:
                 state = "hermes_not_connected"
     else:
         # static / unknown liveness kinds cannot observe the app, so they cannot conclude it
-        # is not running; the honest answer is that Hermes is not connected (#119975).
+        # is not running; the honest answer is that CTS Secret Engine is not connected (#119975).
         state = "hermes_not_connected"
     action, retry = _action(state, decl.name, declaration.gpu_label(decl.required_gpu))
     return Status(state, available, live, action, retry)

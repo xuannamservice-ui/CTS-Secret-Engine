@@ -211,7 +211,7 @@ def _is_pkce_row(row: dict[str, Any]) -> bool:
 def strip_cloned_single_use_oauth_grants(profile_dir: Path) -> dict[str, Any]:
     """Remove forked single-use OAuth grants from a freshly cloned profile.
 
-    Called after any path that copies credential files between profiles (``hermes profile create
+    Called after any path that copies credential files between profiles (``cts profile create
     --clone-all``, the dashboard/TUI ``mirror_credentials`` flow). API-key pool rows are kept — a
     static key is safe to duplicate. Returns ``{"pool": [...provider ids], "providers": [...],
     "files": [...]}`` of what was stripped. Never raises: a clone must not fail because hygiene

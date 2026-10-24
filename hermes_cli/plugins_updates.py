@@ -375,7 +375,7 @@ def https_update_url(url: object) -> str:
 def default_fetch(url: str) -> str:
     """The real feed fetcher: url -> text (raises on failure).
 
-    ONE implementation shared by the manual ``hermes plugins
+    ONE implementation shared by the manual ``cts plugins
     check-updates`` and the cadence tick — callers never re-derive it.
     """
     import urllib.request

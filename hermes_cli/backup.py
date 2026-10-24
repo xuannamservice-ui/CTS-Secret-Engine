@@ -668,7 +668,7 @@ def _run_backup_locked(args, hermes_root: Path) -> bool:
     if errors:
         _print_capped(f"\n  Archive kept, but {len(errors)} file(s) could not be added:", errors, "  ")
     else:
-        print(f"\nRestore with: hermes import {out_path.name}")
+        print(f"\nRestore with: cts import {out_path.name}")
     # Prune only after a complete archive: a timer hitting the same unreadable file every run must
     # not rotate the last good backups out in favour of incomplete ones.
     keep = getattr(args, "keep", 0)  # 0 / absent: never prune (non-CLI callers)
@@ -1095,7 +1095,7 @@ def _revive_gateway_after_import(hermes_root: Path) -> None:
         print("\nStart the gateway to activate cron jobs and messaging:\n  cts gateway run")
 
 
-# --- Quick state snapshots (used by /snapshot slash command and hermes backup --quick) ---
+# --- Quick state snapshots (used by /snapshot slash command and cts backup --quick) ---
 
 # Critical state files (relative to HERMES_HOME) for quick snapshots; everything else is
 # regeneratable or managed separately (skills, repo, sessions/). Entries may be files OR
@@ -1226,7 +1226,7 @@ def create_pre_migration_backup(
 
 
 # ---------------------------------------------------------------------------
-# Quick state snapshots (used by /snapshot slash command and hermes backup --quick)
+# Quick state snapshots (used by /snapshot slash command and cts backup --quick)
 # ---------------------------------------------------------------------------
 
 def create_quick_snapshot(
@@ -2079,7 +2079,7 @@ def prune_quick_snapshots(
 
 
 def run_quick_backup(args) -> None:
-    """CLI entry point for hermes backup --quick."""
+    """CLI entry point for cts backup --quick."""
     label = getattr(args, "label", None)
     snap_id = create_quick_snapshot(label=label)
     if snap_id:

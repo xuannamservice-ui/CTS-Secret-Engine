@@ -1,4 +1,4 @@
-"""hermes webhook — manage dynamic webhook subscriptions from the CLI."""
+"""cts webhook — manage dynamic webhook subscriptions from the CLI."""
 
 import hashlib
 import hmac
@@ -299,7 +299,7 @@ def _cmd_list(args):
     subs = _load_subscriptions()
     if not subs:
         print("  No dynamic webhook subscriptions.")
-        print("  Create one with: hermes webhook subscribe <name>")
+        print("  Create one with: cts webhook subscribe <name>")
         return
 
     print(f"\n  {len(subs)} webhook subscription(s):\n")
@@ -350,7 +350,7 @@ def _cmd_test(args):
         return
     secret = subs[name].get("secret", "")
     url = _route_url(name, subs[name])
-    payload = args.payload or '{"test": true, "event_type": "test", "message": "Hello from hermes webhook test"}'
+    payload = args.payload or '{"test": true, "event_type": "test", "message": "Hello from cts webhook test"}'
     sig = "sha256=" + hmac.new(secret.encode(), payload.encode(), hashlib.sha256).hexdigest()
     print(f"  Sending test POST to {url}")
     try:

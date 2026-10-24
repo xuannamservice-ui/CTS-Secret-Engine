@@ -28,7 +28,7 @@ def _python_repair_hint() -> str:
     if method in ("docker", "apt"):
         command = recommended_update_command_for_method(method)
         return f"Run `{command}`" + (", then recreate the Hermes container" if method == "docker" else "")
-    return "Run `cts pm repair`, then restart Hermes"
+    return "Run `cts pm repair`, then restart CTS Secret Engine"
 
 
 def _system_package_install_cmd(pkg: str) -> str:
@@ -555,7 +555,7 @@ def _check_web_dashboard_import(should_fix: bool, f: Finding) -> None:
         _fail_and_issue(
             "Dashboard web surface",
             "(import probe timed out)",
-            "Repair the dashboard dependencies: `cts pm repair`, then restart Hermes",
+            "Repair the dashboard dependencies: `cts pm repair`, then restart CTS Secret Engine",
             f.issues,
         )
         return
@@ -572,7 +572,7 @@ def _check_web_dashboard_import(should_fix: bool, f: Finding) -> None:
     _fail_and_issue(
         "Dashboard web surface",
         detail,
-        "Repair the dashboard dependencies: `cts pm repair`, then restart Hermes",
+        "Repair the dashboard dependencies: `cts pm repair`, then restart CTS Secret Engine",
         f.issues,
     )
 

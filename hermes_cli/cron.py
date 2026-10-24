@@ -584,7 +584,7 @@ def cron_status():
                 print("  Scheduler host: the host gateway (multiplexing this profile)")
                 _print_ticker_health([], restart_command="cts --profile default gateway restart")
             elif in_process_ticker:
-                print(f"  Scheduler host: an in-process ticker (hermes serve / Desktop backend) ticking profile '{active}'")
+                print(f"  Scheduler host: an in-process ticker (cts serve / Desktop backend) ticking profile '{active}'")
                 _print_ticker_health([], restart_command="restart the CTS Secret Engine Desktop app (or its serve backend)")
             else:
                 _print_ticker_health(pids)

@@ -121,8 +121,8 @@ export const it: Translations = {
     starting: "Avvio in corso",
     startedInBackground: "Avviato in background — controlla i log per i progressi",
     stopped: "Arrestato",
-    updateHermes: "Aggiorna Hermes",
-    updatingHermes: "Aggiornamento di Hermes…",
+    updateHermes: "Aggiorna CTS",
+    updatingHermes: "Aggiornamento di CTS…",
     waitingForOutput: "In attesa di output…",
   },
 
@@ -334,7 +334,7 @@ export const it: Translations = {
       "Salvato: riavvia il gateway per applicare la modifica.",
     forceReinstall: "Forza reinstallazione (elimina prima la cartella esistente)",
     headline:
-      "Scopri, installa, abilita e aggiorna i plugin Hermes (parità con `cts plugins`).",
+      "Scopri, installa, abilita e aggiorna i plugin CTS (parità con `cts plugins`).",
     identifierLabel: "URL Git o owner/repo",
     inactive: "inattivo",
     installBtn: "Installa",
@@ -448,7 +448,7 @@ export const it: Translations = {
     showValue: "Mostra valore reale",
     hideValue: "Nascondi valore",
     customTitle: "Chiavi personalizzate",
-    customHint: "Variabili d'ambiente arbitrarie salvate nel tuo .env che Hermes non riconosce. Usale per iniettare variabili d'ambiente per skill, server MCP o i tuoi strumenti.",
+    customHint: "Variabili d'ambiente arbitrarie salvate nel tuo .env che CTS non riconosce. Usale per iniettare variabili d'ambiente per skill, server MCP o i tuoi strumenti.",
     customConfigured: "{count} chiave/i personalizzata/e impostata/e",
     addCustomKey: "Aggiungi una chiave personalizzata",
     customKeyName: "Nome della variabile",
@@ -512,11 +512,11 @@ export const it: Translations = {
   achievements: {
     hero: {
       kicker: "Agentic Gamerscore",
-      title: "Hermes Achievements",
+      title: "CTS Achievements",
       subtitle:
-        "Badge Hermes da collezione, ottenuti dalla cronologia reale delle sessioni. Gli achievement noti non completati vengono mostrati come Scoperti; gli achievement segreti restano nascosti finché non compare il primo comportamento corrispondente.",
+        "Badge CTS da collezione, ottenuti dalla cronologia reale delle sessioni. Gli achievement noti non completati vengono mostrati come Scoperti; gli achievement segreti restano nascosti finché non compare il primo comportamento corrispondente.",
       scan_subtitle:
-        "Scansione della cronologia delle sessioni Hermes in corso. La prima scansione può richiedere 5–10 secondi su cronologie ampie.",
+        "Scansione della cronologia delle sessioni CTS in corso. La prima scansione può richiedere 5–10 secondi su cronologie ampie.",
     },
     actions: {
       rescan: "Riscansiona",
@@ -531,7 +531,7 @@ export const it: Translations = {
       highest_tier: "Livello più alto",
       highest_tier_hint: "Copper → Silver → Gold → Diamond → Olympian",
       latest: "Più recente",
-      latest_hint_empty: "usa Hermes di più",
+      latest_hint_empty: "usa CTS di più",
       none_yet: "Nessuno ancora",
     },
     state: {
@@ -562,10 +562,10 @@ export const it: Translations = {
       tiers_header: "Livelli",
       secret_header: "Achievement segreti",
       secret_body:
-        "I segreti nascondono il loro trigger esatto. Quando Hermes rileva un segnale correlato, la carta passa a Scoperto e mostra il requisito.",
+        "I segreti nascondono il loro trigger esatto. Quando CTS rileva un segnale correlato, la carta passa a Scoperto e mostra il requisito.",
       scan_status_header: "Stato della scansione",
       scan_status_body:
-        "Hermes sta scansionando la cronologia locale una sola volta, poi le carte appariranno automaticamente. Non è bloccato nulla se richiede qualche secondo.",
+        "CTS sta scansionando la cronologia locale una sola volta, poi le carte appariranno automaticamente. Non è bloccato nulla se richiede qualche secondo.",
       what_scanned_header: "Cosa viene scansionato",
       what_scanned_body:
         "Sessioni, chiamate agli strumenti, metadati del modello, errori, achievement e stato di sblocco locale.",

@@ -270,7 +270,7 @@ def get_anthropic_key() -> str:
 
     Order mirrors ``PROVIDER_REGISTRY["anthropic"].api_key_env_vars``.
 
-    Checks both the ``.env`` file and the process environment, preferring ``~/.hermes/.env`` so a deliberate
+    Checks both the ``.env`` file and the process environment, preferring ``~/.cts/.env`` so a deliberate
     key rotation isn't shadowed by a stale shell export (matches the api-key resolution path — see #20591).
     """
     from hermes_cli.config import get_env_value_prefer_dotenv
@@ -390,7 +390,7 @@ def _resolve_api_key_provider_secret(provider_id: str, pconfig: ProviderConfig) 
             pass
         return "", ""
 
-    # Prefer ~/.hermes/.env over os.environ so a deliberate key rotation in .env isn't shadowed by
+    # Prefer ~/.cts/.env over os.environ so a deliberate key rotation in .env isn't shadowed by
     # a stale shell export inherited from a parent process (Codex CLI, test runners, etc.).
     from hermes_cli.config import get_env_value_prefer_dotenv
 
@@ -1346,9 +1346,15 @@ _EXPLICIT_CONFIG_CHECKS: tuple[tuple[Callable[[str], bool], bool], ...] = (
 def is_provider_explicitly_configured(provider_id: str) -> bool:
     """True only if the user explicitly configured this provider: auth.json ``active_provider``,
     config.yaml ``model.provider`` / MoA slots, a pasted provider env var, a pool entry from a
-    Hermes-initiated flow, or Hermes-scoped routing config for keyless cloud-SDK providers. Ambient
-    borrowed credentials (gh CLI, qwen-cli, ~/.claude/.credentials.json) never count."""
+    Hermes-initiated flow, or Hermes-scoped routing config for keyless cloud-SDK providers."""
     normalized = (provider_id or "").strip().lower()
+    if normalized == "anthropic":
+        try:
+            from agent.anthropic_credentials import read_claude_code_credentials
+            if read_claude_code_credentials():
+                return True
+        except Exception:
+            pass
     for check, best_effort in _EXPLICIT_CONFIG_CHECKS:
         try:
             if check(normalized):
@@ -1606,7 +1612,7 @@ _NO_AUTO_DETECT_PROVIDERS = frozenset({"copilot", "lmstudio"})
 def _env_key_auto_detected(
     scoped_key_env: Callable[[str], str], oauth_active: Optional[str]) -> Optional[str]:
     """First registry api_key provider (registry order) with a usable env key, warning when it
-    preempts a logged-in OAuth provider so a stale key in ~/.hermes/.env never switches silently."""
+    preempts a logged-in OAuth provider so a stale key in ~/.cts/.env never switches silently."""
     for pid, pconfig in PROVIDER_REGISTRY.items():
         if pconfig.auth_type != "api_key" or pid in _NO_AUTO_DETECT_PROVIDERS:
             continue
@@ -1616,7 +1622,7 @@ def _env_key_auto_detected(
                     logger.warning(
                         # An exported API key now wins over a logged-in OAuth provider (the #29285 fix).
                         # Surface that so a user who deliberately uses OAuth but has a stale key in
-                        # ~/.hermes/.env isn't silently switched without knowing why.
+                        # ~/.cts/.env isn't silently switched without knowing why.
                         "Provider resolved to %r via %s, preempting your "
                         "logged-in OAuth provider %r. If you meant to use the "
                         "OAuth login, unset %s or set `model.provider` "
@@ -1706,6 +1712,12 @@ def resolve_provider(
     # AWS Bedrock via the boto3 credential chain (IAM roles, SSO, env vars): implicit host state,
     # below explicit keys and below the free tier.
     try:
+        from agent.anthropic_credentials import read_claude_code_credentials
+        if read_claude_code_credentials():
+            return "anthropic"
+    except Exception as exc:
+        logger.debug("claude code credential check during provider resolution skipped: %s", exc)
+    try:
         from agent.bedrock_adapter import has_aws_credentials
         from hermes_cli.anon_auth import on_local_desktop_backend  # a laptop: no EC2 metadata lookup
         if has_aws_credentials(instance_metadata=not on_local_desktop_backend()):
@@ -1714,7 +1726,7 @@ def resolve_provider(
         pass  # boto3 not installed
     from hermes_constants import display_hermes_home
     raise AuthError(
-        "Hermes is not connected to any AI provider yet. Run `cts model` to pick one, type `/login` in chat, "
+        "CTS Secret Engine is not connected to any AI provider yet. Run `cts model` to pick one, type `/login` in chat, "
         f"or add a key with `cts auth add <provider>`. (Advanced: put an API key such as OPENROUTER_API_KEY in "
         f"{display_hermes_home()}/.env.)",
         code="no_provider_configured")
@@ -2239,7 +2251,7 @@ def _get_azure_foundry_auth_status() -> dict[str, Any]:
                 ) if installed else (
                     "azure-identity not installed. From the Hermes environment, run: "
                     f"{install_hint('azure-identity')}. "
-                    "Then restart Hermes."))
+                    "Then restart CTS Secret Engine."))
         except Exception as exc:
             info["logged_in"] = False
             info["error"] = f"azure-identity check failed: {exc}"

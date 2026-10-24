@@ -356,7 +356,7 @@ def _restore_db_pages(src: Path, dst: Path) -> bool:
         except LiveConnectionError as exc2:
             logger.error(
                 "Refusing unlink+move restore of %s: %s Close the in-process "
-                "database handles (or restart Hermes) and retry.",
+                "database handles (or restart CTS Secret Engine) and retry.",
                 dst, exc2,
             )
             return False
@@ -467,7 +467,7 @@ def _extract_member_atomically(
     Permission bits *and* ownership are carried across the replace so routing
     through mkstemp does not change the file the caller would otherwise have
     produced.  ``os.replace`` swaps in a temp file owned by the *writing* user,
-    so without the chown a ``sudo hermes import`` would silently re-own every
+    so without the chown a ``sudo cts import`` would silently re-own every
     restored file to root — on the disaster-recovery path, and on exactly the
     Docker/NAS installs ``utils._restore_file_owner`` documents.  Both concerns
     delegate to the shared ``utils`` helpers rather than being re-derived here.

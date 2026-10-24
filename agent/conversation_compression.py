@@ -1971,7 +1971,7 @@ def _lower_threshold_to_aux_context(
             f"  To make this permanent, use a larger compression model in config.yaml:\n       auxiliary:\n"
             f"         compression:\n           model: <model-with-{old_threshold:,}+-context>\n"
             f"  (Lowering compression.threshold cannot help here — with {_main_label}'s {main_ctx:,}-token window, "
-            f"Hermes's small-context floor and output reservation would recompute the trigger to "
+            f"CTS Secret Engine's small-context floor and output reservation would recompute the trigger to "
             f"{recomputed_threshold:,} tokens, still above the compression model's {aux_context:,}.)"
         )
     _emit_feasibility_notice(agent, msg)

@@ -308,7 +308,7 @@ def _systemd_run_user_scope_available() -> bool:
 
 
 def _is_supervised_gateway_process() -> bool:
-    """Whether this process is the live, supervised Hermes gateway itself.
+    """Whether this process is the live, supervised CTS gateway itself.
     Supervisor markers and ``_HERMES_GATEWAY`` are inherited by every descendant (and
     importing ``gateway.run`` sets the latter), so also require ownership of the live
     gateway PID file — scopes are for the gateway, not terminal children or CLIs.

@@ -68,7 +68,7 @@ def offer_agent_import(hermes_home: Path) -> str:
     # The menu clears the screen, so the question carries what it refers to ("any of them").
     if not prompt_yes_no(f"Import your setup from {names}?", default=True,
                          description="\n".join(f"  {w}" for line in context for w in textwrap.wrap(line, 76))):
-        print_info(f"Skipped. Import later with: hermes plugins install {PLUGIN}, then hermes import-agent")
+        print_info(f"Skipped. Import later with: cts plugins install {PLUGIN}, then cts import-agent")
         return ""
     picked = _pick_sources(found)
     if not picked or not _ensure_plugin(hermes_home):
@@ -114,7 +114,7 @@ def _ensure_plugin(hermes_home: Path) -> bool:
             return True
     verb = "enabled" if present else "installed"
     print_warning(f"The '{PLUGIN}' plugin could not be {verb}, so nothing was imported. "
-                  f"Try again later with: hermes plugins {'enable' if present else 'install'} {PLUGIN}")
+                  f"Try again later with: cts plugins {'enable' if present else 'install'} {PLUGIN}")
     return False
 
 
@@ -145,5 +145,5 @@ def _run_import(source: ImportSource, hermes_home: Path) -> bool:
     if subprocess.run(argv, env=env, check=False).returncode:
         # An install from before the plugin gained this importer, or --from-setup, refuses it (argparse, exit 2).
         print_warning(f"The {source.label} import did not run. If the error names an invalid choice or "
-                      f"unrecognized arguments, update the plugin first: hermes plugins update {PLUGIN}")
+                      f"unrecognized arguments, update the plugin first: cts plugins update {PLUGIN}")
     return _snapshot(hermes_home) != before

@@ -28,13 +28,13 @@ def _info_lines(*lines: str) -> None:
 
 def _ensure_browser_use_cli() -> None:
     """Confirm browser_exec's engine is runnable. It is browser-harness, a core dependency of
-    Hermes's own venv, so there is nothing to download; a miss means the venv needs a re-sync."""
+    CTS Secret Engine's own venv, so there is nothing to download; a miss means the venv needs a re-sync."""
     from tools.browser_use_cli import _find_cli
 
     if _find_cli() is not None:
         _print_success("    browser_exec ready (browser-harness, bundled with Hermes)")
     else:
-        _print_warning("    browser-harness is missing from Hermes's Python environment")
+        _print_warning("    browser-harness is missing from CTS Secret Engine's Python environment")
         _print_info("    Re-sync it with: cts update")
 
 
@@ -123,7 +123,7 @@ def _post_setup_python(spec: dict) -> None:
         _print_warning(f"    {label} install failed: {exc}")
         _info_lines("Retry with: cts tools")
         return
-    _print_success(f"    {label} dependencies ready. Restart Hermes to use them.")
+    _print_success(f"    {label} dependencies ready. Restart CTS Secret Engine to use them.")
     _info_lines(*spec["on_install"], *spec["always"])
 
 

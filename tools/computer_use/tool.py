@@ -129,7 +129,7 @@ def reset_screenshot_dedup(session_id: str) -> None:
     _reset_screenshot_dedup(_scoped_sid(session_id))
 
 def _cua_permission_mode(session_id: str) -> str:
-    """Map Hermes's approval bypass onto Cua's immutable mode; fails closed. Both identity namespaces are consulted
+    """Map CTS Secret Engine's approval bypass onto Cua's immutable mode; fails closed. Both identity namespaces are consulted
     (DB ``session_id`` and gateway ``session_key`` contextvar) or a gateway ``/yolo`` would be invisible here.
     Warns once per session that ``-z``/``--yolo`` swapped the driver onto a private ``unrestricted`` daemon, dropping
     the configured ceiling: deliberate (``unrestricted`` is not a config value) but easy to trigger by accident."""

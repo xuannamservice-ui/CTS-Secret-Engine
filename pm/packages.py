@@ -794,7 +794,7 @@ class Gh(BinaryPackage):
 class Ffmpeg(_BionicDebArm, BinaryPackage, DebPackage):
     """FFmpeg builds for supported targets; BtbN Linux archives require glibc.
     optional=False: ffmpeg is a required runtime tool where supported. Sealed bundles ship
-    it baked into the payload; every `hermes update` and `hermes pm install`
+    it baked into the payload; every `cts update` and `cts pm install`
     re-ensures it from the new lockfile before the venv sync
     (pm.client.ensure_tools_for_sync), so a pin bump lands. Windows + Linux:
     BtbN/FFmpeg-Builds (month-end autobuild tag, kept two years; ships ffprobe too).
@@ -1043,7 +1043,7 @@ class Chromium(Package):
             raise InstallError(self.name, f"Chromium executable missing under {native(entry)}")
         # Playwright launches without an executable_path (e.g. the
         # har-derived-api-client skill's `chromium.launch(channel="chromium")`)
-        # find this build through the root; Hermes's own launcher asks
+        # find this build through the root; CTS Secret Engine's own launcher asks
         # hermes_cli.browser_runtime.chromium_executable() instead.
         return {"PLAYWRIGHT_BROWSERS_PATH": str(entry.parent)}
 

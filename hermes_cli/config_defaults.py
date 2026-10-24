@@ -1256,7 +1256,7 @@ DEFAULT_CONFIG = {
         "max_calls_per_image": None,
         "replay_recent_images": 3,  # newest user images re-sent on turns rebuilt from state.db; 0 = off
     },
-    # "Hey Hermes" hands-free wake word: always-on, on-device hotword detection that starts a fresh
+    # "Hey CTS" hands-free wake word: always-on, on-device hotword detection that starts a fresh
     # voice session. Off by default; toggle with /wake.
     "wake_word": {
         "enabled": False,
@@ -2210,7 +2210,7 @@ DEFAULT_CONFIG = {
         # honored.
         "trust_env": True,
         # Media delivery. False: any emitted file path is delivered natively unless under the
-        # credential/system denylist (/etc, /proc, ~/.ssh, ~/.aws, ~/.hermes/.env, auth.json). True:
+        # credential/system denylist (/etc, /proc, ~/.ssh, ~/.aws, ~/.cts/.env, auth.json). True:
         # files must be under the Hermes cache, media_delivery_allow_dirs, or fresher than
         # trust_recent_files_seconds — recommended for public-facing gateways so prompt injection
         # can't exfiltrate host secrets. Bridged to HERMES_MEDIA_DELIVERY_STRICT.
@@ -2439,7 +2439,7 @@ DEFAULT_CONFIG = {
         "retries": 2,
     },
     # External secret sources — pull credentials from secret managers at startup instead of storing
-    # them in ~/.hermes/.env.
+    # them in ~/.cts/.env.
     # Browser credential vault: which login sources browser_vault may draw from. The local
     # encrypted vault (`cts vault add`, Desktop → Settings → Credential Vault) is always on.
     # External password managers are unlocked per session with a masked master-password prompt;
@@ -2465,7 +2465,7 @@ DEFAULT_CONFIG = {
         "bitwarden": {
             "enabled": False,  # When false, BSM is never contacted and bws is never auto-installed.
             # Env var holding the machine-account token — the one bootstrap secret; lives in
-            # ~/.hermes/.env (or the shell), never in config.yaml.
+            # ~/.cts/.env (or the shell), never in config.yaml.
             "access_token_env": "BWS_ACCESS_TOKEN",
             "project_id": "",  # UUID of the BSM project to sync from.
             # Seconds to reuse a fresh disk/memory cache entry before contacting Bitwarden again. 0
@@ -2915,7 +2915,7 @@ OPTIONAL_ENV_VARS = {
     "MISTRAL_API_KEY": _tool("Mistral API key for Voxtral TTS and transcription (STT)",
         "Mistral API key", "https://console.mistral.ai/"),
     "PORCUPINE_ACCESS_KEY": _tool(
-        "Picovoice access key for the Porcupine 'Hey Hermes' wake word engine (optional; "
+        "Picovoice access key for the Porcupine 'Hey CTS' wake word engine (optional; "
         "openWakeWord is the free default)", "Picovoice access key",
         "https://console.picovoice.ai/"),
     "GITHUB_TOKEN": _tool("GitHub token for Skills Hub (higher API rate limits, skill publish)",

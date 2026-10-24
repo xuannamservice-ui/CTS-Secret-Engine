@@ -358,7 +358,7 @@ _ONE_OFF_COPY: dict[str, str] = {
     ),
     # Rides failure_reason="loop_error" (advisory; the turn is incomplete, not failed).
     "local_processing_error": (
-        "Hermes hit an internal error while handling the model's reply and stopped this turn. "
+        "CTS Secret Engine hit an internal error while handling the model's reply and stopped this turn. "
         + _NEXT_STEPS_LOOP + "\n\nDetails: {detail}"
     ),
     "max_iterations_no_summary": (

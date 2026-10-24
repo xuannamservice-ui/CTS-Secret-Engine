@@ -306,7 +306,7 @@ def _host_cwd_is_terminal_cwd(profile_home) -> bool:
 
 
 def _is_hermes_owned_cwd(cwd: str, profile_home) -> bool:
-    """Whether ``cwd`` is inside Hermes's own host tree: the Hermes root (``/opt/data`` and its ``/opt/data/home``
+    """Whether ``cwd`` is inside CTS Secret Engine's own host tree: the Hermes root (``/opt/data`` and its ``/opt/data/home``
     subprocess home in the Docker image, which also holds every named profile) or the install tree
     (``/opt/hermes``). A ``~`` path is the remote's home, never this host's."""
     from agent.runtime_cwd import _is_install_tree
@@ -365,7 +365,7 @@ def _is_other_profiles_cwd(cwd: str, profile_home) -> bool:
 
 
 def _resumable_stored_cwd(cwd, profile_home) -> str:
-    """A session row's stored cwd as a resume may adopt it: empty when an ssh session's row holds a path in Hermes's
+    """A session row's stored cwd as a resume may adopt it: empty when an ssh session's row holds a path in CTS Secret Engine's
     own host tree (a host launch directory, never a remote workspace), when a sandbox session's row holds a launch
     directory itself (:func:`_is_launch_dir`: rows written before launch dirs stopped being persisted), or when a
     named profile's row holds another profile's (the resume then lands in :func:`_profile_default_cwd` and
@@ -407,7 +407,7 @@ def _heal_dead_cwd(cwd: str) -> str:
 def _session_is_local_backend(session: dict | None) -> bool:
     """Whether THIS session's cwd can be stat'ed / git-probed here. A session bound to a named ssh profile never can,
     whatever the launch process runs (one multiplexed gateway serves many profiles), and a per-profile gateway
-    (``hermes -p x``) may set ``terminal.backend: ssh`` in config without ``TERMINAL_ENV``: an env-only check would
+    (``cts -p x``) may set ``terminal.backend: ssh`` in config without ``TERMINAL_ENV``: an env-only check would
     heal a live remote cwd to its nearest host ancestor (``/home``) and persist that."""
     if session and session.get("profile_home") and _bound_terminal_backend(session["profile_home"]) != "local":
         return False

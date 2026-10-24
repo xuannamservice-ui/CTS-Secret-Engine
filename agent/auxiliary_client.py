@@ -4533,7 +4533,7 @@ def _try_main_fallback_chain(
 
 def _warn_stale_openai_base_url(runtime_provider: str) -> None:
     """Warn once when OPENAI_BASE_URL is set but config.yaml names a non-custom provider (a stale
-    ~/.hermes/.env value after `cts model` poisons routing)."""
+    ~/.cts/.env value after `cts model` poisons routing)."""
     global _stale_base_url_warned
     if _stale_base_url_warned:
         return
@@ -4544,7 +4544,7 @@ def _warn_stale_openai_base_url(runtime_provider: str) -> None:
             "OPENAI_BASE_URL is set (%s) but model.provider is '%s'. "
             "Auxiliary clients may route to the wrong endpoint. "
             "Run: cts model to reconfigure, or remove "
-            "OPENAI_BASE_URL from ~/.hermes/.env",
+            "OPENAI_BASE_URL from ~/.cts/.env",
             _env_base, _cfg_provider,
         )
         _stale_base_url_warned = True

@@ -68,7 +68,7 @@ CODE_EXEMPT_PATTERN_IDS = {
     "agent_config_mod", "agent_config_contract", "encoded_exfil"}
 
 # Severity remaps: a bundled binary is warn-tier (repos occasionally vendor one); a mere
-# ``~/.hermes/.env`` mention is how READMEs say where keys go (READING it still trips
+# ``~/.cts/.env`` mention is how READMEs say where keys go (READING it still trips
 # ``read_secrets_file``, critical); ``curl | sh`` in READMEs is caution, not a hard block.
 SEVERITY_REMAP = {
     "binary_file": "high", "hermes_env_access": "medium", "curl_pipe_shell": "high"}

@@ -148,7 +148,7 @@ _UNAUTHORIZED_ACCESS_CHOICES = {
         "Keep unknown senders silent"),
     False: (1,
         "Enable open access (anyone can message the bot)",
-        "Use DM pairing (unknown users request access, you approve with 'hermes pairing approve')",
+        "Use DM pairing (unknown users request access, you approve with 'cts pairing approve')",
         "Politely decline unknown senders (one-time message, then silence)",
         "Skip for now (bot will deny all users until configured)"),
 }
@@ -167,7 +167,7 @@ def _prompt_unauthorized_access(platform_key: str) -> None:
         if is_email:
             _set_platform_unauthorized_dm_behavior("email", "pair")
         _gw().print_success("  DM pairing mode — users will receive a code to request access.")
-        _gw().print_info("  Approve with: hermes pairing approve <platform> <code>")
+        _gw().print_info("  Approve with: cts pairing approve <platform> <code>")
     elif access_idx == 2:
         _set_platform_unauthorized_dm_behavior(platform_key, "decline")
         _gw().print_success("  Unknown senders get one polite decline, then silence (unauthorized_dm_behavior: decline).")
@@ -344,7 +344,7 @@ def _configure_platform(platform: dict) -> None:
     print_setup_header(f"{platform.get('emoji', '🔌')} {label}")
     required = entry.required_env if entry else []
     if required:
-        _gw().print_info(f"  Set these env vars in ~/.hermes/.env: {', '.join(required)}")
+        _gw().print_info(f"  Set these env vars in ~/.cts/.env: {', '.join(required)}")
     else:
         _gw().print_info(f"  Configure {label} in config.yaml under gateway.platforms.{platform['key']}")
     if platform.get("install_hint"):

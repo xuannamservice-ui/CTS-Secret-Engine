@@ -179,7 +179,7 @@ def _base_subprocess_env() -> dict:
     from tools.browser_session import build_browser_env
     env = build_browser_env()
     env.update(_harness_credentials())
-    # The harness runs on Hermes's own interpreter, but a bundled Desktop install boots that
+    # The harness runs on CTS Secret Engine's own interpreter, but a bundled Desktop install boots that
     # interpreter with its site dir on PYTHONPATH (no venv to activate), and the harness's daemon
     # re-runs sys.executable. Point PYTHONPATH at the harness's site dir, replacing whatever the
     # agent process inherited, so both the CLI and its daemon import the same packages.
@@ -250,7 +250,7 @@ def _browser_use_api_key_set() -> bool:
 
 
 def _harness_site_dir() -> Optional[str]:
-    """The site dir Hermes's interpreter imports ``browser_harness`` from, or None."""
+    """The site dir CTS Secret Engine's interpreter imports ``browser_harness`` from, or None."""
     spec = importlib.util.find_spec("browser_harness")
     if spec is None or not spec.origin:
         return None
@@ -258,7 +258,7 @@ def _harness_site_dir() -> Optional[str]:
 
 
 def _find_cli() -> Optional[list[str]]:
-    """The Browser Use CLI's engine (browser-harness) is a core dependency of Hermes's own venv,
+    """The Browser Use CLI's engine (browser-harness) is a core dependency of CTS Secret Engine's own venv,
     so every install, the Desktop bundle included, runs it on the current interpreter."""
     if _harness_site_dir() is None:
         return None
@@ -694,7 +694,7 @@ def browser_exec(code: str, session: str = "", timeout_s: int = _DEFAULT_TIMEOUT
 
     cmd = _find_cli()
     if not cmd:
-        return tool_error("browser-harness is missing from Hermes's Python environment. "
+        return tool_error("browser-harness is missing from CTS Secret Engine's Python environment. "
                           "Run `cts update` to re-sync it.")
 
     env = _base_subprocess_env()

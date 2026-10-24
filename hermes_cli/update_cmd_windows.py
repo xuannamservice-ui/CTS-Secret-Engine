@@ -455,7 +455,7 @@ def _relaunch_stopped_serves(token: dict) -> None:
         print("  ⟲ Relaunching stopped serve/dashboard backend(s)")
         failed = _m()._respawn_dashboard_processes(commands)
     if skipped or failed:
-        print("  ⚠ Some stopped backends could not be relaunched automatically; restart them manually (hermes serve --host <ip> --port <port>).")
+        print("  ⚠ Some stopped backends could not be relaunched automatically; restart them manually (cts serve --host <ip> --port <port>).")
     _record_update_step(
         "serve_relaunch", not failed and not skipped,
         f"relaunched={len(commands) - len(failed)} failed={len(failed)} skipped={skipped}",
@@ -489,8 +489,8 @@ def _orphaned_desktop_backend_pids(matches: list[tuple[int, str, str]]) -> list[
     """``(pid, start_time)`` roots from *matches* when every remaining holder is an ORPHANED backend, else ``None``.
 
     Killing a Desktop-owned ``serve`` is futile (the app respawns it), but a straggler whose Desktop is gone
-    would dead-end the update with "Hermes is still running" and zero open windows. Qualifies only if cmdline
-    is a Hermes backend AND the parent is demonstrably gone (PID missing or reused). Tree-aware: holders inside
+    would dead-end the update with "CTS Secret Engine is still running" and zero open windows. Qualifies only if cmdline
+    is a CTS backend AND the parent is demonstrably gone (PID missing or reused). Tree-aware: holders inside
     an accepted root's tree fold into it; only roots are returned (``taskkill /T`` reaps descendants). Any
     live-parent backend, unjustified non-backend, unprovable case, or no psutil -> ``None``. Never raises.
 
@@ -501,7 +501,7 @@ def _orphaned_desktop_backend_pids(matches: list[tuple[int, str, str]]) -> list[
     update-in-progress marker parks any relaunched Desktop from spawning a fresh backend (#50238). A
     ``serve`` backend still holding the venv at that point is a straggler whose supervisor is gone: SIGTERM
     raced its spawn, or it belongs to a crashed window. Nothing will respawn it, and refusing on it
-    dead-ends the update with "Hermes is still running" while the user stares at zero open windows (ryanc's
+    dead-ends the update with "CTS Secret Engine is still running" while the user stares at zero open windows (ryanc's
     2026-08-09 01:59/02:17 failures).
     """
     psutil = _psutil()
@@ -1046,7 +1046,7 @@ def _stop_windows_gateways(running_pids, profile_processes, service_gateway_pids
     born.update({int(p): get_process_start_time(int(p)) for p in launcher_pids if int(p) not in born})
     profiles, mapped_pids, socket_acks = _request_socket_pauses(
         running_pids, profile_processes, service_gateway_pids, on_request=on_request)
-    print("→ Stopping Windows gateway process(es) before updating Hermes...")
+    print("→ Stopping Windows gateway process(es) before updating CTS...")
     drain_timeout = _gateway_drain_timeout(socket_acks)
     survivors = _m()._wait_for_windows_update_gateway_exit(mapped_pids, timeout=drain_timeout)
     # Tree-kill survivors, unmapped gateways, and pre-request launchers; one already gone raises

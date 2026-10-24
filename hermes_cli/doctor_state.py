@@ -615,7 +615,7 @@ def _memory_provider_generic(name: str) -> None:
         from plugins.memory import find_provider_dir
         from hermes_cli.memory_provider_migration import catalog_install_hint
         hint = catalog_install_hint(name, category="memory") if find_provider_dir(name) is None else None
-        check_warn(f"{name} plugin not found", f"run: {hint or 'hermes memory setup'}")
+        check_warn(f"{name} plugin not found", f"run: {hint or 'cts memory setup'}")
 
 
 @doctor_check()
@@ -664,7 +664,7 @@ def _check_profiles(should_fix: bool, f: Finding) -> None:
                 _m = _re.search(r"cts -p (\S+)", wrapper.read_text(encoding="utf-8-sig"))
                 if _m and not profile_exists(_m.group(1)):
                     alias = wrapper.stem if _wrapper_path(wrapper.stem) == wrapper else wrapper.name
-                    fix = f"hermes profile alias {alias} --remove" if PROFILE_ID_RE.match(alias) else f"delete {wrapper}"
+                    fix = f"cts profile alias {alias} --remove" if PROFILE_ID_RE.match(alias) else f"delete {wrapper}"
                     check_warn(f"Orphan alias: {alias} → profile '{_m.group(1)}' no longer exists", f"(remove with: {fix})")
     # Same helper as the multiplex migration preflight, so doctor names the duplicates that make
     # `cts gateway migrate --multiplex` refuse (and made pre-multiplex standalone gateways race).

@@ -770,7 +770,7 @@ def _print_azure_entra_status() -> None:
             print("  Status: ⚠ azure-identity not installed")
             print("  From the Hermes environment, run: "
                   f"{install_hint('azure-identity')}")
-            print("  Then restart Hermes.")
+            print("  Then restart CTS Secret Engine.")
         else:
             info = describe_active_credential(config=EntraIdentityConfig(scope=scope), timeout_seconds=10.0)
             env_sources = info.get("env_sources") or []

@@ -281,7 +281,7 @@ def _probe_bedrock() -> ProbeResult:
     except ImportError:
         hint = ("From the Hermes environment, run: "
                 f"{install_hint('bedrock')}. "
-                "Then restart Hermes.")
+                "Then restart CTS Secret Engine.")
         return _row(name, "warn", "(boto3 not installed)", [hint], label=label)
     except Exception as e:
         err_name = type(e).__name__
@@ -315,7 +315,7 @@ def _probe_azure_entra() -> ProbeResult:
     if not has_azure_identity_installed():
         return _row(name, "warn", "(azure-identity not installed)", ["From the Hermes environment, run: "
                      f"{install_hint('azure-identity')}. "
-                     "Then restart Hermes."], label=label)
+                     "Then restart CTS Secret Engine."], label=label)
     entra_cfg = model_cfg.get("entra") or {}
     scope = (str(entra_cfg.get("scope") or "").strip() if isinstance(entra_cfg, dict) else "") or SCOPE_AI_AZURE_DEFAULT
     info = describe_active_credential(config=EntraIdentityConfig(scope=scope), timeout_seconds=10.0)

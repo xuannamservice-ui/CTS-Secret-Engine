@@ -33,7 +33,7 @@ def _azure_entra_credentials(cfg_entra: dict[str, Any]) -> Any:
     except Exception as exc:
         raise AuthError(
             "Could not load the Azure Foundry Entra ID adapter. "
-            "Run cts pm repair, then restart Hermes. "
+            "Run cts pm repair, then restart CTS Secret Engine. "
             f"(import failed: {exc})"
         ) from exc
     scope = str(cfg_entra.get("scope") or "").strip() or SCOPE_AI_AZURE_DEFAULT
@@ -55,7 +55,7 @@ def _azure_foundry_api_key(rp, explicit_api_key: str) -> str:
     if not api_key:
         raise rp.AuthError(
             "Azure Foundry requires an API key. Set AZURE_FOUNDRY_API_KEY in "
-            "~/.hermes/.env or run 'cts model' to configure. To use "
+            "~/.cts/.env or run 'cts model' to configure. To use "
             "keyless Microsoft Entra ID auth instead, set "
             "model.auth_mode: entra_id in config.yaml (or pick "
             "'Microsoft Entra ID' in 'cts model')."
@@ -164,7 +164,7 @@ def _resolve_openrouter_runtime(
         # Same read order as the credential pool and _resolve_api_key_provider_secret
         # (.env, then scope-aware os.environ, raw op:// references yielding to the resolved
         # scoped value). get_secret_str sees os.environ only, so a key living solely in
-        # ~/.hermes/.env was lost once the pool entry went exhausted/benched (#117667).
+        # ~/.cts/.env was lost once the pool entry went exhausted/benched (#117667).
         # OPENAI_API_KEY is a legacy home for an OpenRouter key. When OPENAI_BASE_URL binds it, it
         # goes only to that origin: another scheme or port on the same host is another endpoint.
         # Unbound, openrouter.ai gets it only when it is OpenRouter-shaped (sk-or-), so a real OpenAI

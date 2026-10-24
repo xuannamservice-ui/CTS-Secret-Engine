@@ -25,7 +25,7 @@ LINTERS = {
     '.rs': 'rustfmt --check {file} 2>&1',
 }
 
-# Node linters Hermes runs on the host (local backend) under its PM-managed Node,
+# Node linters CTS Secret Engine runs on the host (local backend) under its PM-managed Node,
 # never the user's: the terminal PATH puts the user's dirs first, and ``npx tsc``
 # re-execs ``env node`` through that PATH.
 _MANAGED_NODE_LINTERS = {'.js': ('node', '--check'), '.ts': ('npx', 'tsc', '--noEmit')}

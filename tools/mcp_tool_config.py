@@ -285,7 +285,7 @@ def _managed_launcher(command: str) -> Optional[tuple[str, list[str]]]:
 
 
 def _outside_package(launcher: str, managed: str, dirs: list[str]) -> tuple[str, list[str]]:
-    """Hermes's npm/node *launcher* and toolchain *dirs*, swapped for PM's copies outside a
+    """CTS Secret Engine's npm/node *launcher* and toolchain *dirs*, swapped for PM's copies outside a
     sealed Windows payload (``pm.user_facing.copies``). npm starts each package bin through
     cmd.exe, and cmd.exe cannot start the packaged ``node.exe``."""
     from pm.user_facing import copies
@@ -293,7 +293,7 @@ def _outside_package(launcher: str, managed: str, dirs: list[str]) -> tuple[str,
     moved = copies(dirs)
     if moved == dirs:
         return managed, dirs
-    # Plain which(): Hermes's own copy dirs hold one real node.exe/npx.cmd, so the parent's
+    # Plain which(): CTS Secret Engine's own copy dirs hold one real node.exe/npx.cmd, so the parent's
     # PATHEXT is the right question (unlike a user server's config env, see _which_with_config_pathext).
     return shutil.which(launcher, path=os.pathsep.join(moved)) or managed, moved
 
@@ -366,7 +366,7 @@ def _first_user_which_hit(command: str, path_arg: Optional[str],
 def _resolve_stdio_command(command: str, env: dict) -> tuple[str, dict]:
     """Resolve a stdio command against the exact subprocess env (bare launchers under a filtered PATH).
 
-    Bare ``npx``/``npm``/``node``/``uv``/``uvx`` resolve to Hermes's PM-managed copies with their
+    Bare ``npx``/``npm``/``node``/``uv``/``uvx`` resolve to CTS Secret Engine's PM-managed copies with their
     toolchain dirs first on the child PATH, never the user's (an absolute ``command:`` stays the
     user's choice). Anything else resolves on the child env's PATH only: ``shutil.which`` with
     ``path=None`` silently falls back to the PARENT's ``os.environ["PATH"]``, letting a command

@@ -150,7 +150,7 @@ def validate_env_var_name_for_write(key: str) -> None:
             f"Environment variable {key!r} is on the writer denylist. "
             "Names that influence subprocess execution (LD_PRELOAD, PYTHONPATH, PATH, EDITOR, ...) "
             "or Hermes runtime location and security policy (HERMES_HOME, HERMES_YOLO_MODE, ...) "
-            "cannot be persisted via the env writer. If you really need this, edit ~/.hermes/.env "
+            "cannot be persisted via the env writer. If you really need this, edit ~/.cts/.env "
             "directly.")
 
 
@@ -235,7 +235,7 @@ def is_managed() -> bool:
 # Nix installs arrive by several routes (nix run, nix profile, system flake, home-manager) and
 # the running process cannot tell which, so the text names the routes instead of one command.
 _NIX_UPDATE_MSG = (
-    "Update Hermes through the Nix source that installed it "
+    "Update CTS through the Nix source that installed it "
     "(e.g. nix profile upgrade, or update your flake input and rebuild with nixos-rebuild or home-manager switch)"
 )
 
@@ -1560,7 +1560,7 @@ def _env_expand_match(m: re.Match) -> str:
         return val
     if inner.startswith("env:"):
         logger.warning(
-            "Config ref %r: %s is not set (check ~/.hermes/.env); "
+            "Config ref %r: %s is not set (check ~/.cts/.env); "
             "keeping the literal placeholder", raw, name)
     return raw
 
@@ -2521,7 +2521,7 @@ def save_config(
 
 
 def load_env() -> dict[str, str]:
-    """Load ~/.hermes/.env as a dict. Memoised inside ``load_env_file`` (``get_env_value()`` runs
+    """Load ~/.cts/.env as a dict. Memoised inside ``load_env_file`` (``get_env_value()`` runs
     hundreds of times per interactive menu render). Each assignment's value is opaque data for
     boundary discovery."""
     # A frozen-policy worker never opens the profile's files; its secrets arrive
@@ -2567,7 +2567,7 @@ def _sanitize_env_lines(lines: list) -> list:
 
 
 def sanitize_env_file() -> int:
-    """Rewrite ~/.hermes/.env with normalized line formatting; returns the number of changed lines."""
+    """Rewrite ~/.cts/.env with normalized line formatting; returns the number of changed lines."""
     env_path = get_env_path()
     if not env_path.exists():
         return 0
@@ -2785,7 +2785,7 @@ def _managed_source(filename: str):
 
 
 def save_env_value(key: str, value: str):
-    """Save or update a value in ~/.hermes/.env (also matching ``export KEY=`` lines, so a save
+    """Save or update a value in ~/.cts/.env (also matching ``export KEY=`` lines, so a save
     never appends a second line that a later delete would resurrect)."""
     if _env_write_blocked(key, "set"):
         return
@@ -2822,7 +2822,7 @@ def custom_endpoint_key_env(identity: str) -> str:
 
 
 def remove_env_value(key: str) -> bool:
-    """Remove a key from ~/.hermes/.env and os.environ; True if it was found and removed."""
+    """Remove a key from ~/.cts/.env and os.environ; True if it was found and removed."""
     if _env_write_blocked(key, "remove"):
         return False
     if not _ENV_VAR_NAME_RE.match(key):
@@ -2879,7 +2879,7 @@ def save_env_value_secure(key: str, value: str) -> dict[str, Any]:
 
 
 def reload_env() -> int:
-    """Re-read ~/.hermes/.env into os.environ; returns count of vars changed.
+    """Re-read ~/.cts/.env into os.environ; returns count of vars changed.
     Removes deleted vars only when known to Hermes (OPTIONAL_ENV_VARS and _EXTRA_ENV_KEYS) so
     unrelated environment is never clobbered."""
     env_vars = load_env()
@@ -2908,7 +2908,7 @@ def _scoped_environ_get(key: str) -> Optional[str]:
 
 
 def get_env_value(key: str) -> Optional[str]:
-    """Get a value from ``os.environ`` (scope-aware) or ``~/.hermes/.env``.
+    """Get a value from ``os.environ`` (scope-aware) or ``~/.cts/.env``.
 
     The ``os.environ`` read routes through ``agent.secret_scope.get_secret`` so that, under an active
     profile scope (multiplexed gateway turn), this is scope-checked rather than leaking another profile's
@@ -2923,7 +2923,7 @@ def get_env_value(key: str) -> Optional[str]:
 
 
 def get_env_value_prefer_dotenv(key: str) -> Optional[str]:
-    """Resolve a Hermes-managed credential preferring ``~/.hermes/.env`` over ``os.environ``, so a
+    """Resolve a Hermes-managed credential preferring ``~/.cts/.env`` over ``os.environ``, so a
     deliberate .env edit beats a stale value inherited from the parent shell.
 
     An unresolved ``op://`` reference left in .env yields to the already-resolved value from the

@@ -72,7 +72,7 @@ _MAX_ANCESTRY_DEPTH = 128
 
 # Exit code meaning "another updater/instance owns this install right now" — the same
 # contract as the Windows shim / venv-holder guards in _cmd_update_impl, matched by the
-# Tauri updater (UPDATE_EXIT_CONCURRENT in update.rs) to show "Hermes is still running".
+# Tauri updater (UPDATE_EXIT_CONCURRENT in update.rs) to show "CTS Secret Engine is still running".
 UPDATE_EXIT_CONCURRENT = 2
 
 # msvcrt locks a byte range; lock one byte far past the holder record so other processes can
@@ -498,7 +498,7 @@ def _is_runtime_host(cmdline: list[str]) -> bool:
 
 
 def _runtime_host_below(holder_pid: int) -> bool:
-    """True when a Hermes gateway/serve/dashboard sits between us and *holder_pid* (or anywhere
+    """True when a CTS gateway/serve/dashboard sits between us and *holder_pid* (or anywhere
     above us when the holder is not reached).
 
     Such a host is relaunched BY an update and outlives its stages; a ``cts update`` its agent

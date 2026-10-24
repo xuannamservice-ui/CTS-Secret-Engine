@@ -590,7 +590,7 @@ def _discover_flag(entry: dict):
 
 
 def _display_prefix(name: str) -> str:
-    """Text before the per-model separator Hermes's own writer uses ("—" / " - ")."""
+    """Text before the per-model separator CTS Secret Engine's own writer uses ("—" / " - ")."""
     return next((name.split(sep)[0].strip() for sep in ("—", " - ") if sep in name), name)
 
 

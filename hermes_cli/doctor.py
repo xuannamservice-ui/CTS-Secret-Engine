@@ -15,7 +15,7 @@ PROJECT_ROOT = get_project_root()
 HERMES_HOME = get_hermes_home()
 _DHH = display_hermes_home()  # user-facing display path (e.g. ~/.hermes or ~/.hermes/profiles/coder)
 
-# Load environment variables from ~/.hermes/.env so API key checks work
+# Load environment variables from ~/.cts/.env so API key checks work
 _env_path = get_env_path()
 load_hermes_dotenv(hermes_home=_env_path.parent, project_env=PROJECT_ROOT / ".env")
 

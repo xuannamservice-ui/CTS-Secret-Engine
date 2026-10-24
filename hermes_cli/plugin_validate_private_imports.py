@@ -111,7 +111,7 @@ def _imported(node: ast.AST) -> list[tuple[str, str]]:
 
 
 def _private_target(module: str, name: str, core: frozenset, local: set[str]) -> str:
-    """The dotted target to report, or "" when the import is public, local or not Hermes's."""
+    """The dotted target to report, or "" when the import is public, local or not CTS Secret Engine's."""
     target = f"{module}.{name}" if name else module
     hermes = module.split(".")[0] in core and module not in local
     public = target in _PUBLIC or f"{module}:{name}" in _PUBLIC \

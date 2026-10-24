@@ -156,7 +156,7 @@ FAILURE_REASON_BILLING_UNVERIFIED = "billing_unverified"
 # selection. On Windows several Hermes processes share one rotating log guarded by concurrent-log-handler's
 # cross-process lock; that per-selection volume storms the lock (``RuntimeError: Cannot acquire lock after
 # 20 attempts``), pegs a core, and stalls the asyncio event loop long enough to fail the Desktop backend
-# readiness handshake ("Timed out connecting to Hermes backend after 15000ms"). Logging the condition at
+# readiness handshake ("Timed out connecting to CTS backend after 15000ms"). Logging the condition at
 # most once per window preserves the signal while removing the storm — same class of fix as the warn-once
 # dedup in #58265.
 NO_AVAILABLE_ENTRIES_LOG_THROTTLE_SECONDS = 60.0
@@ -2559,7 +2559,7 @@ def _seed_anthropic_singletons(seed: _Seeder) -> None:
     # rotation on a 401/429 would silently flip the session onto OAuth, which
     # forces the Claude Code identity injection, `mcp_` tool-name rewrite and
     # claude-cli User-Agent the user explicitly opted out of. Prefer
-    # ~/.hermes/.env over os.environ, as `_seed_from_env` does.
+    # ~/.cts/.env over os.environ, as `_seed_from_env` does.
     _env_file = load_env()
 
     def _env_val(key: str) -> str:
@@ -2805,7 +2805,7 @@ def _seed_from_singletons(provider: str, entries: list[PooledCredential]) -> tup
 
 
 def get_env_prefer_dotenv(key: str) -> str:
-    """Resolve a credential env var, preferring ~/.hermes/.env over os.environ.
+    """Resolve a credential env var, preferring ~/.cts/.env over os.environ.
 
     The user's config file is authoritative; stale env vars from parent
     processes (Codex CLI, test scripts) must not override deliberate .env

@@ -61,7 +61,7 @@ def _browser_value_from_env(key: str, value: str) -> Any:
     if key == "executable_path" and _inside_pm_store(value):
         return None
     if key == "user_data_dir" and not os.path.isabs(os.path.expanduser(value)):
-        # agent-browser inherited Hermes's cwd and resolved a relative profile there; browser.user_data_dir
+        # agent-browser inherited CTS Secret Engine's cwd and resolved a relative profile there; browser.user_data_dir
         # anchors relative paths at HERMES_HOME, so pin the directory the logins are in now.
         return os.path.abspath(os.path.expanduser(value))
     return value
@@ -84,7 +84,7 @@ _BACKEND_REASONS = {
     "browser-use": "browser_exec (Browser Use mode) is the only browser now",
     "agent-browser": "agent-browser left Hermes; browser_exec is the browser now",
     "camofox": "Camofox is now the camofox plugin (`cts plugins install camofox`)",
-    "local": "browser_exec launches Hermes's packaged Chromium itself (browser.cloud_provider: local)",
+    "local": "browser_exec launches CTS Secret Engine's packaged Chromium itself (browser.cloud_provider: local)",
     **dict.fromkeys(("browserbase", "firecrawl", "nous"),
                     "a cloud browser is chosen with browser.cloud_provider (`cts tools` → Browser Automation)"),
 }

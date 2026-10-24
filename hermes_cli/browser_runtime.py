@@ -78,7 +78,7 @@ def chromium_missing_hint() -> str:
 
     if pinned := _configured_executable():  # the pin wins over every other source, so name it
         return (f"browser.executable_path is set to {pinned}, which is not a browser on this machine: fix the "
-                "path, or clear it to use Hermes's Chromium.")
+                "path, or clear it to use CTS Secret Engine's Chromium.")
     if is_termux():
         return ("No Chromium found: pm builds none for Termux. Install one with "
                 "`pkg install x11-repo && pkg install chromium`, or set browser.executable_path.")

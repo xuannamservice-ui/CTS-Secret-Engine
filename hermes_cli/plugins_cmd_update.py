@@ -95,7 +95,7 @@ def update_one(name: str, target: Path, console, *, interactive: bool = True, fo
         target,
         lambda rec: (
             f"Plugin '{name}' is pinned to {rec.get('revision')}. To move it, run "
-            f"`hermes plugins install {escape(str(rec.get('source', '<source>')))} --force "
+            f"`cts plugins install {escape(str(rec.get('source', '<source>')))} --force "
             "--ref <40-character commit SHA>`."),
         lambda: f"Plugin '{name}' was not installed from git (no .git directory). Cannot update.",
         before_pull=lambda: console.print(f"[dim]Updating {name}...[/dim]"),
@@ -291,7 +291,7 @@ def cmd_check_updates(args: Any | None = None) -> None:
         if r.needs_fixing:
             status = f"[red]needs fixing[/red]\n[dim]{r.needs_fixing}[/dim]"
         elif r.update_available is True and (held := held_for_newer_hermes(r)):
-            status = f"[yellow]update available after updating Hermes[/yellow]\n[dim]{held}[/dim]"
+            status = f"[yellow]update available after updating CTS[/yellow]\n[dim]{held}[/dim]"
         elif r.update_available is True:
             status = "[green]update available[/green]"
         elif r.update_available is False:
@@ -304,8 +304,8 @@ def cmd_check_updates(args: Any | None = None) -> None:
     console.print()
     console.print(table)
     console.print()
-    console.print("[dim]Check-only. Apply with: hermes plugins update <name>, or "
-                  "hermes plugins update to update them all[/dim]")
+    console.print("[dim]Check-only. Apply with: cts plugins update <name>, or "
+                  "cts plugins update to update them all[/dim]")
 
 
 def dashboard_update_user_plugin(name: str, *, accept_capabilities: bool = False, force: bool = False) -> dict[str, Any]:
@@ -336,7 +336,7 @@ def dashboard_update_user_plugin(name: str, *, accept_capabilities: bool = False
             target,
             lambda rec: (
                 f"Plugin '{name}' is pinned to {rec.get('revision')}; "
-                f"run `hermes plugins install {rec.get('source', '<source>')} --force "
+                f"run `cts plugins install {rec.get('source', '<source>')} --force "
                 "--ref <40-character commit SHA>` to move it."),
             lambda: f"Plugin '{name}' is not a git checkout; cannot pull updates.",
             force=force)

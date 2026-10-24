@@ -422,7 +422,7 @@ def _copy_example_files(plugin_dir: Path, console) -> None:
 
 def _missing_env_specs(manifest: dict) -> list[dict]:
     """``requires_env`` entries (plain names or ``{name, description, url, secret}`` dicts,
-    normalised to dicts; nameless entries dropped) whose variable is unset in ``~/.hermes/.env``."""
+    normalised to dicts; nameless entries dropped) whose variable is unset in ``~/.cts/.env``."""
     env_specs = [
         {"name": entry} if isinstance(entry, str) else entry
         for entry in manifest.get("requires_env") or []
@@ -1119,7 +1119,7 @@ _PLUGIN_ACTIONS = {
 
 
 def plugins_command(args) -> None:
-    """Dispatch hermes plugins subcommands."""
+    """Dispatch cts plugins subcommands."""
     action = getattr(args, "plugins_action", None)
     handler = _PLUGIN_ACTIONS.get(action)
     if handler is None:

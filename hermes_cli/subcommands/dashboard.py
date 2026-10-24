@@ -40,9 +40,9 @@ def _add_server_runtime_args(parser) -> None:
     # manager / PID file: they scan the process table for `cts dashboard|serve`
     # cmdlines and SIGTERM them — the same path `cts update` uses.
     parser.add_argument(
-        "--stop", action="store_true", help="Stop all running Hermes web server processes and exit")
+        "--stop", action="store_true", help="Stop all running CTS web server processes and exit")
     parser.add_argument(
-        "--status", action="store_true", help="List running Hermes web server processes and exit")
+        "--status", action="store_true", help="List running CTS web server processes and exit")
 
 
 def _configure_serve_parser(parser, *, cmd_dashboard: Callable) -> None:
@@ -64,8 +64,8 @@ def build_serve_parser(
 ) -> argparse.ArgumentParser:
     """Build the standalone parser used by the lean ``serve`` dispatch path."""
     parser = argparse.ArgumentParser(
-        prog="hermes serve",
-        description="Run the Hermes backend server - the JSON-RPC/WebSocket gateway the "
+        prog="cts serve",
+        description="Run the CTS backend server - the JSON-RPC/WebSocket gateway the "
             "desktop app and remote clients connect to. Headless: it never opens "
             "a browser UI.",
         add_help=add_help, exit_on_error=exit_on_error)
@@ -105,8 +105,8 @@ def build_dashboard_parser(
     # surfaces that merely share this server.
     serve_parser = subparsers.add_parser(
         "serve",
-        help="Start the Hermes backend server (headless; powers the desktop app and remote backends)",
-        description="Run the Hermes backend server — the JSON-RPC/WebSocket gateway the "
+        help="Start the CTS backend server (headless; powers the desktop app and remote backends)",
+        description="Run the CTS backend server — the JSON-RPC/WebSocket gateway the "
             "desktop app and remote clients connect to. Headless: it never opens "
             "a browser UI.")
     _configure_serve_parser(serve_parser, cmd_dashboard=cmd_dashboard)
@@ -118,7 +118,7 @@ def build_dashboard_parser(
         help="Register a self-hosted dashboard with Nous Portal (writes the OAuth client ID to .env)",
         description="Register this install as a self-hosted dashboard with your Nous "
             "Portal account. Creates an OAuth client, writes "
-            "HERMES_DASHBOARD_OAUTH_CLIENT_ID into ~/.hermes/.env, and prints "
+            "HERMES_DASHBOARD_OAUTH_CLIENT_ID into ~/.cts/.env, and prints "
             "how to engage the login gate. Requires being logged in (cts setup).")
     dashboard_register_parser.add_argument(
         "--name", default=None,

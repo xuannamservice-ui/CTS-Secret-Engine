@@ -1,8 +1,8 @@
 """Signed-in provider requests that core makes FOR plugins; the token never reaches plugin code.
 
 A plugin that needs the user's subscription sign-in (today: Codex / ChatGPT) must not read, refresh
-or rewrite Hermes's auth store or ``~/.codex/auth.json``. Codex refresh tokens are single-use, so a
-second refresher races Hermes's locked refresh and can sign the user out. Instead the plugin declares
+or rewrite CTS Secret Engine's auth store or ``~/.codex/auth.json``. Codex refresh tokens are single-use, so a
+second refresher races CTS Secret Engine's locked refresh and can sign the user out. Instead the plugin declares
 ``requires_auth: [openai-codex]`` in its ``plugin.yaml`` and calls :func:`credentialed_provider_request`.
 Hermes resolves the credential through its own locked-refresh path, attaches ``Authorization``
 itself, sends only to that provider's origins, never follows a redirect, and hands back
@@ -43,7 +43,7 @@ class ProviderResponse:
 
 
 def _codex_auth(url: str) -> tuple[dict[str, str], str]:
-    """``(auth headers, credential base URL)`` from Hermes's own locked-refresh resolver."""
+    """``(auth headers, credential base URL)`` from CTS Secret Engine's own locked-refresh resolver."""
     from agent.codex_headers import codex_account_headers
     from agent.turn_failure_copy import oauth_relogin_command
     from hermes_cli.auth_codex import resolve_codex_runtime_credentials

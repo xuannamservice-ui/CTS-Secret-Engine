@@ -213,7 +213,7 @@ def _read_manifest(root: Path) -> dict[str, Any]:
     if not isinstance(version, int) or version > ARCHIVE_FORMAT_VERSION:
         raise ValueError(
             f"archive format version {version!r} is newer than this Hermes "
-            f"understands (max {ARCHIVE_FORMAT_VERSION}) — update Hermes and retry"
+            f"understands (max {ARCHIVE_FORMAT_VERSION}) — update CTS and retry"
         )
     return manifest
 

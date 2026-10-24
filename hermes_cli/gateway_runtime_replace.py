@@ -27,11 +27,11 @@ _FORCED_STOP_SECONDS = 5.0
 
 # One line each, short enough for the TUI's activity row after its "gateway incompatible: " prefix.
 REFUSAL_DETAIL = {
-    "owner_newer": "a newer CTS Secret Engine's gateway owns this profile; update Hermes or run: cts gateway stop",
+    "owner_newer": "a newer CTS Secret Engine's gateway owns this profile; update CTS or run: cts gateway stop",
     "foreign_install": "another Hermes install's gateway owns this profile; stop it there: cts gateway stop",
-    "owner_unverified": "an older Hermes gateway owns this profile and was not verified; run: cts gateway stop",
-    "owner_did_not_exit": "an older Hermes gateway owns this profile and did not stop; run: cts gateway stop",
-    "owner_unreachable": "an older Hermes gateway owns this profile; run: cts gateway stop",
+    "owner_unverified": "an older CTS gateway owns this profile and was not verified; run: cts gateway stop",
+    "owner_did_not_exit": "an older CTS gateway owns this profile and did not stop; run: cts gateway stop",
+    "owner_unreachable": "an older CTS gateway owns this profile; run: cts gateway stop",
 }
 
 
@@ -108,7 +108,7 @@ def _wait_gone(pid: int, seconds: float) -> bool:
 
 
 def replace_incompatible_owner(home: Path, *, deadline: float) -> str | None:
-    """Stop the older-Hermes gateway answering for *home*; None once it is gone, else a refusal code
+    """Stop the older-CTS gateway answering for *home*; None once it is gone, else a refusal code
     (see :data:`REFUSAL_DETAIL`). Never starts anything: the caller's ensure loop does that."""
     from gateway.status import terminate_pid
     budget = deadline - time.monotonic()

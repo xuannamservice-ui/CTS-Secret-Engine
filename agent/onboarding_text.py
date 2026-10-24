@@ -231,7 +231,7 @@ _OS_LINES = {
 _ARM_WINDOWS = ("On Windows on Arm, read arm64 vs x64 from winget's install output, not the manifest, and say when "
                 "an app is x64 only.")
 _SPARK_LINE = "This machine is built for local models; say so once when it fits what they asked."
-_REMOTE_LINE = "Hermes runs on another computer than the user's: say which machine anything is installed on."
+_REMOTE_LINE = "CTS Secret Engine runs on another computer than the user's: say which machine anything is installed on."
 
 
 def _task_prompt(option: str, label: str, resolve_skill: Callable[[str], str | None]) -> list[str]:

@@ -55,7 +55,7 @@ except ImportError:
     except Exception:
         raise SystemExit(
             "Web UI requires fastapi and uvicorn.\n"
-            "Run cts pm repair, then restart Hermes."
+            "Run cts pm repair, then restart CTS Secret Engine."
         )
 
 WEB_DIST = Path(os.environ["HERMES_WEB_DIST"]) if "HERMES_WEB_DIST" in os.environ else Path(__file__).parent / "web_dist"
@@ -1241,7 +1241,7 @@ def _on_server_started(
     if headless:
         # Auth-gated JSON-RPC/WS only — announce the bind, not a URL. flush:
         # a piped stdout otherwise surfaces this minutes after the sentinel.
-        print(f"  Hermes backend listening on {host}:{actual_port}", flush=True)
+        print(f"  CTS backend listening on {host}:{actual_port}", flush=True)
     else:
         from hermes_cli.url_utils import format_url_host
 

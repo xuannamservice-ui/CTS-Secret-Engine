@@ -141,7 +141,7 @@ class PtyBridge:
                 raise PtyUnavailableError("Pseudo-terminals are unavailable on this platform. "
                                           "CTS Secret Engine supports Windows only via WSL.")
             raise PtyUnavailableError("The `ptyprocess` package is missing. "  # only other way _PTY_AVAILABLE is False
-                                      "Run cts pm repair, then restart Hermes.")
+                                      "Run cts pm repair, then restart CTS Secret Engine.")
         # env=None: callers own env policy (process_registry already sanitizes), so inherit via the
         # factory with exact preservation. Backfill TERM when missing/blank — CI often lacks it and
         # probes like `tput cols` then fail before winsize reads; explicit overrides are kept.

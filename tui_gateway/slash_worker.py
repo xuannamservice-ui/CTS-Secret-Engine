@@ -3,7 +3,7 @@
 Protocol: reads JSON lines from stdin {id, command}, writes {id, ok, output|error} to stdout.
 """
 
-# Stop a ``utils/`` (or ``proxy/``, ``ui/``) package in the launch directory from shadowing Hermes's own
+# Stop a ``utils/`` (or ``proxy/``, ``ui/``) package in the launch directory from shadowing CTS Secret Engine's own
 # top-level modules: this worker is spawned as ``-m tui_gateway.slash_worker`` with the user's CWD, so
 # ``import cli`` would otherwise resolve ``utils`` to a colliding local package and crash the child in a
 # retry loop. ``hermes_bootstrap`` lives at the repo root (no collision risk), so importing it first is safe.
@@ -60,7 +60,7 @@ def _watchdog_parent(parent_pid: int, *, is_windows: bool, getppid=os.getppid) -
 
 def _prepare_slash_worker_runtime() -> None:
     """Start bounded MCP discovery before HermesCLI snapshots tools: each slash_worker child is its
-    own process — the parent ``hermes serve`` discovery thread does not populate this registry.
+    own process — the parent ``cts serve`` discovery thread does not populate this registry.
 
     See #61891.
     """
@@ -170,7 +170,7 @@ def main():
     _start_parent_death_watchdog(_watchdog_parent(args.parent_pid, is_windows=sys.platform == "win32"))
     # Keep the heavyweight CLI import behind the watchdog (importing it at module
     # load left a reparenting window before main() could snapshot PPID), but ahead
-    # of MCP discovery: importing cli loads ~/.hermes/.env and sets HERMES_QUIET,
+    # of MCP discovery: importing cli loads ~/.cts/.env and sets HERMES_QUIET,
     # which MCP ``${VAR}`` interpolation in the runtime prep depends on.
     from cli import HermesCLI
     _prepare_slash_worker_runtime()

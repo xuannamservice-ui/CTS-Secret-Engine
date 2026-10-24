@@ -640,7 +640,7 @@ def _legacy_path_has_content(path: Path) -> bool:
 
 
 def display_hermes_home(home: Path | None = None) -> str:
-    """User-facing ``~/`` display string for HERMES_HOME (``~/.hermes/profiles/coder``).
+    """User-facing ``~/`` display string for HERMES_HOME (``~/.cts/profiles/coder``).
 
     ``home`` overrides the lookup for callers that run before the CLI has applied the sticky
     ``active_profile`` (``get_hermes_home()`` would emit the wrong-profile fallback warning there).
@@ -648,7 +648,10 @@ def display_hermes_home(home: Path | None = None) -> str:
     if home is None:
         home = get_hermes_home()
     try:  # as_posix(): str() on Windows yields chimeras like ~/AppData\Local\hermes/skills/
-        return "~/" + home.relative_to(Path.home()).as_posix()
+        rel = home.relative_to(Path.home()).as_posix()
+        if rel == ".hermes" or rel.startswith(".hermes/"):
+            rel = ".cts" + rel[7:]
+        return "~/" + rel
     except ValueError:
         return str(home)
 

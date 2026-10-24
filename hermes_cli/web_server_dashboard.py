@@ -99,7 +99,7 @@ def _render_active_theme_bootstrap_css() -> str:
 _IMMUTABLE_ASSET_CACHE_CONTROL = "public, max-age=31536000, immutable"
 _NO_STORE = {"Cache-Control": "no-store, no-cache, must-revalidate"}
 _HEADLESS_MSG = (
-    "Headless backend (hermes serve): web UI disabled — use "
+    "Headless backend (cts serve): web UI disabled — use "
     "`cts dashboard` for the browser UI."
 )
 
