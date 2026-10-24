@@ -97,6 +97,7 @@ const ChannelsPage = lazy(() => import("@/pages/ChannelsPage"));
 const WebhooksPage = lazy(() => import("@/pages/WebhooksPage"));
 const SystemPage = lazy(() => import("@/pages/SystemPage"));
 const ChatPage = lazy(() => import("@/pages/ChatPage"));
+const CtsLabPage = lazy(() => import("@/pages/CtsLabPage"));
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
 import { useI18n } from "@/i18n";
@@ -126,7 +127,7 @@ function RouteFallback({ label = "Loading…" }: { label?: string }) {
 }
 
 function RootRedirect() {
-  return <Navigate to="/sessions" replace />;
+  return <Navigate to="/lab" replace />;
 }
 
 function UnknownRouteFallback({ pluginsLoading }: { pluginsLoading: boolean }) {
@@ -134,7 +135,7 @@ function UnknownRouteFallback({ pluginsLoading }: { pluginsLoading: boolean }) {
     // Render nothing during the plugin-load window — a spinner here would just flash.
     return null;
   }
-  return <Navigate to="/sessions" replace />;
+  return <Navigate to="/lab" replace />;
 }
 
 const CHAT_NAV_ITEM: NavItem = {
@@ -157,6 +158,7 @@ const CHAT_NAV_ITEM: NavItem = {
  */
 const BUILTIN_ROUTES_CORE: Record<string, ComponentType> = {
   "/": RootRedirect,
+  "/lab": CtsLabPage,
   "/sessions": SessionsPage,
   "/files": FilesPage,
   "/analytics": AnalyticsPage,
@@ -186,6 +188,11 @@ function ChatRouteSink() {
 }
 
 const BUILTIN_NAV_REST: NavItem[] = [
+  {
+    path: "/lab",
+    label: "CTS Lab",
+    icon: Sparkles,
+  },
   {
     path: "/sessions",
     labelKey: "sessions",
@@ -460,8 +467,9 @@ export default function App() {
   );
 
   const builtinNav = useMemo(() => {
+    const [labItem, ...restItems] = BUILTIN_NAV_REST;
     const base = embeddedChat
-      ? [CHAT_NAV_ITEM, ...BUILTIN_NAV_REST]
+      ? [labItem, CHAT_NAV_ITEM, ...restItems]
       : BUILTIN_NAV_REST;
     return showTokenAnalytics
       ? base
@@ -622,9 +630,11 @@ export default function App() {
                 </span>
 
                 <Typography className="font-bold text-[1.05rem] leading-[0.95] tracking-[0.0525rem] text-midground uppercase">
-                  CTS Secret
+                  CTS Lab
                   <br />
-                  Engine
+                  <span className="text-[0.68rem] font-mono tracking-widest text-text-secondary">
+                    Secret Engine
+                  </span>
                 </Typography>
               </div>
 

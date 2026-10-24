@@ -41,3 +41,4 @@ Before writing any substantive answer, internally execute this 4-stage pipeline:
 - **Administrative Documents (Rule 57):** Apply **Nghị định 30/2020/NĐ-CP** (Phụ lục I). Preserve standard administrative action verbs (*đồng bộ, quyết liệt, kịp thời...*) when tied to specific responsible bodies, metrics, and deadlines.
 - **Technical & Visual QA:** Use real Word Styles (`Title`, `Heading 1–3`, `Normal`, `List Paragraph`), multilevel numbering, and repeating table headers (`w:tblHeader`). When editing existing files, preserve dynamic fields, Track Changes, comments, bookmarks, and footnotes. To scrub Markdown traces or build compliant `.docx` files directly, run `skills/research/claude-markdown-cleaner/scripts/md_to_docx_nd30.py`.
 - **Deep Reference Skills (On-Demand via `skill_view`):** `master-academic-writing` (full 79 rules), `avoid-ai-writing` (full pattern catalog), `causal-jepa-world-model`, `claude-markdown-cleaner`.
+

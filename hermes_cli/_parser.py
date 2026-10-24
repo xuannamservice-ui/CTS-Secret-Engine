@@ -132,6 +132,7 @@ Examples:
     cts debug share             Upload debug report for support
     cts console                Open the safe CTS command console
     cts update                 Update to latest version
+    cts lab                    Start CTS Lab WebUI (port 9119)
     cts dashboard              Start web UI dashboard (port 9119)
     cts dashboard --stop       Stop running dashboard processes
     cts dashboard --status     List running dashboard processes

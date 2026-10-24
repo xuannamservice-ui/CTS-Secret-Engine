@@ -55,8 +55,8 @@ export const en: Translations = {
   },
 
   app: {
-    brand: "CTS Secret Engine",
-    brandShort: "HA",
+    brand: "CTS Lab — Secret Engine",
+    brandShort: "CTS",
     closeNavigation: "Close navigation",
     closeModelTools: "Close model and tools",
     footer: {

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convert Markdown/text into an editable Word (.docx) compliant with MASTER PROMPT v5.4.1 (Rule 58) & Nghị định 30/2020/NĐ-CP.
+r"""Convert Markdown/text into an editable Word (.docx) compliant with MASTER PROMPT v5.4.1 (Rule 58) & Nghị định 30/2020/NĐ-CP.
 
 Default parameters (Rule 58):
 - Paper: A4 Portrait (210mm x 297mm -> 11906 x 16838 twips)
@@ -15,8 +15,13 @@ from __future__ import annotations
 import argparse
 import html
 import re
+import sys
 import zipfile
 from pathlib import Path
+
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
 
 from clean_ai_markdown import clean_markdown
 

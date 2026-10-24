@@ -89,6 +89,17 @@ def build_dashboard_parser(
     dashboard_parser.add_argument("--tui", action="store_true", help=argparse.SUPPRESS)
     dashboard_parser.set_defaults(func=cmd_dashboard)
 
+    lab_parser = subparsers.add_parser(
+        "lab",
+        help="Start the CTS Lab WebUI (Causal JEPA World-Model, Anti-AI Studio & Nghị định 30 DOCX)",
+        description="Launch the CTS Lab WebUI research studio for Causal JEPA simulation, MASTER PROMPT v5.4.1 anti-AI editing, and Nghị định 30/2020/NĐ-CP DOCX export",
+    )
+    _add_server_runtime_args(lab_parser)
+    lab_parser.add_argument(
+        "--no-open", action="store_true", help="Don't open browser automatically")
+    lab_parser.add_argument("--tui", action="store_true", help=argparse.SUPPRESS)
+    lab_parser.set_defaults(func=cmd_dashboard)
+
     # `serve`: same gateway as `dashboard`, never opens a browser. Exists so the desktop
     # app / remote backends launch a backend WITHOUT invoking `dashboard` — independent
     # surfaces that merely share this server.
