@@ -17,6 +17,10 @@ class CuratedFallbackModels(list[str]):
 # Fallback OpenRouter snapshot used when the live catalog is unavailable, as
 # ``(model_id, description shown in menus)``. ``:free`` SKUs are described "free".
 _OPENROUTER_DESCRIPTIONS = {
+    "meta-llama/llama-3.3-70b-instruct:free": "default, free tier (128k context)",
+    "deepseek/deepseek-r1:free": "free tier, reasoning model",
+    "google/gemini-2.0-flash-exp:free": "free tier, high-speed multimodal",
+    "qwen/qwen-2.5-72b-instruct:free": "free tier, general instruction",
     "anthropic/claude-opus-5-fast": "2x price, higher output speed",
     "anthropic/claude-opus-4.8-fast": "2x price, higher output speed",
     "deepseek/deepseek-v4-pro-0813": "dated snapshot of v4-pro",
@@ -56,7 +60,9 @@ OPENROUTER_MODELS: list[tuple[str, str]] = [
         "stepfun/step-3.7-flash", "nvidia/nemotron-3-super-120b-a12b", "meta/muse-spark-1.2",
         "meta/muse-spark-1.2-contributor", "meta/muse-spark-1.3", "meta/muse-spark-1.3-contributor", "sakana/fugu-ultra",
         "upstage/solar-pro4", "upstage/solar-mini4",
-        "openrouter/pareto-code", "thinkingmachines/inkling:free", "thinkingmachines/inkling-small:free",
+        "openrouter/pareto-code", "meta-llama/llama-3.3-70b-instruct:free", "deepseek/deepseek-r1:free",
+        "google/gemini-2.0-flash-exp:free", "qwen/qwen-2.5-72b-instruct:free",
+        "thinkingmachines/inkling:free", "thinkingmachines/inkling-small:free",
         "minimax/minimax-m3:free", "z-ai/glm-5.2:free", "poolside/laguna-s-2.1:free", "poolside/laguna-xs-2.1:free",
         "nvidia/nemotron-3-super-120b-a12b:free", "nvidia/nemotron-3-ultra-550b-a55b:free",
         "inclusionai/ling-3.0-flash:free", "nvidia/nemotron-3.5-lightning:free", "stealth/union-alpha",
@@ -544,7 +550,7 @@ _PROVIDER_ALIASES = dict((
 # MUST match the labeled entry in website/static/api/model-catalog.json. Deliberately a capable
 # low-cost model rather than the curated lists' entry [0]: aggregator lists are ordered
 # most-capable-first, so [0] is the priciest Anthropic flagship.
-PREFERRED_SILENT_DEFAULT_MODEL = "z-ai/glm-5.2"
+PREFERRED_SILENT_DEFAULT_MODEL = "meta-llama/llama-3.3-70b-instruct:free"
 
 
 # Providers whose *silent* auto-default goes through the cost-safe catalog-labeled default

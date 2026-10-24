@@ -72,14 +72,15 @@ plugins:
 model:
   # Default model to use (can be overridden with --model flag)
   # Both "default" and "model" work as the key name here.
-  default: "anthropic/claude-opus-4.6"
+  default: "meta-llama/llama-3.3-70b-instruct:free"
   
   # Inference provider selection:
-  #   "auto"         - Auto-detect from credentials (default)
-  #   "openrouter"   - OpenRouter (requires: OPENROUTER_API_KEY or OPENAI_API_KEY)
-  #   "nous"         - Nous Portal OAuth (requires: cts auth add nous)
-  #   "nous-api"     - Nous Portal API key (requires: NOUS_API_KEY)
-  #   "anthropic"    - Direct Anthropic API (requires: ANTHROPIC_API_KEY)
+  #   "openrouter"   - OpenRouter (free tier e.g. meta-llama/llama-3.3-70b-instruct:free)
+  #   "auto"         - Auto-detect from credentials
+  #   "anthropic"    - Direct Anthropic API / Claude Code OAuth
+  #   "gemini"       - Google Gemini / AI Studio
+  #   "ollama"       - Local offline models
+  provider: "openrouter"
   #   "openai-codex" - OpenAI Codex (requires: cts auth)
   #   "copilot"      - GitHub Copilot / GitHub Models (requires: GITHUB_TOKEN)
   #   "gemini"      - Use Google AI Studio direct (requires: GOOGLE_API_KEY or GEMINI_API_KEY)
