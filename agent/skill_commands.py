@@ -976,6 +976,9 @@ def resolve_auto_load_skills(user_config: dict | None = None) -> list[str]:
     return list(dict.fromkeys(names))
 
 
+_AUTO_LOAD_PROMPT_CACHE: dict[tuple, tuple[str, list[str], list[str]]] = {}
+
+
 def build_auto_load_prompt(
     task_id: str | None = None, user_config: dict | None = None, home_override: Path | None = None,
 ) -> tuple[str, list[str], list[str]]:
@@ -987,21 +990,28 @@ def build_auto_load_prompt(
     the disabled list and the ``<home>/skills`` lookup all resolve under that home, so a gateway build thread
     that lost the HERMES_HOME ContextVar cannot pin the launch profile's skills into another profile's prompt.
     """
-    from hermes_constants import reset_hermes_home_override, set_hermes_home_override
+    from hermes_constants import get_hermes_home, reset_hermes_home_override, set_hermes_home_override
     home_token = set_hermes_home_override(str(home_override)) if home_override is not None else None
     try:
         auto_skills = resolve_auto_load_skills(user_config)
         if not auto_skills:
             return "", [], []
+        disabled = _disabled_skill_names()
+        cache_key = (tuple(auto_skills), str(home_override or get_hermes_home()), frozenset(disabled or ()))
+        cached = _AUTO_LOAD_PROMPT_CACHE.get(cache_key)
+        if cached is not None:
+            return cached[0], list(cached[1]), list(cached[2])
         loaded_names, missing, _disabled, prompt_parts = _load_skill_blocks(
             auto_skills,
             lambda identifier: _load_skill_payload(identifier, task_id=task_id),
             lambda name: (f'[IMPORTANT: The "{name}" skill is auto-loaded via config (skills.auto_load). '
                           "Treat its instructions as active guidance for the duration of this session unless "
                           "the user overrides them.]"),
-            task_id, disabled_names=_disabled_skill_names(), disabled_as_missing=True,
+            task_id, disabled_names=disabled, disabled_as_missing=True,
         )
-        return "\n\n".join(prompt_parts), loaded_names, missing
+        res = ("\n\n".join(prompt_parts), loaded_names, missing)
+        _AUTO_LOAD_PROMPT_CACHE[cache_key] = res
+        return res[0], list(res[1]), list(res[2])
     finally:
         if home_token is not None:
             reset_hermes_home_override(home_token)

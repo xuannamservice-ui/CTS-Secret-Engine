@@ -67,49 +67,70 @@ class CausalJEPASimulator:
         self.mc_samples = mc_samples
         self.seed = seed
 
-        # Build structural causal transition matrix W (src -> dst)
+        # Build structural causal transition matrix W (src -> dst) and sparse incoming adjacency list
         self.W = [[0.0] * self.d for _ in range(self.d)]
+        self._incoming_edges: list[list[tuple[int, float]]] = [[] for _ in range(self.d)]
         for src, dst, weight in causal_edges:
             if src in self.state_index and dst in self.state_index:
                 i = self.state_index[src]
                 j = self.state_index[dst]
-                self.W[i][j] = float(weight)
+                w_f = float(weight)
+                self.W[i][j] = w_f
+                if w_f != 0.0:
+                    self._incoming_edges[j].append((i, w_f))
+        self._incoming_tuples: tuple[tuple[tuple[int, float], ...], ...] = tuple(
+            tuple(edges) for edges in self._incoming_edges
+        )
+        self._noise_stds: tuple[float, ...] = tuple(s.noise_std for s in states)
 
     def _step_predictor(
         self,
         s_prev: list[float],
         s_init: list[float],
-        action: ActionSpec,
+        direct_vec: tuple[float, ...],
+        sustained_vec: tuple[float, ...],
         step_k: int,
         rng: random.Random,
     ) -> list[float]:
-        """JEPA Predictor P_phi(s_{t+k-1}, do(a), z_{t+k-1}) -> s_{t+k}."""
-        s_next = [0.0] * self.d
-        # Deviation from initial state propagates through causal edges W
-        dev = [s_prev[i] - s_init[i] for i in range(self.d)]
-        for j, st in enumerate(self.states):
-            causal_inflow = sum(dev[i] * self.W[i][j] for i in range(self.d))
-            direct = action.direct_delta.get(st.name, 0.0) if step_k == 1 else 0.0
-            sustained = action.sustained_delta.get(st.name, 0.0)
-            z_noise = rng.gauss(0.0, st.noise_std)
-            # Smooth nonlinear response with mean-reverting damping + causal propagation
-            raw_shift = self.damping * dev[j] + causal_inflow + direct + sustained + z_noise
-            # Soft saturation prevents runaway explosion while preserving sign/magnitude
-            bounded_shift = 2.0 * math.tanh(raw_shift / 2.0)
-            s_next[j] = _clamp(s_init[j] + bounded_shift, -5.0, 5.0)
+        """Fast sparse-matrix JEPA Predictor P_phi(s_{t+k-1}, do(a), z_{t+k-1}) -> s_{t+k}."""
+        d = self.d
+        damping = self.damping
+        incoming = self._incoming_tuples
+        noise_stds = self._noise_stds
+        gauss = rng.gauss
+        tanh = math.tanh
+        dev = [s_prev[i] - s_init[i] for i in range(d)]
+        s_next = [0.0] * d
+        is_first = step_k == 1
+        for j in range(d):
+            causal_inflow = 0.0
+            for src_i, w_ij in incoming[j]:
+                causal_inflow += dev[src_i] * w_ij
+            direct = direct_vec[j] if is_first else 0.0
+            raw_shift = damping * dev[j] + causal_inflow + direct + sustained_vec[j] + gauss(0.0, noise_stds[j])
+            val = s_init[j] + 2.0 * tanh(raw_shift * 0.5)
+            if val < -5.0:
+                val = -5.0
+            elif val > 5.0:
+                val = 5.0
+            s_next[j] = val
         return s_next
 
     def evaluate_action(self, action: ActionSpec) -> dict[str, Any]:
         rng = random.Random(self.seed)
         s_init = [s.initial for s in self.states]
+        direct_vec = tuple(action.direct_delta.get(st.name, 0.0) for st in self.states)
+        sustained_vec = tuple(action.sustained_delta.get(st.name, 0.0) for st in self.states)
 
         # trajectories[sample][step_k (1..H)][dim]
         trajectories: list[list[list[float]]] = []
+        step_fn = self._step_predictor
+        horizon = self.horizon
         for _ in range(self.mc_samples):
             s_curr = list(s_init)
             traj: list[list[float]] = []
-            for k in range(1, self.horizon + 1):
-                s_curr = self._step_predictor(s_curr, s_init, action, k, rng)
+            for k in range(1, horizon + 1):
+                s_curr = step_fn(s_curr, s_init, direct_vec, sustained_vec, k, rng)
                 traj.append(s_curr)
             trajectories.append(traj)
 
