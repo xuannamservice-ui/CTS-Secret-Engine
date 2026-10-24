@@ -26,7 +26,8 @@
 | Capability | Description |
 | :--- | :--- |
 | **Interactive Terminal (CLI & TUI)** | Full terminal user interface (`cts --tui` & `cts`) with multiline editing, slash-command autocomplete, streaming tool execution, and real-time status telemetry. |
-| **Creative Technologies & Simulation** | Specialized system identity (`SOUL.md`) and bundled skills (`cts-simulation-architect` + 58 built-in skills) for mathematical modeling, simulation architectures, and full-stack software engineering. |
+| **Creative Technologies & Simulation** | Specialized system identity (`SOUL.md`) and bundled skills (`cts-simulation-architect` + 68 built-in skills) for mathematical modeling, simulation architectures, and full-stack software engineering. |
+| **Human-Native Academic Writing & Anti-AI Suite (`MASTER PROMPT v5.4.1`)** | Built-in **MASTER PROMPT v5.4.1 (79 Rules)**, **Avoid AI Writing** (`conorbronsdon/avoid-ai-writing`), **Claude Markdown Trace Cleaner**, and **Nghị định 30/2020/NĐ-CP Word/DOCX Exporter** for native Vietnamese & English research papers, grant proposals, and policy documents. |
 | **Self-Evolving Memory & Skills** | Automatically creates, refines, and curates procedural skills in `~/.cts/skills/` (or `~/.hermes/skills/`) and searches past conversations via FTS5 full-text indexing. |
 | **Model & Provider Agnostic** | Connect effortlessly to OpenRouter, OpenAI, Anthropic Claude, Google Gemini, xAI Grok, local vLLM/Ollama endpoints, or custom OpenAI-compatible servers via `cts model`. |
 | **Multi-Platform Gateway** | Operate a single unified gateway (`cts gateway`) across Telegram, Discord, Slack, Microsoft Teams, Google Chat, WhatsApp, Signal, Matrix, and Webhooks. |
@@ -78,7 +79,8 @@ cts --help                 # View full CTS CLI command reference
 | Tính năng | Mô tả chi tiết |
 | :--- | :--- |
 | **Giao diện Terminal & TUI mang nhận diện `[CTS]`** | Hỗ trợ cả giao diện dòng lệnh cổ điển (`cts`) và giao diện TUI hiện đại (`cts --tui`) với biểu tượng chữ **CTS**, soạn thảo đa dòng, gợi ý lệnh `/help` và hiển thị tiến trình công cụ theo thời gian thực. |
-| **Chuyên biệt cho Công nghệ Sáng tạo & Mô phỏng** | Tích hợp nhân cách cốt lõi [`SOUL.md`](SOUL.md) và kỹ năng chuyên dụng `cts-simulation-architect` cùng 58 bộ kỹ năng dựng sẵn cho mô hình hóa toán học, thuật toán tối ưu hóa, kiến trúc hệ thống và phát triển phần mềm toàn diện. |
+| **Chuyên biệt cho Công nghệ Sáng tạo & Mô phỏng** | Tích hợp nhân cách cốt lõi [`SOUL.md`](SOUL.md) và kỹ năng chuyên dụng `cts-simulation-architect` cùng 68 bộ kỹ năng dựng sẵn cho mô hình hóa toán học, thuật toán tối ưu hóa, kiến trúc hệ thống và phát triển phần mềm toàn diện. |
+| **Chuẩn Viết Học thuật Bản địa & Chống Văn phong AI (`MASTER PROMPT v5.4.1`)** | Nhúng trực tiếp **MASTER PROMPT v5.4.1 (13 Phần / 79 Quy tắc)** vào lõi hệ thống kèm bộ kỹ năng `master-academic-writing`, `avoid-ai-writing` (`conorbronsdon/avoid-ai-writing`), và `claude-markdown-cleaner` (xóa dấu vết Markdown của Claude, chuẩn hóa tiếng Việt/Anh học thuật và xuất file Word `.docx` chuẩn Nghị định 30/2020/NĐ-CP). |
 | **Bộ nhớ dài hạn & Tự tiến hóa kỹ năng** | Tự động tạo mới, cải tiến và quản lý các kỹ năng trong `~/.cts` (`CTS_HOME`), đồng thời tìm kiếm lại lịch sử hội thoại bằng chỉ mục toàn văn FTS5 tốc độ cao. |
 | **Đa mô hình, không phụ thuộc nhà cung cấp** | Chuyển đổi linh hoạt giữa OpenAI, Anthropic Claude, Google Gemini, OpenRouter, xAI, hoặc mô hình nội bộ (Ollama / vLLM / Custom Endpoint) chỉ bằng lệnh `cts model`. |
 | **Cổng kết nối đa nền tảng (CTS Gateway)** | Kết nối trực tiếp Agent với Telegram, Discord, Slack, Microsoft Teams, Google Chat, WhatsApp, Signal, Matrix và Email thông qua một tiến trình `cts gateway` duy nhất. |

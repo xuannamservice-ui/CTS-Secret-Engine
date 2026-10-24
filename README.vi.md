@@ -20,6 +20,7 @@
 **CTS Secret Engine** là hệ thống AI tự hành (Autonomous AI Agent) được phát triển bởi **Creative Technologies and Simulation (CTS)**. Hệ thống được thiết kế để trở thành một kỹ sư AI, chuyên gia mô phỏng và trợ lý nghiên cứu toàn diện với vòng lặp tự học khép kín:
 
 - **Tự động đúc kết Kỹ năng (Procedural Skills):** Tự tạo mới và hoàn thiện kỹ năng từ kinh nghiệm giải quyết bài toán thực tế.
+- **Chuẩn Viết Học thuật, Nghiên cứu Khoa học & Chống Văn phong AI (`MASTER PROMPT v5.4.1`):** Tích hợp mặc định bộ quy chuẩn 79 quy tắc **MASTER PROMPT v5.4.1**, bộ công cụ **Avoid AI Writing** (`conorbronsdon/avoid-ai-writing`), công cụ **xóa dấu vết Markdown của Claude** (`claude-markdown-cleaner`) và xuất tài liệu Word (`.docx`) chuẩn **Nghị định 30/2020/NĐ-CP** (A4 dọc, Times New Roman 13pt, căn đều, giãn dòng 1,3).
 - **Bộ nhớ liên phiên (Cross-Session Memory):** Ghi nhớ kiến trúc dự án, phong cách làm việc của người dùng và tìm kiếm toàn văn (FTS5) trên lịch sử hội thoại.
 - **Đa diện mạo giao tiếp:** Hoạt động đồng bộ trên **CTS CLI** (`cts`), **CTS Terminal UI** (`cts --tui`), **CTS Web Dashboard** (`cts web`), **CTS Desktop App** và **CTS Messaging Gateway** (`cts gateway`).
 
@@ -62,3 +63,4 @@ cts --help                 # Xem hướng dẫn chi tiết toàn bộ các lện
 | `cts sessions browse` | Duyệt và khôi phục các phiên làm việc cũ |
 | `cts doctor` | Kiểm tra và chẩn đoán toàn bộ môi trường hoạt động |
 | `cts update` | Cập nhật hệ thống từ kho lưu trữ `xuannamservice-ui/CTS-Secret-Engine` |
+

@@ -17,3 +17,4 @@ Use this skill when the user asks to design, simulate, optimize, or architect a 
 3. **Empirical Verification & Visualization**:
    - Run sanity checks, boundary condition tests, and convergence benchmarks before reporting results.
    - Provide structured tables, metrics, or interactive HTML/canvas artifacts so the user can inspect simulation outcomes directly.
+
