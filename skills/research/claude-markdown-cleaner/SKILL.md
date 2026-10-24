@@ -36,3 +36,4 @@ python3 skills/research/claude-markdown-cleaner/scripts/md_to_docx_nd30.py input
 3. **Em-Dash Normalization (Rule 47):** Replaces overused ` — ` in Vietnamese prose with commas, colons, or parentheses according to grammatical function, and normalizes numeric/year ranges (`2026–2030`).
 4. **Vietnamese Heading Capitalization (Rule 49):** Fixes English Title-Case after colons in Vietnamese headings.
 5. **Chatbot Pleasantry Removal (Rule 41):** Strips opening/closing filler (*"Chắc chắn rồi, dưới đây là..."*, *"Hy vọng thông tin trên hữu ích..."*, *"Certainly! Here is..."*).
+

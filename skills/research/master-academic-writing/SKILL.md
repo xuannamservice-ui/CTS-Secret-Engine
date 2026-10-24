@@ -418,3 +418,4 @@ Phân biệt **Cấp độ 1 (Kiểm tra kỹ thuật cấu trúc DOCX)** và **
   - **MỨC 1 — BIÊN TẬP NGÔN NGỮ:** Chỉ sửa câu chữ, chính tả, dấu câu và diễn đạt. Giữ nguyên nội dung, dữ liệu, bố cục và cấu trúc tài liệu.
   - **MỨC 2 — BIÊN TẬP NỘI DUNG:** Tổ chức lại lập luận, bổ sung hoặc lược bỏ nội dung trong phạm vi yêu cầu; bảo toàn dữ liệu gốc.
   - **MỨC 3 — CHUẨN HÓA TOÀN DIỆN:** Chỉnh sửa nội dung, cấu trúc và định dạng theo yêu cầu; bảo toàn dữ liệu gốc và cảnh báo trước nếu thao tác có nguy cơ ảnh hưởng đến thành phần kỹ thuật phức tạp.
+
