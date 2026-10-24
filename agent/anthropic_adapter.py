@@ -376,10 +376,19 @@ def _attribution_headers() -> dict[str, str]:
 
 
 def _client_timeout(timeout):
-    """httpx.Timeout with the caller's read timeout (default 900s) and a 10s connect."""
-    from httpx import Timeout
+    """httpx2 / httpx Timeout or float timeout with the caller's read timeout (default 900s) and a 10s connect."""
     read = timeout if (isinstance(timeout, (int, float)) and timeout > 0) else 900.0
-    return Timeout(timeout=float(read), connect=10.0)
+    try:
+        import httpx2
+        return httpx2.Timeout(timeout=float(read), connect=10.0)
+    except Exception:
+        pass
+    try:
+        from httpx import Timeout
+        return Timeout(timeout=float(read), connect=10.0)
+    except Exception:
+        pass
+    return float(read)
 
 
 def _base_client_kwargs(base_url, timeout) -> tuple[str, dict[str, Any]]:

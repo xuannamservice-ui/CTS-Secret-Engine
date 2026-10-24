@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+import contextlib
+import importlib
+import logging
+import os
+import sys
+
 from .method_ctx import bind_module
 
 def _env_model_seed() -> str:
