@@ -54,7 +54,7 @@ _PROMPT_PREAMBLE = (
 _INITIALIZE_PARAMS = {
     "protocolVersion": 1,
     "clientCapabilities": {"fs": {"readTextFile": True, "writeTextFile": True}},
-    "clientInfo": {"name": "hermes-agent", "title": "Hermes Agent", "version": "0.0.0"},
+    "clientInfo": {"name": "hermes-agent", "title": "CTS Secret Engine", "version": "0.0.0"},
 }
 _DEPRECATED_CLI_ERROR = (
     "Hermes ACP mode requires the NEW GitHub Copilot CLI (github.com/github/copilot-cli), but the binary it just "
@@ -63,7 +63,7 @@ _DEPRECATED_CLI_ERROR = (
     "If `copilot` already resolves to the new CLI but you still see this,\npoint Hermes at it explicitly:\n"
     "  export HERMES_COPILOT_ACP_COMMAND=/path/to/new/copilot\n\n"
     "Alternative: use the `copilot` provider (no ACP, hits the Copilot API\ndirectly with a Copilot subscription "
-    "token) via `hermes setup`.\n\nOriginal error:\n"
+    "token) via `cts setup`.\n\nOriginal error:\n"
 )
 
 

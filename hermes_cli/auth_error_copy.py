@@ -21,12 +21,12 @@ DEVICE_FLOW_ERROR_COPY = {
     "expired_token": (
         "The sign-in code expired before it was approved in the browser. Run `{retry}` to get a new code."),
     "access_denied": (
-        "Sign-in was declined in the browser. Run `{retry}` to try again, or `hermes model` to pick a "
+        "Sign-in was declined in the browser. Run `{retry}` to try again, or `cts model` to pick a "
         "different provider."),
     "invalid_grant": (
         "The sign-in code was not accepted by the server. Run `{retry}` to get a new code."),
     "invalid_client": (
-        "The server did not recognize this copy of Hermes. Run `hermes update`, then `{retry}` again."),
+        "The server did not recognize this copy of Hermes. Run `cts update`, then `{retry}` again."),
 }
 
 
@@ -110,14 +110,14 @@ def sign_in_failure_lines(
     )
     lead = _classify(
         exc, rules,
-        "Could not sign in. Run `{retry}` to try again, or `hermes model` to pick a different provider.")
+        "Could not sign in. Run `{retry}` to try again, or `cts model` to pick a different provider.")
     lines = [lead.format(host=service_host, retry=retry_command)]
     if not is_cancelled(exc):
         lines.append(_details_line(exc))
     return lines
 
 
-def provider_setup_failure_lines(exc: BaseException, *, retry_command: str = "hermes model") -> list:
+def provider_setup_failure_lines(exc: BaseException, *, retry_command: str = "cts model") -> list:
     """Lines to print when the setup wizard's provider step fails: reason, that nothing was saved,
     and how to retry."""
     nothing_saved = (

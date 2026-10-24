@@ -694,7 +694,7 @@ class ProcessRegistry(ProcessTerminationMixin, ProcessCheckpointMixin, ProcessOu
         import queue as _queue_mod
         self.completion_queue: _queue_mod.Queue = _queue_mod.Queue()
         # Durable delegation completions are NOT rehydrated here: this constructor runs at
-        # import time in every process that touches the tools graph (cron clients, `hermes
+        # import time in every process that touches the tools graph (cron clients, `cts
         # sessions list`, workers), and restoring means writing the canonical ledger. The
         # owner replays them explicitly (GatewayRunner._start_recover_previous_run) and the
         # first consumer through restore_completions() (#123265). Importing the module is
@@ -1684,7 +1684,7 @@ class ProcessRegistry(ProcessTerminationMixin, ProcessCheckpointMixin, ProcessOu
         self, task_id: Optional[str] = None, *, timeout: float | None = None, poll_interval: float = 1.0,
     ) -> dict:
         """Bounded linger for ``notify_on_complete`` background processes at one-shot exit.
-        A one-shot CLI run (``hermes -q/-Q/-z``) exits when its turn ends; a background
+        A one-shot CLI run (``cts -q/-Q/-z``) exits when its turn ends; a background
         process it spawned still holds a stdout pipe owned by the dying parent and dies of
         SIGPIPE seconds later (Bot Mode handoff replies were the visible casualty). Only
         ``notify_on_complete`` processes carry a completion contract — servers/daemons/
@@ -1693,7 +1693,7 @@ class ProcessRegistry(ProcessTerminationMixin, ProcessCheckpointMixin, ProcessOu
         disables). Each pass re-reconciles child state so an orphaned-pipe exit can't wedge
         the linger. Returns ``{"waited", "completed", "timed_out"}`` id lists.
 
-        Bot Mode handoff REPLIES are the visible casualty (#90879): a recipient invoked as ``hermes -p <bot>
+        Bot Mode handoff REPLIES are the visible casualty (#90879): a recipient invoked as ``cts -p <bot>
         chat -Q --query-file ...`` dispatches its reply via ``message_agent`` / ``bot_relay`` exactly this
         way, then exits, and the reply process is destroyed ~3s later. The sender waits forever for a reply
         that was already killed.
@@ -1916,14 +1916,14 @@ class ProcessRegistry(ProcessTerminationMixin, ProcessCheckpointMixin, ProcessOu
     def _reconcile_local_exit(self, session: ProcessSession) -> None:
         """Reconcile ``session.exited`` against the real child state.
         The reader flips ``exited`` only at EOF; when the direct child has exited but a
-        descendant (e.g. a daemon from ``hermes update``) holds the pipe open, poll()
+        descendant (e.g. a daemon from ``cts update``) holds the pipe open, poll()
         would report "running" forever. If ``Popen.poll()`` has an exit code, drain
         readable bytes non-blocking and flip ``exited``. No-op for env/PTY, exited and
         detached sessions.
 
         The reader thread (`_reader_loop`) sets `session.exited = True` only in its `finally` block, which
         runs when `stdout.read()` returns EOF. If the direct `Popen` child has exited but a descendant
-        process (e.g. a daemon spawned by `hermes update` restarting the gateway) is still holding the
+        process (e.g. a daemon spawned by `cts update` restarting the gateway) is still holding the
         stdout pipe open, the reader blocks forever and poll() keeps returning "running" indefinitely (issue
         #17327 — 74 polls over 7 minutes on Feishu).
         """

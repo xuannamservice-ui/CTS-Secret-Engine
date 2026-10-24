@@ -218,7 +218,7 @@ def _read_browser_cfg() -> dict:
 
 
 def _use_gateway(browser_cfg: dict) -> bool:
-    """True when the browser section selects the Nous Tool Gateway — by the current ``hermes tools``
+    """True when the browser section selects the Nous Tool Gateway — by the current ``cts tools``
     picker row (``cloud_provider: nous``) or the pre-picker ``use_gateway: true`` flag. Reading only
     the legacy flag missed every picker-configured gateway, and the direct-API branch it fell into
     holds no credentials in managed mode (#108310)."""
@@ -379,10 +379,10 @@ def _resolve_local_cdp(env: dict, task_id: Optional[str], session_name: str = ""
 
     if _quiet(using_lightpanda_engine, False):
         fail = lambda e: (f"Lightpanda could not be started: {e} Set browser.engine to auto "
-                          "to use local Chrome, or switch backends via `hermes tools` → Browser Automation.")
+                          "to use local Chrome, or switch backends via `cts tools` → Browser Automation.")
     else:
         fail = lambda e: (f"The local browser could not be started: {e} "
-                          "Run `hermes tools` → Browser Automation to (re)install Chromium, or switch backends.")
+                          "Run `cts tools` → Browser Automation to (re)install Chromium, or switch backends.")
     err = _export_session_cdp(env, _session_info, key, fail, "The local browser session returned no CDP endpoint.")
     if err is None:
         _mark_local_browser(env, session, key)
@@ -444,9 +444,9 @@ def _resolve_backend_cdp(env: dict, task_id: Optional[str], session_name: str = 
     err = _export_session_cdp(
         env, _session_info, key,
         lambda e: (f"Cloud browser provider {provider_name} failed to provide a session: {e}. "
-                   "Fix the provider configuration or switch backends via `hermes tools` → Browser Automation."),
+                   "Fix the provider configuration or switch backends via `cts tools` → Browser Automation."),
         f"Cloud browser provider {provider_name} returned no CDP endpoint, so browser_exec "
-        "cannot drive it. Pick a CDP-capable provider via `hermes tools` → Browser Automation.",
+        "cannot drive it. Pick a CDP-capable provider via `cts tools` → Browser Automation.",
     )
     if session.get("fallback_from_cloud"):
         # The provider failed (rate limit, quota, outage) and the session layer fell back to a LOCAL
@@ -695,7 +695,7 @@ def browser_exec(code: str, session: str = "", timeout_s: int = _DEFAULT_TIMEOUT
     cmd = _find_cli()
     if not cmd:
         return tool_error("browser-harness is missing from Hermes's Python environment. "
-                          "Run `hermes update` to re-sync it.")
+                          "Run `cts update` to re-sync it.")
 
     env = _base_subprocess_env()
     if session:
@@ -871,7 +871,7 @@ BROWSER_EXEC_SCHEMA = {
     "name": "browser_exec",
     # Static fallback description, used only when the managed CLI is unavailable
     "description": (_HEADER_BASE + _HELPERS_DIGEST
-                    + "\n\n(The browser-use CLI is not installed yet. Install it with `hermes tools` (Browser Automation → Browser Use).)"),
+                    + "\n\n(The browser-use CLI is not installed yet. Install it with `cts tools` (Browser Automation → Browser Use).)"),
     "parameters": {
         "type": "object",
         "properties": {

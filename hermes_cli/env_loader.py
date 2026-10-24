@@ -29,7 +29,7 @@ _WARNED_KEYS: set[str] = set()          # credential names already given the non
 _WARNED_UTF32_PATHS: set[str] = set()   # .env paths already given the UTF-32 refuse-to-mangle warning
 _SCOPED_SKIP_LOGGED: set[str] = set()   # routed profile homes whose multiplex dotenv skip was logged
 
-# env-var name → source label ("bitwarden", …) for externally injected credentials; setup / `hermes
+# env-var name → source label ("bitwarden", …) for externally injected credentials; setup / `cts
 # model` tell users WHERE a key came from when .env lacks it.
 _SECRET_SOURCES: dict[str, str] = {}
 # Every env-var name an external source SUPPLIED for some home, whether it was applied or lost to a
@@ -77,7 +77,7 @@ _DOTENV_PASSES = itertools.count()
 _DOTENV_LOCK = threading.RLock()
 
 # Per-process credentials a parent mints and injects into the child's environment (the Desktop shell /
-# a link-style launcher spawns `hermes dashboard` with a fresh HERMES_DASHBOARD_SESSION_TOKEN and keeps
+# a link-style launcher spawns `cts dashboard` with a fresh HERMES_DASHBOARD_SESSION_TOKEN and keeps
 # the same token for its own /api probes). They are never .env configuration, so a persisted value in
 # ~/.hermes/.env must not replace an injected one — the parent would then 401 against its own child
 # (#115955). A value an earlier dotenv pass published is still reloaded normally.
@@ -319,7 +319,7 @@ def _sanitize_loaded_credentials() -> None:
             "rich-text editor, or web page that substituted lookalike\n"
             "  Unicode glyphs for ASCII letters. If authentication fails "
             "(e.g. \"API key not valid\"), re-copy the key from the\n"
-            "  provider's dashboard and run `hermes setup` (or edit the "
+            "  provider's dashboard and run `cts setup` (or edit the "
             ".env file in a plain-text editor).",
             file=sys.stderr,
         )
@@ -404,7 +404,7 @@ def _load_dotenv_with_fallback(
 
     ``load_pass`` groups the layered files of one ``load_hermes_dotenv`` call: within a pass a later layer
     (project, managed) still sees the earlier layer's output, as it always did; only OTHER passes' output
-    is peeled. A bare call (``hermes send``'s direct reload) is its own pass."""
+    is peeled. A bare call (``cts send``'s direct reload) is its own pass."""
     assignments = _parse_dotenv_file(path)
     with _DOTENV_LOCK:
         if load_pass is None:
@@ -590,7 +590,7 @@ def load_hermes_dotenv(
     # External secret sources are skipped in two updater situations: 1. ``load_external_secrets=False`` —
     # the caller is an ``update`` invocation that must not import optional secret-manager libraries
     # (Bitwarden → cryptography → ``_rust.pyd``) into the process that replaces that same environment on
-    # Windows (#73381, #86735). 2. A fresh ``hermes update`` retry just completed a deferred dependency
+    # Windows (#73381, #86735). 2. A fresh ``cts update`` retry just completed a deferred dependency
     # install before importing this module. Do not remap native secret-source dependencies in that same
     # updater process or the self-lock preflight will recreate the marker and exit 2 again. Dotenv and
     # managed env still load in both cases; only external source resolution is unnecessary for the updater.
@@ -603,7 +603,7 @@ def load_hermes_dotenv(
     # Re-apply the explicit terminal keys LAST, after the managed overlay, so the merged config lands.
     # config.yaml is the documented source of truth for terminal.* settings, but the dotenv loads above run
     # with override=True — so a stale TERMINAL_ENV=docker left in ~/.hermes/.env (e.g. written by an older
-    # `hermes setup` before the user switched terminal.backend in config.yaml) silently wins again on every
+    # `cts setup` before the user switched terminal.backend in config.yaml) silently wins again on every
     # reload. Startup launchers bridge config→env once, but long-lived processes (gateway per-turn reload,
     # cron standalone runs) call load_hermes_dotenv() repeatedly and used to flip the effective backend back
     # to the stale .env value mid-session (#29186, #67323).

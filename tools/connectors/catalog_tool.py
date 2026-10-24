@@ -22,8 +22,8 @@ SEARCH_LIMIT = 10
 
 NOT_HERE = (
     "manage_catalog is available only in the Hermes desktop app, where the approval card can be drawn. "
-    "Tell the user to install from a terminal instead: `hermes plugins install <id>` for a plugin, "
-    "`hermes skills install <id>` for a skill."
+    "Tell the user to install from a terminal instead: `cts plugins install <id>` for a plugin, "
+    "`cts skills install <id>` for a skill."
 )
 
 NOTE = (

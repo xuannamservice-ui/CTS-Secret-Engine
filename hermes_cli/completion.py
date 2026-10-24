@@ -1,4 +1,4 @@
-"""Shell completion script generation for hermes CLI. Walks the live argparse parser tree, so
+"""Shell completion script generation for CTS CLI. Walks the live argparse parser tree, so
 completion scripts never go stale; no extra dependencies."""
 
 from __future__ import annotations

@@ -439,7 +439,7 @@ export const frOverrides = {
         "Hermes n'a pas pu enregistrer dans son dossier de données. Ouvrez Maintenance pour le vérifier et le réparer.",
       gatewayAuthFailed: "Échec de l'authentification du gateway — vérifiez API_SERVER_KEY.",
       methodNotAllowed:
-        'Le backend du desktop a rejeté cette requête (405 Method Not Allowed). Essayez de redémarrer Hermes Desktop.',
+        'Le backend du desktop a rejeté cette requête (405 Method Not Allowed). Essayez de redémarrer CTS Secret Engine Desktop.',
       microphonePermission: "L'autorisation du microphone a été refusée.",
       openaiRejectedApiKey: 'OpenAI a rejeté la clé API.',
       openaiTtsNeedsKey: 'TTS OpenAI nécessite VOICE_TOOLS_OPENAI_KEY ou OPENAI_API_KEY.',
@@ -513,7 +513,7 @@ export const frOverrides = {
       "Votre paquet a été téléversé de manière privée. Partagez le lien ci-dessous dans votre fil d'assistance afin que l'équipe puisse consulter vos journaux.",
     failedTitle: "Échec de l'envoi",
     failedHint:
-      'Vous pouvez également exécuter `hermes debug share --nous` dans un terminal, ou `hermes debug share --local` pour afficher le rapport sans le téléverser.',
+      'Vous pouvez également exécuter `cts debug share --nous` dans un terminal, ou `cts debug share --local` pour afficher le rapport sans le téléverser.',
     handoffLead: 'Poursuivez la discussion sur :',
     links: {
       github: 'Issues GitHub',
@@ -939,7 +939,7 @@ export const frOverrides = {
       advanced: 'Avancé'
     },
     searchPlaceholder: {
-      about: 'À propos de Hermes Desktop',
+      about: 'À propos de CTS Secret Engine Desktop',
       config: 'Rechercher dans les paramètres...',
       gateway: 'Connexion au gateway...',
       keys: 'Rechercher des clés API...',
@@ -1788,7 +1788,7 @@ export const frOverrides = {
       enterUrlFirst: "Saisissez d'abord une URL distante.",
       restartingTitle: 'Reconnexion du gateway',
       savedTitle: 'Paramètres du gateway enregistrés',
-      restartingMessage: 'Hermes Desktop va se reconnecter avec les paramètres enregistrés — le shell reste ouvert.',
+      restartingMessage: 'CTS Secret Engine Desktop va se reconnecter avec les paramètres enregistrés — le shell reste ouvert.',
       savedMessage: 'Enregistré pour le prochain redémarrage.',
       connectedTo: (baseUrl, version) => `Connecté à ${baseUrl}${version ? ` · Hermes ${version}` : ''}`,
       reachableTitle: 'Gateway distant accessible',
@@ -1832,9 +1832,9 @@ export const frOverrides = {
       sshErrHostKey:
         "La clé de l'hôte a changé depuis votre dernière connexion. Vérifiez que ce changement est attendu, puis exécutez ssh-keygen -R <host> et reconnectez-vous.",
       sshErrNotInstalled:
-        "Hermes n'est pas installé sur l'hôte distant. Installez-le là-bas (curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh) ou définissez le chemin Hermes.",
+        "Hermes n'est pas installé sur l'hôte distant. Installez-le là-bas (curl -fsSL https://github.com/xuannamservice-ui/CTS-Secret-Engine/install.sh | sh) ou définissez le chemin Hermes.",
       sshErrPlatform:
-        'Plateforme distante non prise en charge. Le mode SSH de Hermes Desktop supporte les hôtes distants Linux, macOS et Windows.',
+        'Plateforme distante non prise en charge. Le mode SSH de CTS Secret Engine Desktop supporte les hôtes distants Linux, macOS et Windows.',
       sshErrTimeout: "Expiration de la connexion SSH. L'hôte peut être inaccessible ou en veille.",
       sshErrUpdateRequired: "Mettez à jour Hermes sur l'hôte distant avant de vous connecter avec Desktop SSH.",
       sshErrInteractiveAuth:
@@ -2447,7 +2447,7 @@ export const frOverrides = {
     edit: 'Modifier',
     archive: 'Archiver',
     skillArchivedTitle: 'Skill archivé',
-    skillArchivedMessage: 'Restaurable via hermes curator restore.',
+    skillArchivedMessage: 'Restaurable via cts curator restore.',
     tabPlugins: 'Plugins',
     plugins: {
       agentTitle: "Plugins de l'agent",
@@ -2756,7 +2756,7 @@ export const frOverrides = {
       },
       settings: {
         title: 'Paramètres',
-        detail: 'Configurer Hermes Desktop'
+        detail: 'Configurer CTS Secret Engine Desktop'
       },
       capabilities: {
         title: 'Capacités',
@@ -4275,7 +4275,7 @@ export const frOverrides = {
     viewDocs: "Voir la documentation d'installation",
     installTo: 'Sera installé dans',
     retryAfterRun: "Je l'ai exécuté — réessayer",
-    setupChoiceTitle: 'Configurer Hermes Desktop',
+    setupChoiceTitle: 'Configurer CTS Secret Engine Desktop',
     setupChoiceDesc:
       'Connectez cette application à un gateway Hermes que vous exécutez déjà, ou installez Hermes localement sur cet ordinateur.',
     connectExistingTitle: 'Se connecter à un Hermes existant',
@@ -4284,10 +4284,10 @@ export const frOverrides = {
       'Utilisez un backend distant avec un jeton de session ou une connexion par navigateur. Aucune installation locale ne démarrera.',
     installLocalTitle: 'Installer Hermes localement',
     installLocalDesc: 'Téléchargez Hermes, créez son environnement Python et exécutez le backend sur cet ordinateur.',
-    localStartUnavailable: "L'installation locale n'a pas pu démarrer. Redémarrez Hermes Desktop et réessayez.",
+    localStartUnavailable: "L'installation locale n'a pas pu démarrer. Redémarrez CTS Secret Engine Desktop et réessayez.",
     remoteSetupTitle: 'Se connecter à un Hermes existant',
     remoteSetupDesc:
-      "Entrez l'URL du gateway. Hermes Desktop détectera s'il a besoin d'un jeton ou d'une connexion par navigateur.",
+      "Entrez l'URL du gateway. CTS Secret Engine Desktop détectera s'il a besoin d'un jeton ou d'une connexion par navigateur.",
     remoteUrlTitle: 'URL du gateway',
     remoteUrlDesc: "Utilisez l'URL de base du gateway Hermes, y compris https:// pour les connexions distantes.",
     remoteUrlPlaceholder: 'https://gateway.example.com/hermes',
@@ -4316,7 +4316,7 @@ export const frOverrides = {
     settingUpTitle: 'Configuration de CTS Secret Engine',
     finishingTitle: 'Finalisation',
     failedDesc:
-      "L'une des étapes d'installation a échoué. Sous Windows, cela peut arriver si une autre instance Hermes CLI ou desktop est en cours d'exécution. Arrêtez toutes les instances Hermes en cours, puis réessayez. Consultez les détails ci-dessous ou le journal du bureau pour la transcription complète.",
+      "L'une des étapes d'installation a échoué. Sous Windows, cela peut arriver si une autre instance CTS CLI ou desktop est en cours d'exécution. Arrêtez toutes les instances Hermes en cours, puis réessayez. Consultez les détails ci-dessous ou le journal du bureau pour la transcription complète.",
     activeDesc:
       "Il s'agit d'une configuration unique. Le programme d'installation de Hermes télécharge les dépendances et configure votre machine. Les lancements suivants ignoreront cette étape.",
     progress: (completed, total) => `${completed} sur ${total} étapes terminées`,
@@ -4524,7 +4524,7 @@ export const frOverrides = {
       update: 'mise à jour',
       updateInProgress: 'Mise à jour en cours',
       commitsBehind: (count, branch) => `${count} commit${count === 1 ? '' : 's'} en retard sur ${branch}`,
-      desktopVersion: version => `Hermes Desktop v${version}`,
+      desktopVersion: version => `CTS Secret Engine Desktop v${version}`,
       backendVersion: version => `Backend v${version}`,
       clientLabel: version => `client v${version}`,
       connectionSsh: host => `SSH : ${host}`,
@@ -5469,8 +5469,8 @@ export const frOverrides = {
     sessionExportFailed: "Impossible d'exporter la session",
     imageSaved: 'Image enregistrée',
     downloadStarted: 'Téléchargement démarré',
-    restartToUseSaveImage: "Redémarrez Hermes Desktop pour utiliser Enregistrer l'image.",
-    restartToSaveImages: 'Redémarrez Hermes Desktop pour enregistrer les images',
+    restartToUseSaveImage: "Redémarrez CTS Secret Engine Desktop pour utiliser Enregistrer l'image.",
+    restartToSaveImages: 'Redémarrez CTS Secret Engine Desktop pour enregistrer les images',
     imageDownloadFailed: "Échec du téléchargement de l'image",
     openImage: "Ouvrir l'image",
     downloadImage: "Télécharger l'image",
@@ -5491,7 +5491,7 @@ export const frOverrides = {
       success: platform => `Transféré vers ${platform}. Reprenez ici à tout moment.`,
       systemNote: platform => `↻ Transféré vers ${platform} — reprenez ici à tout moment.`,
       failed: error => `Échec du transfert : ${error}`,
-      timedOut: "Délai d'expiration en attendant la Gateway. `hermes gateway` est-il en cours d'exécution ?",
+      timedOut: "Délai d'expiration en attendant la Gateway. `cts gateway` est-il en cours d'exécution ?",
       startMessaging: 'Démarrer la messagerie'
     }
   },

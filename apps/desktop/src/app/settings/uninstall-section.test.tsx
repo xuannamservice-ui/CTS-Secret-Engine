@@ -20,7 +20,7 @@ function summary(allowed: boolean): DesktopUninstallSummary {
     code_removal_allowed: allowed,
     native_removal_instructions: allowed
       ? null
-      : 'Quit the app and drag Hermes Agent.app from /Applications to the Trash.',
+      : 'Quit the app and drag CTS Secret Engine.app from /Applications to the Trash.',
     hermes_home: '/test/home',
     agent_installed: true,
     gui_installed: true,

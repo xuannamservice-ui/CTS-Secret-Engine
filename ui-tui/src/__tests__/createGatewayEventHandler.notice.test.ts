@@ -399,7 +399,7 @@ describe('createGatewayEventHandler', () => {
         python: 'gateway ensure',
         stderr_tail:
           'Command failed: python gateway_bootstrap.py --start\ngateway incompatible: runtime_protocol\n' +
-          "gateway incompatible: another Hermes install's gateway owns this profile; stop it there: hermes gateway stop"
+          "gateway incompatible: another Hermes install's gateway owns this profile; stop it there: cts gateway stop"
       },
       type: 'gateway.start_timeout'
     } as any)

@@ -609,7 +609,7 @@ class AuthorityConnection:
         # never re-lights DB-derived liveness with no new activity.
         self.authority.authorize(self.actor, ref, 'session:read')
         if 'session:control' in self.actor.capabilities:
-            # A client attaching (main's `hermes -c` was a new process) re-reads the config-derived settings
+            # A client attaching (main's `cts -c` was a new process) re-reads the config-derived settings
             # (CFG-2); a snapshot poll on this attachment does not. Any open still adopts a frozen Bot Chat
             # whose earlier open found it busy (Desktop's warm `session.activate` resumes on one connection).
             from gateway.session_policy_refresh import refresh_resumed_policy

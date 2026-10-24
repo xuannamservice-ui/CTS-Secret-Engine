@@ -100,7 +100,7 @@ _IMMUTABLE_ASSET_CACHE_CONTROL = "public, max-age=31536000, immutable"
 _NO_STORE = {"Cache-Control": "no-store, no-cache, must-revalidate"}
 _HEADLESS_MSG = (
     "Headless backend (hermes serve): web UI disabled — use "
-    "`hermes dashboard` for the browser UI."
+    "`cts dashboard` for the browser UI."
 )
 
 
@@ -119,7 +119,7 @@ def mount_spa(application: FastAPI):
     from hermes_cli.web_server import WEB_DIST, _DASHBOARD_EMBEDDED_CHAT_ENABLED, app
     from hermes_cli.web_deps import _server
 
-    # `hermes serve` is the headless backend: it must NEVER serve the browser SPA, even if a
+    # `cts serve` is the headless backend: it must NEVER serve the browser SPA, even if a
     # dist is lying around, so only the JSON-RPC/WS/API surface is reachable.
     if os.environ.get("HERMES_SERVE_HEADLESS") == "1":
 
@@ -127,7 +127,7 @@ def mount_spa(application: FastAPI):
         async def no_frontend(full_path: str):
             # Desktop token handshake: the Electron shell boots by fetching `/` and reading
             # ``window.__HERMES_SESSION_TOKEN__`` for /api/ws auth. When headless 404'd every
-            # path, a renderer whose spawn token no longer matched (e.g. after `hermes update`)
+            # path, a renderer whose spawn token no longer matched (e.g. after `cts update`)
             # white-screened. Serve a token-only page at the exact root, but ONLY when the auth
             # gate is off: on a gated serve the token must never be readable without auth.
             # See #94227, #95575.
@@ -144,7 +144,7 @@ def mount_spa(application: FastAPI):
             return JSONResponse({"error": _HEADLESS_MSG}, status_code=404)
         return
 
-    # A missing WEB_DIST is deliberately NOT a mount-time terminal state (#82614): a long-lived `hermes
+    # A missing WEB_DIST is deliberately NOT a mount-time terminal state (#82614): a long-lived `cts
     # dashboard --skip-build` process that survives a `git pull` (or starts before the first build) used to
     # install a permanent no_frontend catch-all here and could never recover — every route answered 404
     # "Frontend not built" until the process was restarted, even after `npm run build` completed. The SPA
@@ -647,9 +647,9 @@ def _schedule_check_fn_probe(fn) -> Optional[threading.Thread]:
 
 
 def _plugin_login_command(name: str) -> str:
-    """A plugin that left core with its own login command (``hermes spotify login``), else ``hermes auth <name>``."""
+    """A plugin that left core with its own login command (``cts spotify login``), else ``cts auth <name>``."""
     from hermes_cli.left_core_migration import LEFT_CORE
-    return next((f"hermes {f.cli} login" for f in LEFT_CORE if f.plugin == name and f.cli), f"hermes auth {name}")
+    return next((f"hermes {f.cli} login" for f in LEFT_CORE if f.plugin == name and f.cli), f"cts auth {name}")
 
 
 def _plugin_auth_hint(name: str, provides_tools: list) -> tuple:
@@ -729,7 +729,7 @@ def _merged_plugins_hub(force_refresh: bool = False) -> dict[str, Any]:
     active = _category_active_names()
 
     for name, version, description, source, dir_str, key in _discover_all_plugins():
-        # Same verdict as `hermes plugins list` / the TUI hub: name+key aliases for the lists, bundled
+        # Same verdict as `cts plugins list` / the TUI hub: name+key aliases for the lists, bundled
         # backends/platforms/providers and the live memory provider count as enabled without a list
         # entry (#73131, #82898).
         runtime_status = _plugin_status(

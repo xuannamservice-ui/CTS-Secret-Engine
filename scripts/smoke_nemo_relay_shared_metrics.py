@@ -1,4 +1,4 @@
-"""Run a real Hermes CLI turn and validate the Relay shared-metrics output."""
+"""Run a real CTS CLI turn and validate the Relay shared-metrics output."""
 
 from __future__ import annotations
 

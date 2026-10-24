@@ -5,9 +5,9 @@
 .DESCRIPTION
   Two steps:
 
-    pre   take a `hermes backup` of your data, snapshot the disk that holds
+    pre   take a `cts backup` of your data, snapshot the disk that holds
           HERMES_HOME and the desktop app's Electron userData (Volume Shadow Copy),
-          then point the install's update source at a fork so `hermes update`
+          then point the install's update source at a fork so `cts update`
           pulls that fork's main. Prints what to do next.
     post  put both trees back exactly as they were at the snapshot.
 
@@ -19,7 +19,7 @@
   copied, and files it added are deleted. HERMES_HOME\cache is left as it is.
 
   If Windows drops the snapshot (it can when the disk's shadow storage fills),
-  your files are untouched but post cannot roll back; the `hermes backup` zip
+  your files are untouched but post cannot roll back; the `cts backup` zip
   still holds your config, keys, sessions, memories and skills. To make that
   unlikely, pre raises the shadow-storage cap to 128 GB (a ceiling, not a
   reservation) and post puts the original cap back.
@@ -41,11 +41,11 @@
 
 .EXAMPLE
   ./hermes-update-rehearsal.ps1 pre -Source <git-url>
-  # ... run `hermes update`, use Hermes, test ...
+  # ... run `cts update`, use Hermes, test ...
   ./hermes-update-rehearsal.ps1 post
 
 .NOTES
-  `pre` and `hermes update` need network access to -Source, and a usable git on PATH.
+  `pre` and `cts update` need network access to -Source, and a usable git on PATH.
 #>
 [CmdletBinding()]
 param(
@@ -61,8 +61,8 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version 2.0
 
-$OfficialHttps = 'https://github.com/NousResearch/hermes-agent.git'
-$OfficialSsh = 'git@github.com:NousResearch/hermes-agent.git'
+$OfficialHttps = 'https://github.com/xuannamservice-ui/CTS-Secret-Engine.git'
+$OfficialSsh = 'git@github.com:xuannamservice-ui/CTS-Secret-Engine.git'
 # Diff-area cap pre sets while the snapshot is alive (post restores the original).
 $ShadowStorageMax = [UInt64]128GB
 
@@ -313,7 +313,7 @@ function Invoke-Pre {
   $procs = @(Get-Process -Name 'Hermes', 'hermes' -ErrorAction SilentlyContinue)
   if ($procs.Count) {
     Warn 'Hermes looks like it is running -- close the desktop app and the gateway'
-    Warn "before you run 'hermes update', or the dependency sync may fail:"
+    Warn "before you run 'cts update', or the dependency sync may fail:"
     $procs | ForEach-Object { Write-Host "    $($_.ProcessName) (pid $($_.Id))" }
   }
   else { Ok 'no Hermes processes running' }
@@ -403,7 +403,7 @@ function Invoke-Pre {
 
   Step "pointing your install at $Source"
   # insteadOf is a TRANSPORT rewrite. Your checkout's origin keeps the official
-  # URL, which matters: `hermes update` resolves its channel from the archive and
+  # URL, which matters: `cts update` resolves its channel from the archive and
   # validates it against `git config --get remote.origin.url`. Repointing origin
   # at a fork would make the update fail before any git work.
   # Straight at the fork: the updater follows main, so the fork's main is what
@@ -555,7 +555,7 @@ function Invoke-Post {
 
   Step 'done'
   Say "Your HERMES_HOME and the desktop app's data are back exactly as they were."
-  Say "Open the desktop app once and run 'hermes doctor' to confirm."
+  Say "Open the desktop app once and run 'cts doctor' to confirm."
   Say "Nothing was judged or changed by this script; the backup at $($script:Snap)"
   Say 'is yours to keep or delete.'
 }

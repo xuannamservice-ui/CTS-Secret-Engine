@@ -57,7 +57,7 @@ DEFAULT_CONFIG = {
     # 0/null disables.
     "max_live_sessions": 16,
     "session": {
-        # Per-terminal `hermes -c`: each CLI session writes a breadcrumb under
+        # Per-terminal `cts -c`: each CLI session writes a breadcrumb under
         # $HERMES_HOME/terminal-sessions/<terminal-id>, so bare -c/--continue resumes THIS
         # terminal's session (tmux/kitty/wezterm pane, tty). false = resume globally most-recent.
         "terminal_continue": True,
@@ -81,7 +81,7 @@ DEFAULT_CONFIG = {
         "budget_warning_ratio": None,
         # Wall-clock budget (seconds) per run. null = off. When set: one-time wrap-up notice at 80%
         # elapsed; implicit provider stale timeouts capped to remaining budget. CLI equivalent:
-        # `hermes chat --run-budget N`.
+        # `cts chat --run-budget N`.
         "run_budget_seconds": None,
         # Gateway inactivity timeout (seconds). Only fires when the agent is completely idle — not
         # while calling tools or receiving API responses. 0 = unlimited.
@@ -118,7 +118,7 @@ DEFAULT_CONFIG = {
         # In-band restart (/restart, SIGUSR1): refuse new work, then wait up to this many seconds
         # for in-flight agents/cron/api runs to finish before stop(). 0 = enter stop() at once. 30
         # min is a safety valve for wedged agents, not a target; raise for long unattended turns.
-        # Default 30 min is a safety valve for wedged agents, not a target latency — an interactive `hermes
+        # Default 30 min is a safety valve for wedged agents, not a target latency — an interactive `cts
         # gateway restart` must never block for hours on a turn that wedged (#79133).
         "restart_after_turn_timeout": 1800,
         # Max seconds a submitted prompt waits for the deferred agent build (MCP discovery, model
@@ -241,12 +241,12 @@ DEFAULT_CONFIG = {
         "session_stall_timeout": 300,
         # Transcript-sanitiser heal escalation: after this many pre-send heal passes within a
         # 10-minute window, log one ERROR and queue a ONE-TIME out-of-band notice pointing at /debug
-        # share or `hermes doctor` (status channel only; prompt cache untouched). 0 = no escalation
+        # share or `cts doctor` (status channel only; prompt cache untouched). 0 = no escalation
         # (per-window WARNINGs still fire).
         # See #96870.
         "sanitizer_heal_escalation_threshold": 3,
         # Seconds of continuous reconnect failure before a platform gets needs_attention flagged in
-        # gateway status (`hermes status` / fleet monitoring). Retries never stop — a signal, not a
+        # gateway status (`cts status` / fleet monitoring). Retries never stop — a signal, not a
         # circuit breaker. 0 = disable.
         "reconnect_attention_after": 7200,
         # Freshness window (seconds) for the auto-continue note. After a crash/restart mid-run the
@@ -376,7 +376,7 @@ DEFAULT_CONFIG = {
         # Run the container as the host uid:gid (`--user`) so files written to bind mounts
         # (docker_volumes, persistent workspace, mounted cwd) are owned by you, not root. Off by
         # default for images whose entrypoints must start as root (e.g. the bundled Hermes image,
-        # which drops to `hermes` via s6-setuidgid). When on, SETUID/SETGID caps are omitted.
+        # which drops to `cts` via s6-setuidgid). When on, SETUID/SETGID caps are omitted.
         "docker_run_as_host_user": False,
         # Snap-packaged Docker under AppArmor (Ubuntu cloud images; LP#1908448) refuses to exec
         # anything under `--init` or `--security-opt no-new-privileges` ("operation not
@@ -404,8 +404,8 @@ DEFAULT_CONFIG = {
         # keyless_fallback is false.
         "keyless_rescue": True,
         # Per-vendor tier for vendors with both a keyless free endpoint and a keyed paid path (exa,
-        # parallel, firecrawl, keenable; tavily is opt-in keyless via `hermes tools`, not a ring
-        # member). Set by the `hermes tools` picker. "free" = always anonymous endpoint even with a
+        # parallel, firecrawl, keenable; tavily is opt-in keyless via `cts tools`, not a ring
+        # member). Set by the `cts tools` picker. "free" = always anonymous endpoint even with a
         # key; "paid" = always keyed (missing key = error; vendor excluded from the ring); unset =
         # keyed when the key is present, else the ring.
         "provider_tier": {},
@@ -437,7 +437,7 @@ DEFAULT_CONFIG = {
         # (faster navigation, no screenshots); "chrome" is read as "auto". Ignored while a cloud
         # provider, cdp_url or use_real_profile is active.
         "engine": "auto",
-        # Chromium binary for local sessions. "" = pm's chromium (`hermes pm install chromium`), the
+        # Chromium binary for local sessions. "" = pm's chromium (`cts pm install chromium`), the
         # Docker image's build, else a system chromium where pm builds none (Termux).
         "executable_path": "",
         # Persistent Chromium profile directory shared by local sessions; "" = a fresh throwaway
@@ -458,7 +458,7 @@ DEFAULT_CONFIG = {
         "use_real_profile": False,
         # Windows only: a running Chrome/Edge/Brave locks its cookie DB (the last snapshot is reused;
         # with none yet, a fresh browser runs). When on, the agent ASKS first; on approval it runs
-        # `hermes browser close-profile` (kills that profile's browser tree, unsaved tabs lost) so a
+        # `cts browser close-profile` (kills that profile's browser tree, unsaved tabs lost) so a
         # new session can copy it; no auto-kill. No effect on macOS/Linux, where a running
         # browser only locks the password/autofill DBs, which are skipped (cookies still copy).
         "real_profile_autoclose": False,
@@ -473,14 +473,14 @@ DEFAULT_CONFIG = {
         "dialog_policy": "must_respond",  # must_respond | auto_dismiss | auto_accept
         "dialog_timeout_s": 300,  # safety auto-dismiss after N seconds under must_respond
         # Read by the `camofox` catalog plugin (Camofox left core). An empty free-form mapping, so
-        # `hermes config set browser.camofox.<key>` is accepted and user values are never stripped.
+        # `cts config set browser.camofox.<key>` is accepted and user values are never stripped.
         "camofox": {},
     },
-    # Stale git worktree lifecycle (`hermes -w`, `/worktree new`, subagent isolation, Desktop). The
-    # sweep runs at `hermes -w` startup and every 6h from the cron ticker over every repo Hermes made
+    # Stale git worktree lifecycle (`cts -w`, `/worktree new`, subagent isolation, Desktop). The
+    # sweep runs at `cts -w` startup and every 6h from the cron ticker over every repo Hermes made
     # a worktree in. Trees idle past their tier (hermes-*/subagent-* 24h, named 72h) that are clean
     # and merged are removed; dirty or unpushed ones are archived to refs/hermes/archive/<tree>
-    # first (`hermes worktree restore <name>`). Live trees and Kanban t_<hex> trees are never touched.
+    # first (`cts worktree restore <name>`). Live trees and Kanban t_<hex> trees are never touched.
     "worktrees": {
         # false = never remove a dirty/unpushed tree (the pre-archive behaviour, exactly).
         "archive_dirty": True,
@@ -493,7 +493,7 @@ DEFAULT_CONFIG = {
         "max_total_gb": 0,
     },
     # Filesystem checkpoints: snapshot the working directory once per turn (on the first
-    # write_file/patch call); restore with /rollback. Opt-in via `hermes chat --checkpoints` or
+    # write_file/patch call); restore with /rollback. Opt-in via `cts chat --checkpoints` or
     # enabled=True (most users never use /rollback). Single shared shadow store with real pruning.
     "checkpoints": {
         "enabled": False,
@@ -510,7 +510,7 @@ DEFAULT_CONFIG = {
         # refs moved, enforces max_total_size_mb, deletes legacy-* archives older than retention_days.
         # It NEVER deletes orphans (workdir missing on
         # disk) — a missing workdir may just be an unmounted volume/VPN, and an unattended sweep
-        # must not guess. Orphans: `hermes checkpoints prune` (`--keep-orphans` to skip).
+        # must not guess. Orphans: `cts checkpoints prune` (`--keep-orphans` to skip).
         "auto_prune": True,
         "retention_days": 7,
         "min_interval_hours": 24,
@@ -531,7 +531,7 @@ DEFAULT_CONFIG = {
     # up by the between-turns refresh (agent/turn_context.py), so keep it small — a dead server adds
     # this much to first-response latency.
     "mcp_discovery_timeout": 1.5,
-    # Same bound for single-query mode (``hermes -q/-z``). With only ONE turn there is no
+    # Same bound for single-query mode (``cts -q/-z``). With only ONE turn there is no
     # between-turns refresh, so a server that misses the window is invisible for the whole session;
     # the larger bound lets slow cold-start servers (npx, uvx, remote HTTP) land. Reachable servers
     # still only wait their real handshake time.
@@ -794,7 +794,7 @@ DEFAULT_CONFIG = {
         "profile_describer": _aux(60),   # 1-2 sentence profile blurb; short, cheap
         "goal_judge": _aux(60),          # /goal satisfaction + contract drafting; JSON calls
         # Curator skill-usage review can take minutes on reasoning models (umbrellas over hundreds
-        # of skills); route cheaper via `hermes model` → auxiliary → Curator.
+        # of skills); route cheaper via `cts model` → auxiliary → Curator.
         "curator": _aux(600),
         "monitor": _aux(60),   # important-mail 0-10 scorer; high-volume, small model fine
         # Post-turn self-improvement fork (save memory / patch skill). "auto" = main model replaying
@@ -834,13 +834,13 @@ DEFAULT_CONFIG = {
         # continues, Shift+Enter reported distinctly. False restores the c-j submit fallback for
         # POSIX PTYs whose plain Enter arrives as LF.
         "cli_multiline_shortcuts": True,
-        # `hermes`/`hermes chat` launches "cli" (prompt_toolkit REPL) | "tui" (Ink); --cli, --tui, HERMES_TUI=1 win.
+        # `cts`/`cts chat` launches "cli" (prompt_toolkit REPL) | "tui" (Ink); --cli, --tui, HERMES_TUI=1 win.
         # cli_layout = the REPL's look: "modern" (glyph rows, status under the composer) | "classic" (boxed panels).
         "interface": "cli", "cli_layout": "modern",
         # Native TUI uses the terminal's primary buffer and scrollback instead of the custom
         # alternate-screen viewport. Flags win: `--native` / `--tui-native` and `--cli`.
         "tui_native": False,
-        # `hermes --tui` auto-resumes the most recent human-facing session (like `hermes -c`).
+        # `cts --tui` auto-resumes the most recent human-facing session (like `cts -c`).
         # HERMES_TUI_RESUME=<id> always wins.
         "tui_auto_resume_recent": False,
         # Desktop reopens the last chat/page on cold start (also in Settings → Appearance).
@@ -982,7 +982,7 @@ DEFAULT_CONFIG = {
         },
         "copy_shortcut": "auto",  # "auto" (platform default) | ctrl_c | ctrl_shift_c | disabled
         # Petdex animated mascot (github.com/crafter-station/petdex): cosmetic sprite across
-        # CLI/TUI/desktop, managed with `hermes pets`. No effect on prompt caching.
+        # CLI/TUI/desktop, managed with `cts pets`. No effect on prompt caching.
         "pet": {
             "enabled": False,
             "slug": "",   # active pet slug in get_hermes_home()/pets/; empty → first installed
@@ -1379,7 +1379,7 @@ DEFAULT_CONFIG = {
         # Orchestrator role controls. Depth floored at 1, no ceiling; each level multiplies cost.
         "max_spawn_depth": 1,  # 1 = flat, 2 = orchestrator→leaf, 3+ = deeper
         "orchestrator_enabled": True,  # kill switch for role="orchestrator"
-        # Total subagents a finite one-shot run (hermes chat -q / --oneshot) may spawn; 0 = unlimited.
+        # Total subagents a finite one-shot run (cts chat -q / --oneshot) may spawn; 0 = unlimited.
         # Each child re-pays a cold system prompt and re-explores the repo, and one-shot spawns are mostly
         # "review my own work" rather than parallel work (agent/oneshot_footprint.py).
         "oneshot_max_children": 2,
@@ -1454,7 +1454,7 @@ DEFAULT_CONFIG = {
         # highest-precedence tier — ONLY if the root is in trusted_project_dirs. false = no scan, no
         # untrusted-skills notice.
         "project_discovery": True,
-        # Trusted project roots; managed by `hermes skills trust` / `untrust`.
+        # Trusted project roots; managed by `cts skills trust` / `untrust`.
         "trusted_project_dirs": [],
         # Skill names pinned as fully loaded in every new session (CLI, TUI, gateway, cron, API).
         # Resolved once when the agent's prompt is first built; missing/disabled names warn and
@@ -1470,7 +1470,7 @@ DEFAULT_CONFIG = {
         # code via terminal() ungated, so it mostly blocks prose with risky keywords. On: a
         # dangerous verdict is a tool error the agent can retry. Hub installs are always scanned.
         "guard_agent_created": False,
-        # Advisory NVIDIA SkillEvaluator Tier 1 scan on `hermes skills install` (alongside the
+        # Advisory NVIDIA SkillEvaluator Tier 1 scan on `cts skills install` (alongside the
         # enforcing built-in guard), only if `skillevaluator` is on PATH (uv tool install
         # "skillevaluator @ git+https://github.com/NVIDIA/SkillEvaluator.git"). Informational, never
         # blocking; secrets-class findings shown red. No-op without it.
@@ -1480,7 +1480,7 @@ DEFAULT_CONFIG = {
         # pending, /skills diff <id>, /skills approve|reject <id>.
         "write_approval": False,
         # Audit ledger: every skill mutation appends to ~/.hermes/skills/.curator_ledger.jsonl with
-        # before/after hashes (blobs under ~/.hermes/.curator_backups/blobs/); powers `hermes
+        # before/after hashes (blobs under ~/.hermes/.curator_backups/blobs/); powers `cts
         # curator ledger` / `rollback <entry-id>`. Never a gate — failures can't block.
         # See #79686.
         "ledger": True,
@@ -1493,7 +1493,7 @@ DEFAULT_CONFIG = {
     # Curator — background maintenance of AGENT-CREATED skills (never hub-installed): marks
     # long-unused skills stale, archives (never deletes) obsolete ones, optionally consolidates
     # overlaps via a forked aux-model agent. Inactivity-triggered from session start, no cron
-    # daemon. `hermes curator status` shows the last run.
+    # daemon. `cts curator status` shows the last run.
     "curator": {
         "enabled": True,
         "interval_hours": 24 * 7,  # hours between runs
@@ -1501,18 +1501,18 @@ DEFAULT_CONFIG = {
         "stale_after_days": 14,  # mark "stale" after this many unused days
         "archive_after_days": 30,  # move to skills/.archive/ (recoverable) after this many
         # LLM consolidation (umbrella-building) pass. OFF = deterministic inactivity prune only, no
-        # aux-model cost. `hermes curator run --consolidate` overrides once.
+        # aux-model cost. `cts curator run --consolidate` overrides once.
         "consolidate": False,
-        # Also prune bundled built-ins (a suppression list stops `hermes update` restoring them);
+        # Also prune bundled built-ins (a suppression list stops `cts update` restoring them);
         # hub-installed skills are NEVER pruned. OFF by default: shipped skills vanishing from
         # `skills_list` because nobody loaded them for 30 days surprised people (57 gone in one
         # startup tick). true = built-ins age out like agent-created skills.
         "prune_builtins": False,
-        # TTL purge of skills/.archive/: 0 = never; > 0 lets the explicit `hermes curator purge`
+        # TTL purge of skills/.archive/: 0 = never; > 0 lets the explicit `cts curator purge`
         # delete older archived skills (never automatic; logged in the ledger).
         "archive_ttl_days": 0,
         # Before a consolidation pass (the only one that rewrites skill content in place), snapshot
-        # ~/.hermes/skills/ to ~/.hermes/skills/.curator_backups/<utc-iso>/skills.tar.gz (`hermes curator
+        # ~/.hermes/skills/ to ~/.hermes/skills/.curator_backups/<utc-iso>/skills.tar.gz (`cts curator
         # rollback`). The prune-only pass just moves directories into .archive/ and takes none.
         "backup": {
             "enabled": True,
@@ -1707,7 +1707,7 @@ DEFAULT_CONFIG = {
     # substitutes it; a bare string is shorthand for append. `replace` wins over `append` if both
     # are given.
     "platform_hints": {},
-    # Plugin system. `enabled`/`disabled` lists are written by `hermes plugins enable|disable` and
+    # Plugin system. `enabled`/`disabled` lists are written by `cts plugins enable|disable` and
     # deliberately omitted here so an empty default never clobbers a user allow-list.
     "plugins": {
         # Deadline (seconds) for one plugin Git clone, fetch or checkout. Slow repositories may
@@ -1721,7 +1721,7 @@ DEFAULT_CONFIG = {
         # abandoned. 0 = no deadline (load inline). Max 600.
         "load_timeout_seconds": 10,
         # Read-only plugin update-check cadence, hours (gateway tick; 0 disables). Applying stays
-        # explicit: `hermes plugins update <name>`, or auto_apply below (git-class plugins only,
+        # explicit: `cts plugins update <name>`, or auto_apply below (git-class plugins only,
         # scan-gated by that same pipeline).
         "auto_update_check_hours": 24,
         # Opt-in unattended apply for the cadence check. Git-row plugins ONLY; every apply runs the
@@ -1730,7 +1730,7 @@ DEFAULT_CONFIG = {
         # Where third-party Python plugins run. in_process: imported into Hermes (default).
         # host: one plugin-host process per profile runs them and they reach Hermes only through
         # ctx (a crashing or hanging plugin takes down its host, which restarts; Hermes keeps
-        # running). Bundled plugins stay in-process; `hermes plugins validate` says whether a
+        # running). Bundled plugins stay in-process; `cts plugins validate` says whether a
         # plugin can run in the host.
         "isolation": "in_process",
         "host": {
@@ -1752,16 +1752,16 @@ DEFAULT_CONFIG = {
     "personalities": {},
     "auth": {  # Login policy (credentials themselves live in auth.json / .env).
         # Borrow and refresh the Codex CLI (~/.codex/auth.json) and Claude Code (~/.claude/.credentials.json)
-        # logins automatically when Hermes has no usable login of its own. Their refresh tokens are single-use
+        # logins automatically when CTS Secret Engine has no usable login of its own. Their refresh tokens are single-use
         # and rotate, so two programs on one login can log each other out; set false to make Hermes use only
-        # its own logins (`hermes auth add <provider>`). `hermes auth add openai-codex` still offers the import
+        # its own logins (`cts auth add <provider>`). `cts auth add openai-codex` still offers the import
         # interactively.
         "adopt_external_logins": True,
-        # How `hermes auth add openai-codex` / `hermes model` sign in to OpenAI Codex.
+        # How `cts auth add openai-codex` / `cts model` sign in to OpenAI Codex.
         # "device_code" (default): open a URL, enter a code. "browser": authorization-code + PKCE on
         # the loopback listener http://localhost:1455/auth/callback (the redirect OpenAI registered
         # for the Codex client) — for organizations that disable the device-code grant. Falls back
-        # to device code when that port is busy. `hermes auth add openai-codex --browser` opts in
+        # to device code when that port is busy. `cts auth add openai-codex --browser` opts in
         # for one login without changing this key.
         "codex_login_flow": "device_code",
     },
@@ -1787,7 +1787,7 @@ DEFAULT_CONFIG = {
         "protected_instruction_extra_patterns": [],
         "website_blocklist": {"enabled": False, "domains": [], "shared_files": []},
         # IDs of supply-chain advisories the user has read and acted on; acked ones stop the startup
-        # banner. Add via `hermes doctor --ack <id>`; remove by editing the list. Catalog:
+        # banner. Add via `cts doctor --ack <id>`; remove by editing the list. Catalog:
         # hermes_cli/security_advisories.py.
         "acked_advisories": [],
         # Lazy-install opt-in backend packages from PyPI when a backend that needs them is first
@@ -1873,14 +1873,14 @@ DEFAULT_CONFIG = {
         # fails closed with the enable-linger remedy. Kanban always requires a scope.
         "require_restart_safe_scope": False,
         # A job failing with the SAME error alerts once, then stays silent for this many hours
-        # before one reminder ping (the run is still recorded; `hermes cron incidents` shows it).
-        # A green run or a different error alerts again immediately; `hermes cron incidents ack`
+        # before one reminder ping (the run is still recorded; `cts cron incidents` shows it).
+        # A green run or a different error alerts again immediately; `cts cron incidents ack`
         # silences a signature for good. 0 = re-alert on every failing run. Keep in sync with
         # cron.scheduler.DEFAULT_FAILURE_REPEAT_ALERT_HOURS.
         "failure_repeat_alert_hours": 6,
     },
     # Kanban multi-agent coordination. The dispatcher ticks every N seconds, reclaims stale claims,
-    # promotes dependency-satisfied todos to ready, and fires `hermes -p <assignee> chat -q ...` per
+    # promotes dependency-satisfied todos to ready, and fires `cts -p <assignee> chat -q ...` per
     # claimable task. Run ONE dispatcher per profile; two on the same kanban.db race for claims.
     "kanban": {
         # Auto-subscribe the originating gateway/TUI session to completion + block events when
@@ -2038,9 +2038,9 @@ DEFAULT_CONFIG = {
     # release. Default URL is served by the docs-site GitHub Pages deploy.
     "model_catalog": {
         "enabled": True,
-        "url": "https://hermes-agent.nousresearch.com/docs/api/model-catalog.json",
+        "url": "https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/api/model-catalog.json",
         # Disk cache TTL in minutes. The gateway refreshes in the background on this cadence; the
-        # CLI refetches on the next /model or `hermes model` once the cache is older. Network
+        # CLI refetches on the next /model or `cts model` once the cache is older. Network
         # failures silently use the stale cache. Legacy `ttl_hours` is honoured if set.
         "ttl_minutes": 20,
         # Per-provider override URLs for self-hosted curation lists using the same schema, e.g.
@@ -2146,7 +2146,7 @@ DEFAULT_CONFIG = {
         # stamps the profile into session keys. This is the ONLY supported topology — there is no
         # `false` opt-out any more: an explicit `false` still parses (it is the runtime mode flag
         # every scoped code path reads) but is warned about and IGNORED for process topology, and
-        # `hermes gateway migrate --multiplex` folds any per-profile fleet that is left.
+        # `cts gateway migrate --multiplex` folds any per-profile fleet that is left.
         # An UNSET key is a request, not a verdict: at boot the gateway runs the migration
         # preflight and stays standalone (logging why) while a secondary still runs its own
         # gateway or a blocker exists, then converges once that is resolved.
@@ -2163,15 +2163,15 @@ DEFAULT_CONFIG = {
         #     `Environment=` (no .env) disappears from file-built scopes. A genuinely
         #     single-profile host never activates and is byte-identical.
         # Two profiles configuring the same bot token cannot be served together — the duplicate
-        # adapter is parked; `hermes profile create --clone` therefore leaves messaging channels
+        # adapter is parked; `cts profile create --clone` therefore leaves messaging channels
         # behind unless --clone-channels is passed.
         "multiplex_profiles": True,
-        # May `hermes update` fold this install onto a multiplexed default gateway by itself?
+        # May `cts update` fold this install onto a multiplexed default gateway by itself?
         # True (the default) keeps today's behaviour: a multi-profile install whose secondaries run
         # their own gateways is migrated automatically after an update when nothing blocks it.
         # Set to False to choose WHEN you converge, not whether: the fold is left to you to run by
         # hand (it is not an opt-out from the one-gateway-per-host model, which has none). Only the
-        # AUTOMATIC path reads this: `hermes gateway migrate --multiplex` is explicit and proceeds.
+        # AUTOMATIC path reads this: `cts gateway migrate --multiplex` is explicit and proceeds.
         "auto_multiplex_migration": True,
         # Route inbound chats of the default profile's bots to another profile
         # (gateway/profile_routing.py): [{profile, platform, chat_id|user_id|guild_id|...}].
@@ -2269,7 +2269,7 @@ DEFAULT_CONFIG = {
         # auto_prune key, every surface asks once the disk holding state.db runs low
         # (hermes_cli/prune_advisor.py); either answer writes the key and ends the question.
         "auto_prune": False,
-        # Inactive days of ended-session history to keep (= `hermes sessions prune`).
+        # Inactive days of ended-session history to keep (= `cts sessions prune`).
         "retention_days": 90,
         # Auto-archive (soft-hide, never delete) sessions with no activity for auto_archive_days,
         # once per min_interval_hours. Pinned sessions are exempt.
@@ -2292,8 +2292,8 @@ DEFAULT_CONFIG = {
         "min_interval_hours": 24,
 
         # Notice about the compact FTS layout (reclaims ~60%+ of state.db). OPT-IN: legacy indexes
-        # stay until `hermes sessions optimize-storage` runs, since the rebuild is disk-heavy on
-        # large DBs. advise = `hermes update` prints a one-line notice with reclaimable size when a
+        # stay until `cts sessions optimize-storage` runs, since the rebuild is disk-heavy on
+        # large DBs. advise = `cts update` prints a one-line notice with reclaimable size when a
         # legacy index is detected (a later layout change gets a rebuild notice without a size estimate);
         # require = the same notices worded as REQUIRED (tooling may gate on it); off = none.
         "fts_optimize_notice": "advise",
@@ -2310,7 +2310,7 @@ DEFAULT_CONFIG = {
         # once; 0 disables). Max active messages (across the compression lineage) for interactive
         # resume.
         "max_resume_messages": 20000,
-        # Max active messages per session for in-memory export (`hermes sessions export`); checked
+        # Max active messages per session for in-memory export (`cts sessions export`); checked
         # per session, so full-DB backups of small sessions work.
         "max_export_messages": 20000,
     },
@@ -2337,17 +2337,17 @@ DEFAULT_CONFIG = {
     },
 
     "doctor": {
-        # Per-probe timeout (seconds) for `hermes doctor --live` real-call probes.
+        # Per-probe timeout (seconds) for `cts doctor --live` real-call probes.
         "live_probe_timeout": 10,
     },
 
     "updates": {
-        # Passive version/banner checks only; explicit `hermes update --check` remains enabled.
+        # Passive version/banner checks only; explicit `cts update --check` remains enabled.
         "check": True,
         # Pre-update backup. quick = snapshot small critical state (pairing JSONs, cron jobs,
         # config.yaml, .env, auth.json, profile DBs) into <HERMES_HOME>/state-snapshots/, skipping
-        # files >1 GiB; restore via ``/snapshot``. full = quick PLUS a ``hermes backup`` zip in
-        # <HERMES_HOME>/backups/ (``hermes import`` restores; slow on large homes; ``--backup``
+        # files >1 GiB; restore via ``/snapshot``. full = quick PLUS a ``cts backup`` zip in
+        # <HERMES_HOME>/backups/ (``cts import`` restores; slow on large homes; ``--backup``
         # forces once). off = none (``--no-backup`` forces once). Legacy booleans: true -> full,
         # false -> off.
         # Pre-update safety backup — ONE consolidated mechanism, three modes: Files over 1 GiB (e.g. a
@@ -2370,9 +2370,9 @@ DEFAULT_CONFIG = {
         # Clean parked branch with unmerged commits: switch = move to the update target, commits
         # stay on the branch (never conflicts). update_in_place = for a maintained custom branch:
         # merge origin/<target> INTO it after leaving a pre-update-<stamp> tag; a conflict stops the
-        # update cleanly. `hermes update --switch-branch` overrides to switch for one run.
+        # update cleanly. `cts update --switch-branch` overrides to switch for one run.
         "parked_branch_strategy": "switch",
-        # Refresh an installed cua-driver during `hermes update` (best-effort, macOS only). Turn off
+        # Refresh an installed cua-driver during `cts update` (best-effort, macOS only). Turn off
         # e.g. on non-admin accounts where /Applications isn't writable.
         "refresh_cua_driver": True,
     },
@@ -2390,7 +2390,7 @@ DEFAULT_CONFIG = {
         # minute). Once the client is up, wait_timeout applies again. 0 = same as wait_timeout.
         "warmup_timeout": 0.0,
         # After a server fails (spawn error or outer timeout) its (server, workspace root) pair is
-        # skipped. 0 = for the process lifetime (until `hermes lsp restart`); N = retried after N
+        # skipped. 0 = for the process lifetime (until `cts lsp restart`); N = retried after N
         # seconds, so one transient stall does not silence a workspace forever.
         "broken_retry_seconds": 0.0,
         # Workspace roots (glob patterns, ~ expanded; a bare path also matches everything under
@@ -2401,7 +2401,7 @@ DEFAULT_CONFIG = {
         # Directories (~ expanded; everything under an entry counts) whose projects a language
         # server may load code from: the project's own .venv/venv interpreter, node_modules
         # TypeScript SDK, svelte.config.js, build files (cargo, Gradle, mix, ...). The worktree of
-        # the launch dir or the session's workspace (hermes -w, a Desktop project, terminal.cwd) is
+        # the launch dir or the session's workspace (cts -w, a Desktop project, terminal.cwd) is
         # always trusted; in any other checkout (a clone the agent made) only servers that run no
         # project code start, pinned to Hermes-side tools, and the npx tsc / rustfmt lint fallbacks
         # are skipped.
@@ -2427,7 +2427,7 @@ DEFAULT_CONFIG = {
         "servers": {},
     },
     # X (Twitter) Search via xAI's x_search Responses tool. Registers when xAI creds exist
-    # (SuperGrok OAuth or XAI_API_KEY) AND the toolset is enabled in `hermes tools`.
+    # (SuperGrok OAuth or XAI_API_KEY) AND the toolset is enabled in `cts tools`.
     "x_search": {
         # xAI model for the Responses call; any Grok model with x_search access works.
         "model": "grok-4.5",
@@ -2441,7 +2441,7 @@ DEFAULT_CONFIG = {
     # External secret sources — pull credentials from secret managers at startup instead of storing
     # them in ~/.hermes/.env.
     # Browser credential vault: which login sources browser_vault may draw from. The local
-    # encrypted vault (`hermes vault add`, Desktop → Settings → Credential Vault) is always on.
+    # encrypted vault (`cts vault add`, Desktop → Settings → Credential Vault) is always on.
     # External password managers are unlocked per session with a masked master-password prompt;
     # headless sessions (cron, webhook, API) never prompt and see them as locked.
     "vault": {
@@ -2508,12 +2508,12 @@ DEFAULT_CONFIG = {
     "paste_collapse_char_threshold": 2000,
 
     # Bot Desktop: a headless Xfce screen per profile on the gateway host (Linux), streamed to Hermes
-    # Desktop where a human can watch, take over (logins, 2FA, CAPTCHAs) and hand back. `hermes computer-use screen`.
+    # Desktop where a human can watch, take over (logins, 2FA, CAPTCHAs) and hand back. `cts computer-use screen`.
     "bot_desktop": {
         "geometry": "1440x900",
         # Opt-in: start the screen automatically the first time computer_use needs a display on a headless
         # host. Off by default so installing TigerVNC for other reasons never yields a screen nobody asked
-        # for; Hermes Desktop's Screen pane offers Start and this toggle.
+        # for; CTS Secret Engine Desktop's Screen pane offers Start and this toggle.
         "auto_start": False,
         # Refuse to start below this much free memory (MB), measured on the host or its container cgroup,
         # whichever is tighter. Xvnc + Xfce idle at ~220 MB and a takeover's browser adds 0.5-1 GB, so a
@@ -2586,7 +2586,7 @@ DEFAULT_CONFIG = {
     # Egress credential-injection proxy (iron-proxy) for remote terminal sandboxes (Docker today):
     # the sandbox sees opaque tokens and iron-proxy swaps in real credentials at egress, so a
     # compromised sandbox leaks only tokens that work behind the trusted proxy. Configure with
-    # `hermes egress setup`.
+    # `cts egress setup`.
     "proxy": {
         "enabled": False,  # When false, nothing starts, no docker mounts, no binary installs.
         # Tunnel listener port; sandboxes get HTTPS_PROXY=http://<host>:<port>.
@@ -2610,7 +2610,7 @@ DEFAULT_CONFIG = {
         # (`*.foo.com`) supported.
         "extra_allowed_hosts": [],
     },
-    "desktop": {  # Hermes Desktop (Electron) launch options; only affect `hermes desktop`.
+    "desktop": {  # CTS Secret Engine Desktop (Electron) launch options; only affect `cts desktop`.
         # CSS font-family for the app's chat and UI text (e.g. "OpenDyslexic"). Layered in front
         # of the active theme's own sans stack so missing glyphs still fall through. Empty = the
         # theme's face. The terminal pane is terminal.font_family.
@@ -2685,7 +2685,7 @@ DEFAULT_CONFIG = {
         "anthropic_wire": "chat",
         # Nous free tier: with no other provider configured, Hermes sets up a free Nous identity on
         # first use (inference on nous/welcome + connectors) and offers `/login` (terminal:
-        # `hermes auth upgrade`) to sign in. false turns the free tier off entirely: nothing is set
+        # `cts auth upgrade`) to sign in. false turns the free tier off entirely: nothing is set
         # up and nothing is used.
         "guest": True,
     },
@@ -2832,7 +2832,7 @@ OPTIONAL_ENV_VARS = {
     "AZURE_FOUNDRY_API_KEY": _prov("Azure Foundry API key for custom Azure endpoints",
         "Azure Foundry API Key", "https://ai.azure.com/", advanced=False),
     "AZURE_FOUNDRY_BASE_URL": _prov(
-        "Azure Foundry base URL (set via 'hermes model' for endpoint-specific config)",
+        "Azure Foundry base URL (set via 'cts model' for endpoint-specific config)",
         "Azure Foundry base URL", None, password=False),
     # ── Tool API keys ──
     "EXA_API_KEY": _tool("Exa API key for AI-native web search and contents", "Exa API key",

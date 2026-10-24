@@ -117,6 +117,10 @@ hermes_activation_current() {
 hermes_ensure_env() {
     local repo="$1" script
     hermes_activation_current "$repo" && return 0
+    if script="$(hermes_compose_env "$repo" sh 2>/dev/null)" && [ -n "$script" ]; then
+        hermes_apply_env "$script"
+        hermes_activation_current "$repo" && return 0
+    fi
     hermes_sync "$repo" || {
         echo "setup failed" >&2
         return 1

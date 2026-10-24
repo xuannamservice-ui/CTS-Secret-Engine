@@ -42,7 +42,7 @@ try {
       cwd: home, env, stdio: 'inherit', timeout: 120000,
     })
     if (child.error) throw child.error
-    if (child.status !== 0) throw new Error(`hermes ${args.join(' ')} failed: ${child.status ?? child.signal}`)
+    if (child.status !== 0) throw new Error(`cts ${args.join(' ')} failed: ${child.status ?? child.signal}`)
   }
   // browser_exec's engine (browser-harness) runs on the store interpreter with only the
   // payload's site dir on PYTHONPATH (tools/browser_use_cli.py); -S drops any site of its own.

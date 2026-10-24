@@ -109,7 +109,7 @@ def _server_declarations(
             raise AgentPluginError(f"server declaration '{name}' has no matching mcp.json server")
         if not isinstance(raw, dict):
             raise AgentPluginError(f"server declaration '{name}' must be an object")
-        # A key added by a newer Hermes must not make the package uninstallable here: the older
+        # A key added by a newer CTS Secret Engine must not make the package uninstallable here: the older
         # release ignores it with a diagnostic, like unknown top-level fields. A key whose absence
         # would be unsafe needs the catalog entry's requires_hermes, not a hard failure on every release:
         # plugin.json has no version floor, and install/update by catalog name enforce the entry's
@@ -118,7 +118,7 @@ def _server_declarations(
         if unknown:
             if diagnostics is not None:
                 diagnostics.append(AgentPluginDiagnostic(
-                    f"server:{name}", f"ignored unknown keys {sorted(unknown)} (needs a newer Hermes)"))
+                    f"server:{name}", f"ignored unknown keys {sorted(unknown)} (needs a newer CTS Secret Engine)"))
             raw = {key: value for key, value in raw.items() if key not in unknown}
             if not raw:
                 continue

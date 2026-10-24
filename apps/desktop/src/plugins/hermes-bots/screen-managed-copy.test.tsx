@@ -45,7 +45,7 @@ vi.mock('./i18n', () => ({
       title: 'Screen',
       portalUnavailable: 'Update the bot’s Hermes to use Screen',
       portalUnavailableManaged: 'Screen is not available on this managed Hermes release yet',
-      unavailableTitle: 'Screen needs a newer Hermes',
+      unavailableTitle: 'Screen needs a newer CTS Secret Engine',
       managedNotIncludedTitle: 'Screen isn’t included on this bot',
       managedNotIncludedBody: 'Hermes Cloud includes Screen on bots with 8 GB of memory or more.',
       notInstalledTitle: 'Screen packages missing',

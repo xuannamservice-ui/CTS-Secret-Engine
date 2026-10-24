@@ -307,7 +307,7 @@ def _finalize_child_env(env: dict) -> dict:
 
 def _scrubbed_env(parts, plugin_strip: frozenset, fix_path) -> dict:
     """Filter each ``(items, unwrap_force)`` in *parts* into one env, rewrite PATH via
-    *fix_path* (always prepending the hermes install dir so bare ``hermes`` resolves
+    *fix_path* (always prepending the hermes install dir so bare ``cts`` resolves
     for children of a systemd/cron-launched gateway), then apply the shared guards."""
     out: dict[str, str] = {}
     for items, unwrap_force in parts:
@@ -319,7 +319,7 @@ def _scrubbed_env(parts, plugin_strip: frozenset, fix_path) -> dict:
     from tools.env_passthrough import scoped_passthrough_additions
     out.update((k, v) for k, v in scoped_passthrough_additions(out).items() if k not in plugin_strip)
     path_key = _path_env_key(out)
-    # Keep bare ``hermes`` invocations available to child jobs even when the gateway was launched by a
+    # Keep bare ``cts`` invocations available to child jobs even when the gateway was launched by a
     # service manager or cron without the console script's directory on PATH. The terminal environment
     # already applies this invariant; Cron scripts use this sanitizer directly (#92998).
     if path_key is not None:
@@ -415,7 +415,7 @@ def served_profile_child_env(
     base: Mapping[str, str] | None = None, *, target_home: str | Path | None = None,
     inherit_credentials: bool = False,
 ) -> dict[str, str]:
-    """Child env for a process that acts FOR the active (possibly served) profile: ``hermes -p X``
+    """Child env for a process that acts FOR the active (possibly served) profile: ``cts -p X``
     workers, ``key_cmd`` helpers, browser drivers. The process env is the LAUNCH profile's. When the
     target is a ROUTED home (not the launch profile's — under multiplex or a Desktop/dashboard backend
     serving ``?profile=`` with the flag off) the launch ``.env`` residue and bridged ``TERMINAL_*`` are
@@ -424,7 +424,7 @@ def served_profile_child_env(
     never recorded in ``.env`` or a source snapshot, so a name-based strip cannot see it and the target
     overlay cannot remove it. ``inherit_credentials=True`` is for children that legitimately run with
     the profile's credentials (they run the agent or mint its token): the target profile's own secrets
-    (its ``.env`` + hydrated sources, what a standalone ``hermes -p X`` loads itself) are overlaid — never
+    (its ``.env`` + hydrated sources, what a standalone ``cts -p X`` loads itself) are overlaid — never
     a sibling profile's. Under multiplex with neither a target nor a bound scope the call raises
     (``get_secret``'s fail-closed contract): minting with the launch environ would sign in as the wrong
     profile. ``False`` keeps the provider scrub; the caller re-adds the few keys the child needs via
@@ -487,7 +487,7 @@ def strip_launch_profile_env(env: dict, target_home: str | Path | None = None) -
     """Drop the LAUNCH profile's residue from a child env built for another served profile.
     ``os.environ`` holds the default profile's ``.env`` and its bridged ``TERMINAL_*`` settings;
     the secret scrub removes credentials but not settings (``HERMES_MODEL``, ``TERMINAL_ENV``,
-    ``HERMES_LANGUAGE``...), so a standalone ``hermes -p X`` worker and a served one saw different
+    ``HERMES_LANGUAGE``...), so a standalone ``cts -p X`` worker and a served one saw different
     envs. The child re-loads X's own ``.env`` and bridges X's config itself. ``target_home``
     defaults to the active home override; no-op when there is no target or the target IS the
     launch profile. The authority test is "does this task serve a routed home", not "is the
@@ -551,7 +551,7 @@ def _find_bash() -> str:
         return bash
     raise RuntimeError(
         "No shell found. Hermes needs bash (Git for Windows on Windows). "
-        "Run `hermes pm install` or reinstall the bundle."
+        "Run `cts pm install` or reinstall the bundle."
     )
 
 
@@ -628,7 +628,7 @@ def _find_shell() -> str:
 _SANE_PATH = ("/opt/homebrew/bin:/opt/homebrew/sbin:"
               "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin")
 
-# Cached directory containing the ``hermes`` console-script.
+# Cached directory containing the ``cts`` console-script.
 # ``_SENTINEL`` distinguishes "not resolved yet" from a resolved ``None``.
 _SENTINEL = object()
 _HERMES_BIN_DIR: str | None | object = _SENTINEL
@@ -637,9 +637,9 @@ _HERMES_BIN_DIR_IS_PAYLOAD = False
 
 
 def _resolve_hermes_bin_dir() -> str | None:
-    """Directory holding the ``hermes`` console-script, or None (cached). A gateway
+    """Directory holding the ``cts`` console-script, or None (cached). A gateway
     launched by systemd/cron/a desktop launcher lacks the install dir on PATH and bare
-    ``hermes`` exits 127. Order: a sealed payload's own launcher dir; ``which``; absolute
+    ``cts`` exits 127. Order: a sealed payload's own launcher dir; ``which``; absolute
     ``sys.argv[0]`` naming a real hermes executable; ``sys.executable``'s dir if it holds
     the shim."""
     global _HERMES_BIN_DIR, _HERMES_BIN_DIR_IS_PAYLOAD
@@ -647,7 +647,7 @@ def _resolve_hermes_bin_dir() -> str | None:
         return _HERMES_BIN_DIR  # type: ignore[return-value]
     from pm.environments import payload_command_dir
 
-    # A payload's venv also holds a `hermes`, but on Windows its redirector names the
+    # A payload's venv also holds a `cts`, but on Windows its redirector names the
     # build machine's interpreter, so PATH order must not decide which copy children get.
     payload_dir = payload_command_dir(Path(__file__).resolve().parents[2])
     if payload_dir is not None and payload_dir.is_dir():
@@ -673,7 +673,7 @@ def _resolve_hermes_bin_dir() -> str | None:
 def _prepend_hermes_bin_dir(existing_path: str) -> str:
     """Prepend the hermes install dir to ``existing_path`` if missing. A sealed payload's
     launcher dir moves to the front even when already listed: a login PATH can list
-    another install's ``hermes`` ahead of it."""
+    another install's ``cts`` ahead of it."""
     bin_dir = _resolve_hermes_bin_dir()
     if bin_dir and _HERMES_BIN_DIR_IS_PAYLOAD:
         rest = [entry for entry in existing_path.split(os.pathsep) if entry and entry != bin_dir]

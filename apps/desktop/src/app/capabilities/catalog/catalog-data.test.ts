@@ -48,7 +48,7 @@ describe('public catalog data', () => {
         name: 'Apple Design',
         identifier: 'apple-design',
         source: 'ClawHub',
-        installCmd: 'hermes skills install clawhub/apple-design'
+        installCmd: 'cts skills install clawhub/apple-design'
       }
     ])
 

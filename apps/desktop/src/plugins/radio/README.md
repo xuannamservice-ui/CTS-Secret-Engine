@@ -1,6 +1,6 @@
 # Radio
 
-Bundled Hermes Desktop plugin, **off by default**. Enable **Radio** in
+Bundled CTS Secret Engine Desktop plugin, **off by default**. Enable **Radio** in
 Capabilities → Plugins. Playback starts only when you press Play.
 
 ## Controls

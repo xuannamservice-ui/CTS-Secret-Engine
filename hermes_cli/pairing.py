@@ -13,7 +13,7 @@ def pairing_command(args):
     }
     handler = handlers.get(getattr(args, "pairing_action", None))
     if handler is None:
-        print("Usage: hermes pairing {list|approve|revoke|clear-pending}")
+        print("Usage: cts pairing {list|approve|revoke|clear-pending}")
         print("Run 'hermes pairing --help' for details.")
     else:
         handler()

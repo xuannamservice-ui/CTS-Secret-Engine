@@ -66,7 +66,7 @@ class ActionResult:
     ``structuredContent`` leaves them ``None``, behavior unchanged.
 
     Beyond the transport-level ``ok`` flag, this carries cua-driver's structured action verdict so the model
-    can follow the documented verify → escalate ladder (NousResearch/hermes-agent#67052).
+    can follow the documented verify → escalate ladder (xuannamservice-ui/CTS-Secret-Engine#67052).
     """
 
     ok: bool
@@ -163,6 +163,6 @@ class ComputerUseProvider(ProviderBase):
         return True
 
     def doctor(self) -> Optional[int]:
-        """``hermes computer-use doctor`` for this backend: print findings, return the exit code.
+        """``cts computer-use doctor`` for this backend: print findings, return the exit code.
         ``None`` (default) means the backend ships no doctor."""
         return None

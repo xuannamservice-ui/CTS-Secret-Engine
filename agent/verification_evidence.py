@@ -467,7 +467,7 @@ def record_verify_run(
     *, root: str | Path, session_id: str | None = None, ok: bool, command: str = "hermes verify",
     scope: str = "full", output: str = "",
 ) -> Optional[dict[str, Any]]:
-    """Record a completed ``hermes verify`` run as verification evidence.
+    """Record a completed ``cts verify`` run as verification evidence.
 
     A pass marks the workspace ``passed`` for the verify-on-stop guard like a
     canonical test command would. ``root`` is re-resolved through project facts
@@ -511,7 +511,7 @@ def _insert_evidence(evidence: VerificationEvidence) -> dict[str, Any]:
             " changed_paths_json = '[]'",
             (e.session_id, e.root, event_id),
         )
-        # A full passing ``hermes verify`` proves the workspace. Partial or
+        # A full passing ``cts verify`` proves the workspace. Partial or
         # failed runs must not wipe another session's edit record (#103650).
         if e.kind == "verify" and e.status == "passed" and e.scope == "full":
             conn.execute(
@@ -566,7 +566,7 @@ def mark_workspace_edited(
 def _newest_workspace_verify(
     conn: sqlite3.Connection, *, root: str, since: str | None
 ) -> Optional[sqlite3.Row]:
-    """Latest full passing ``hermes verify`` for ``root``, optionally not older than ``since``."""
+    """Latest full passing ``cts verify`` for ``root``, optionally not older than ``since``."""
     if since:
         return conn.execute(
             "SELECT * FROM verification_events"
@@ -587,7 +587,7 @@ def verification_status(*, session_id: str | None, cwd: str | Path | None) -> di
     """Return the best known verification state for a session/workspace.
 
     Evidence recorded before the latest edit is reported as ``stale``. A
-    ``hermes verify`` event for the same ``root`` that is at least as new as
+    ``cts verify`` event for the same ``root`` that is at least as new as
     that edit satisfies the guard even if another session recorded it.
     """
     if not _ledger_enabled():

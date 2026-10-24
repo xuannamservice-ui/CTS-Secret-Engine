@@ -103,7 +103,7 @@ def _profile_to_dict(info) -> dict[str, Any]:
 def _profile_setup_command(name: str) -> str:
     """Return the shell command used to configure a profile in the CLI."""
     _resolve_profile_dir(name)
-    return "hermes setup" if name == "default" else f"{name} setup"
+    return "cts setup" if name == "default" else f"{name} setup"
 
 
 def _scope_profile_name(path: Path) -> Optional[str]:
@@ -884,7 +884,7 @@ async def create_profile_endpoint(body: ProfileCreate):
 
 @router.get("/api/profiles/active")
 async def get_active_profile_endpoint():
-    """``active`` is the sticky default written by ``hermes profile use`` (what new CLI
+    """``active`` is the sticky default written by ``cts profile use`` (what new CLI
     invocations pick up); ``current`` is the profile this running dashboard is scoped to."""
     from hermes_cli import profiles as profiles_mod
 
@@ -905,7 +905,7 @@ async def get_active_profile_endpoint():
 
 @router.post("/api/profiles/active")
 async def set_active_profile_endpoint(body: ProfileActiveUpdate):
-    """Set the sticky active profile (mirrors ``hermes profile use``); does not retarget the
+    """Set the sticky active profile (mirrors ``cts profile use``); does not retarget the
     running dashboard, only subsequent CLI commands and gateways."""
     from hermes_cli import profiles as profiles_mod
     with _profile_errors("POST /api/profiles/active failed"):

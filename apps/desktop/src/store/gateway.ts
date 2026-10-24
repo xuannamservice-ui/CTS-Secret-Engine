@@ -46,7 +46,7 @@ import { stampSecondaryProfileOwner } from '@/store/session-event-provenance'
 const normKey = (profile: string | null | undefined): string => (profile ?? '').trim() || 'default'
 
 // Dial intent callers attach to a user-initiated open. The canonical
-// `hermes gateway ensure` path has no local slot pool, so the hint changes
+// `cts gateway ensure` path has no local slot pool, so the hint changes
 // nothing about the dial itself; it survives as the option shape the SDK,
 // Settings scopes and session creation pass so an explicit user gesture stays
 // distinguishable from ambient hydration at the call site.
@@ -214,7 +214,7 @@ interface GatewayRegistryState {
   /** Registry source currently served by primaryGateway, when known. */
   primaryConnectionId: null | string
   /** Resolved mode of the primary's descriptor: a `local` primary is ONE
-   *  `hermes serve --profile <primary>` child and can never stand in for a
+   *  `cts serve --profile <primary>` child and can never stand in for a
    *  pooled profile's own backend. */
   primaryConnectionMode: 'local' | 'remote' | null
   primaryProfile: string
@@ -993,7 +993,7 @@ async function reconnectSecondary(entry: Secondary): Promise<void> {
 
     // An ensure refusal no redial can fix (incompatible runtime, no ensure protocol, an invalid
     // endpoint, an unsafe control path): each automatic redial would spawn another
-    // `hermes gateway ensure` against the same install forever. Park at once, keeping the entry:
+    // `cts gateway ensure` against the same install forever. Park at once, keeping the entry:
     // an explicit open, focus/wake nudge or Reconnect re-arms it after the user's repair.
     if (isPermanentLocalGatewayEnsureError(error)) {
       console.warn(`[gateway] parking scope="${entry.scope}": local gateway ensure refused permanently`, error)
@@ -1318,7 +1318,7 @@ export async function requestGatewayForAgent<T>(
   traceAgentRoute(scope, 'secondary')
 
   if (!window.hermesDesktop?.getConnectionFor) {
-    throw new Error('This Desktop build cannot dial registry connections. Update Hermes Desktop.')
+    throw new Error('This Desktop build cannot dial registry connections. Update CTS Secret Engine Desktop.')
   }
 
   const entry = g.secondaries.get(scope) ?? createSecondary(key, connectionId)
@@ -1802,7 +1802,7 @@ export async function openGatewayForAgent(
   }
 
   if (!window.hermesDesktop?.getConnectionFor) {
-    throw new Error('This Desktop build cannot dial registry connections. Update Hermes Desktop.')
+    throw new Error('This Desktop build cannot dial registry connections. Update CTS Secret Engine Desktop.')
   }
 
   const entry = g.secondaries.get(scope) ?? createSecondary(profile, connectionId)
@@ -1856,7 +1856,7 @@ export async function ensureGatewayForAgent(
   }
 
   if (!window.hermesDesktop?.getConnectionFor) {
-    throw new Error('This Desktop build cannot dial registry connections. Update Hermes Desktop.')
+    throw new Error('This Desktop build cannot dial registry connections. Update CTS Secret Engine Desktop.')
   }
 
   let entry = g.secondaries.get(scope)

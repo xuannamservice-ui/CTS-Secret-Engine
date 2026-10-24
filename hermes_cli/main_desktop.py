@@ -190,7 +190,7 @@ def _desktop_packaged_executable_in(release_dir: Path) -> Optional[Path]:
 # ─── Desktop stage-and-swap pack (#86443) ─────────────────────────────────── electron-builder packs IN
 # PLACE: before-pack.mjs wipes ``release/<platform>- unpacked`` (or the mac ``Hermes.app``) and the Electron
 # unpack + asar + rename then rebuild it. Any failure after that wipe — corrupt cached zip, blocked
-# download, missing dep, disk full — leaves the user with NO app, and ``hermes update`` used to report
+# download, missing dep, disk full — leaves the user with NO app, and ``cts update`` used to report
 # "partially complete" over an empty release/. Fix the class, not the predicate: build into a STAGING output
 # dir next to release/, verify the staged result, and only then swap it over the live tree with renames. On
 # any failure the live app is untouched.
@@ -271,7 +271,7 @@ def _swap_staged_desktop_app(desktop_dir: Path, staging_dir: Path) -> Optional[P
         moved_aside = live_root.exists()
         if moved_aside:
             # A Desktop may have reopened during the long packaging step (Windows lock) or
-            # never exited at all (a manual `hermes update`/`hermes desktop` run does not
+            # never exited at all (a manual `cts update`/`cts desktop` run does not
             # wait for it — only the update hand-offs do). Either way a renderer alive
             # past the rename below keeps fetching its old hashed chunks from disk and
             # dies on the next lazy import, so stop it on every platform (#109643).
@@ -300,7 +300,7 @@ def _discard_desktop_staging(staging_dir: Path) -> None:
 
 
 # ─── Desktop exe integrity gate (#69179) ──────────────────────────────────── The desktop self-update chain
-# (Desktop → hermes-setup --update → `hermes update` → `hermes desktop --build-only` → relaunch) rebuilds
+# (Desktop → hermes-setup --update → `cts update` → `cts desktop --build-only` → relaunch) rebuilds
 # Hermes.exe on the end user's machine and used to verify only that the file EXISTS before declaring
 # success. A corrupt cached Electron zip whose extraction produced a truncated electron.exe, an interrupted
 # rcedit resource rewrite, a disk-full pack, or a wrong-arch unpacked tree therefore shipped a broken binary
@@ -460,7 +460,7 @@ def _desktop_ancestor_in(desktop_dir: Path) -> Optional[int]:
     """PID of a Desktop from this build's ``release`` tree that is one of OUR ancestors, else None.
 
     That Desktop is running this process (its backend's launch-time update tail, or a
-    `hermes update` it spawned). On Windows it holds the exe lock the promotion rename
+    `cts update` it spawned). On Windows it holds the exe lock the promotion rename
     needs, and it cannot be stopped without killing this process first. Never raises."""
     try:
         import psutil
@@ -495,7 +495,7 @@ def _stop_desktop_processes_locking_build(desktop_dir: Path, *, also_posix: bool
     me = os.getpid()
     # Never stop a Desktop that is one of OUR ancestors, on any platform: this
     # process lives in its tree. A historical Desktop (v2026.7.1 Linux in-app
-    # update) runs `hermes update` as a child with piped stdout/stderr and owns
+    # update) runs `cts update` as a child with piped stdout/stderr and owns
     # the post-update rebuild and relaunch. Killing it breaks those pipes (EPIPE
     # fails the update) and leaves nobody to relaunch. On Windows the same holds
     # for the launch-time tail a Desktop's own backend runs
@@ -858,7 +858,7 @@ def _desktop_macos_relaunchable_fixup(
                     f"  ✗ macOS signing identity {configured!r} did not produce a verified "
                     f"signature, and the installed app is publisher-signed (Team ID "
                     f"{target_sig['team']}); keeping it (no ad-hoc fallback). Fix the identity "
-                    "(e.g. `hermes desktop --setup-tcc-identity` or edit "
+                    "(e.g. `cts desktop --setup-tcc-identity` or edit "
                     "desktop.macos_signing_identity in config.yaml) and update again."
                 )
                 return False
@@ -933,7 +933,7 @@ def _swap_in_new_macos_bundle(tmp: Path, target: Path, old: Path) -> None:
 
 
 def _running_macos_app_bundles() -> set[Path]:
-    """``.app`` bundles of every live Hermes Desktop process. A running bundle is never swapped
+    """``.app`` bundles of every live CTS Secret Engine Desktop process. A running bundle is never swapped
     under: Electron loads ``app.asar`` chunks and helper apps lazily, so renaming its bundle away
     and deleting the old tree crashes the live app (the detached updater waits for it to exit)."""
     import psutil
@@ -955,7 +955,7 @@ def _install_rebuilt_desktop_app(desktop_dir: Path, candidates: list[Path]) -> t
     """Copy the rebuilt macOS bundle into every stale or missing installed ``Hermes.app`` in
     *candidates* (``_installed_desktop_apps()``) (#52339).
 
-    ``hermes desktop --build-only`` (what ``hermes update`` runs) packages into
+    ``cts desktop --build-only`` (what ``cts update`` runs) packages into
     ``apps/desktop/release/`` only. Finder, the Dock and Spotlight launch the copy in
     ``/Applications`` (or ``~/Applications``), so without this step every update leaves the
     installed shell one build behind the backend it boots. The detached Desktop updater swaps
@@ -995,7 +995,7 @@ def _refresh_installed_desktop_apps(desktop_dir: Path) -> None:
     from hermes_cli.gui_uninstall import desktop_install_record
     from utils import atomic_json_write, read_json_or_empty
     # A copy that failed to reinstall stays recorded, so the next update retries it. Every
-    # `hermes desktop` launch lands here: write only when the set changed.
+    # `cts desktop` launch lands here: write only when the set changed.
     apps = [str(app) for app in owned]
     if read_json_or_empty(desktop_install_record()).get("apps", []) == apps:
         return
@@ -1006,7 +1006,7 @@ def _refresh_installed_desktop_apps(desktop_dir: Path) -> None:
 
 
 def _update_owned_macos_bundles(candidates: list[Path]) -> list[Path]:
-    """The existing bundles in *candidates* that only ``hermes update`` keeps current (#52339).
+    """The existing bundles in *candidates* that only ``cts update`` keeps current (#52339).
 
     Ownership comes from the bundle's own ``install-stamp.json``. ``updateMechanism: self`` is a
     bootstrap build (a local pack or the bootstrap download), and stamps older than the field
@@ -1057,7 +1057,7 @@ def _installed_desktop_apps() -> list[Path]:
 
 
 def _installed_desktop_launch_target(desktop_dir: Path, packaged_executable: Path) -> Path:
-    """The executable ``hermes desktop`` launches: the installed app once it IS the checkout build.
+    """The executable ``cts desktop`` launches: the installed app once it IS the checkout build.
 
     Finder, the Dock and Spotlight open the installed ``Hermes.app``; launching the ``release/``
     bundle beside it ran the same app from a second path while the installed copy went stale
@@ -1099,8 +1099,8 @@ def _install_rebuilt_macos_bundles(
             continue
         if app.resolve() in running:
             problems.append(
-                f"{app} is running and was not refreshed; quit Hermes Desktop and run "
-                "`hermes update` again (or update from inside the app)")
+                f"{app} is running and was not refreshed; quit CTS Secret Engine Desktop and run "
+                "`cts update` again (or update from inside the app)")
             continue
         if codesign:
             installed_sig = _macos_signature_summary(codesign, app)
@@ -1201,7 +1201,7 @@ def _desktop_linux_sandbox_fixup(packaged_executable: Path) -> bool:
 
     sandbox, st = _sandbox_helper_lstat(packaged_executable)
     if not sandbox.exists():
-        print(f"✗ Hermes Desktop is missing Electron's Linux sandbox helper: {sandbox}")
+        print(f"✗ CTS Secret Engine Desktop is missing Electron's Linux sandbox helper: {sandbox}")
         return False
     # Reject symlinks — chown/chmod must not follow an attacker-controlled link.
     if st is None:
@@ -1220,7 +1220,7 @@ def _desktop_linux_sandbox_fixup(packaged_executable: Path) -> bool:
 
     sudo = shutil.which("sudo")
     if not sudo:
-        print("✗ Hermes Desktop requires sudo to configure Electron's Linux sandbox helper.")
+        print("✗ CTS Secret Engine Desktop requires sudo to configure Electron's Linux sandbox helper.")
         return False
 
     print("→ Configuring Electron Linux sandbox helper (sudo required)...")
@@ -1342,10 +1342,10 @@ def _desktop_launch_options() -> tuple[list[str], str, str, str, bool]:
 
 
 def _register_linux_desktop_entry(defer: bool = False):
-    """Install the XDG desktop entry for Hermes Desktop (Linux only, best-effort).
+    """Install the XDG desktop entry for CTS Secret Engine Desktop (Linux only, best-effort).
 
     ``Exec`` and ``Icon`` are absolute so the entry works outside a login shell.
-    ``hermes uninstall --gui`` removes it.
+    ``cts uninstall --gui`` removes it.
 
     ``defer=True`` (app-grid launch) returns a ``DeferredDesktopEntryInstall`` that writes the
     entry only once the Electron window is on screen (#111906); ``None`` when nothing is
@@ -1435,10 +1435,10 @@ def build_prepared_desktop(desktop_dir: Path, *, source_mode: bool, npm: str, en
         # The Desktop running this build holds the exe lock the promotion rename needs,
         # and stopping it would kill this process first (#123499). Packing would only
         # produce a build that cannot be installed; leave the app as it is. Its content
-        # stamp stays stale, so `hermes desktop` run outside the app rebuilds it
+        # stamp stays stale, so `cts desktop` run outside the app rebuilds it
         # (_desktop_build_needed), and the in-app update completes with desktop=True.
         print(f"  ⚠ Skipped rebuilding the desktop app: this update is running inside it (pid {ancestor}),")
-        print("    and Windows locks a running app's files. Quit Hermes Desktop and run `hermes desktop`")
+        print("    and Windows locks a running app's files. Quit CTS Secret Engine Desktop and run `cts desktop`")
         print("    from a terminal, or use Update now in Settings → About, to rebuild and reopen it.")
         return None
     build_label = "source build" if source_mode else "packaged app"
@@ -1623,7 +1623,7 @@ def _launch_installed_macos_desktop_app() -> bool:
     from hermes_cli.bundled_app import launch_detached
 
     pid = launch_detached([str(executable)], cwd=executable.parent)
-    print(f"→ Launched the installed Hermes Desktop app: {executable} (pid {pid})")
+    print(f"→ Launched the installed CTS Secret Engine Desktop app: {executable} (pid {pid})")
     return True
 
 
@@ -1652,8 +1652,8 @@ def cmd_gui(args: argparse.Namespace):
             print(
                 "  This Hermes came from Homebrew, which does not ship the desktop app's\n"
                 "  source tree, so it cannot be built from this install.\n"
-                "  Install the desktop app from https://hermes-agent.nousresearch.com,\n"
-                "  or run `hermes desktop` from a source checkout."
+                "  Install the desktop app from https://github.com/xuannamservice-ui/CTS-Secret-Engine,\n"
+                "  or run `cts desktop` from a source checkout."
             )
         sys.exit(1)
 
@@ -1681,7 +1681,7 @@ def cmd_gui(args: argparse.Namespace):
 
     # The mutable preflight (freshness check → npm install → pack) mutates
     # checkout-scoped node_modules and apps/desktop/release. Serialize it
-    # across processes so a manual `hermes desktop` racing `hermes update`'s
+    # across processes so a manual `cts desktop` racing `cts update`'s
     # rebuild cannot corrupt either (#93940). The lock lives outside the
     # checkout, keyed by the resolved checkout path.
     from hermes_cli.desktop_build_lock import DesktopBuildLock
@@ -1759,7 +1759,7 @@ def cmd_gui(args: argparse.Namespace):
         return
 
     if source_mode:
-        print("→ Launching Hermes Desktop from source build...")
+        print("→ Launching CTS Secret Engine Desktop from source build...")
         # Launch only the prepared runtime. npm exec can provision a missing
         # Electron package, including when --skip-build was requested.
         electron = _electron_dir(PROJECT_ROOT)
@@ -1784,13 +1784,13 @@ def cmd_gui(args: argparse.Namespace):
         launch_command.append("--local")
     # Out-of-band preview escape hatch (#97213): a fullscreened preview pane
     # owns all input, and Wayland has no xdotool/wmctrl to break out from a
-    # terminal. `hermes desktop --close-preview` rides the single-instance
+    # terminal. `cts desktop --close-preview` rides the single-instance
     # argv so a second CLI invocation unlocks the running app.
     if getattr(args, "close_preview", False):
         launch_command.append("--close-preview")
     launch_command.extend(_explicit_profile_args())
     if not source_mode:
-        desktop_launch_notice(f"→ Launching packaged Hermes Desktop: {' '.join(launch_command)}")
+        desktop_launch_notice(f"→ Launching packaged CTS Secret Engine Desktop: {' '.join(launch_command)}")
     # The launch target is ready; the fixups above finished mutating the
     # packaged tree. Electron is the long-lived handoff, so release the build
     # lock now — an open Desktop window must never block a future rebuild.
@@ -1840,7 +1840,7 @@ def cmd_gui(args: argparse.Namespace):
             )
         if deferred_entry is not None:
             deferred_entry.finish()
-        desktop_launch_notice("✓ Hermes Desktop launched in a detached window; you can close this shell.")
+        desktop_launch_notice("✓ CTS Secret Engine Desktop launched in a detached window; you can close this shell.")
         sys.exit(0)
     with desktop_console_output(source_mode=source_mode) as streams:
         try:
@@ -1852,7 +1852,7 @@ def cmd_gui(args: argparse.Namespace):
             # closing the Desktop, not a launcher crash. Exit cleanly instead
             # of dumping a KeyboardInterrupt traceback from subprocess.run
             # (#59848).
-            print("\n✓ Hermes Desktop closed.")
+            print("\n✓ CTS Secret Engine Desktop closed.")
             sys.exit(0)
     if deferred_entry is not None:
         deferred_entry.finish()
@@ -1862,7 +1862,7 @@ def cmd_gui(args: argparse.Namespace):
 def _explicit_profile_args() -> list[str]:
     """``--profile <name>`` for Electron when ``-p``/``--profile`` was on argv.
 
-    Explicit flag only. A bare `hermes desktop` must not forward the sticky CLI
+    Explicit flag only. A bare `cts desktop` must not forward the sticky CLI
     profile — Electron would persist it over the stored desktop one.
     """
     from hermes_cli.main import explicit_cli_profile
@@ -1913,7 +1913,7 @@ def _launch_bundled_desktop(
         sys.exit(1)
 
     if layout.launcher is None:
-        print(f"✗ Found no Hermes Desktop launcher in {layout.app_root}.")
+        print(f"✗ Found no CTS Secret Engine Desktop launcher in {layout.app_root}.")
         print("  The install is damaged — reinstall Hermes from the website.")
         sys.exit(1)
 
@@ -1928,7 +1928,7 @@ def _launch_bundled_desktop(
     launch_command.extend(electron_flags)
     launch_command.extend(_explicit_profile_args())
     pid = launch_detached(launch_command, env=env, cwd=layout.app_root)
-    print(f"→ Launched Hermes Desktop: {' '.join(launch_command)} (pid {pid})")
+    print(f"→ Launched CTS Secret Engine Desktop: {' '.join(launch_command)} (pid {pid})")
     sys.exit(0)
 
 

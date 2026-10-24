@@ -58,7 +58,7 @@ def _has_path_separator(value: str) -> bool:
     return os.sep in value or (os.altsep is not None and os.altsep in value)
 
 def _wsl_windows_path_to_posix(path: str) -> str:
-    """Translate a Windows absolute manifest command to its DrvFS ``/mnt/<drive>/...`` form when Hermes runs in WSL
+    """Translate a Windows absolute manifest command to its DrvFS ``/mnt/<drive>/...`` form when CTS Secret Engine runs in WSL
     (a Windows cua-driver manifest can report ``C:\\...`` while Hermes spawns via POSIX). Non-Windows paths and
     non-WSL hosts are returned unchanged."""
     if not re.match(r"^[A-Za-z]:[\\/]", path):
@@ -89,8 +89,8 @@ def cua_driver_binary_available() -> bool:
     return resolve_cua_driver_cmd() is not None
 
 def cua_driver_install_hint() -> str:
-    return ("cua-driver is not installed. Install the pinned driver with:\n  hermes computer-use install\n"
-            "Or run `hermes tools` and enable the Computer Use toolset to install it automatically.")
+    return ("cua-driver is not installed. Install the pinned driver with:\n  cts computer-use install\n"
+            "Or run `cts tools` and enable the Computer Use toolset to install it automatically.")
 
 def _mcp_args_with_overlay_flag(args: list[str], driver_cmd: str = _CUA_DRIVER_DEFAULT_CMD) -> list[str]:
     """Return *args* with ``--no-overlay`` appended when configured and supported."""
@@ -113,7 +113,7 @@ def _resolve_mcp_invocation(driver_cmd: str, *, timeout: float = 6.0) -> tuple[s
     on older drivers or any discovery failure — the wrapper must not refuse to start over a failed discovery hop.
     ``--no-overlay`` appended when allowed.
 
-    Surface 8 of NousResearch/hermes-agent#47072: instead of hardcoding ``["mcp"]`` we ask the driver itself
+    Surface 8 of xuannamservice-ui/CTS-Secret-Engine#47072: instead of hardcoding ``["mcp"]`` we ask the driver itself
     via ``cua-driver manifest`` (trycua/cua#1961). The manifest carries a stable ``mcp_invocation`` pointer
     with both ``command`` and ``args``, so a future cua-driver that renames or relocates the subcommand
     keeps working without a Hermes patch.

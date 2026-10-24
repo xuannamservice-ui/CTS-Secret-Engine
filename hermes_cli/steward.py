@@ -13,7 +13,7 @@ facts this branch already ships:
 
 A sealed tree (no ``.git``) belongs to a steward: only the steward removes
 or replaces its code. The refusal messages below always leave the user a
-working next step for their data (``hermes uninstall --data`` / the
+working next step for their data (``cts uninstall --data`` / the
 desktop app's Settings -> About page).
 """
 
@@ -31,7 +31,7 @@ STEWARD_DOCKER = "docker"
 STEWARD_NIX = "nix"
 STEWARD_APT_TERMUX = "apt-termux"
 
-# What `hermes update` says in a sealed tree, per steward — the refusal
+# What `cts update` says in a sealed tree, per steward — the refusal
 # table shared by the update admission gate. The fallback covers stewards
 # this build does not know (a newer package-manager value read by older
 # code).
@@ -41,7 +41,7 @@ STEWARD_UPDATE_MESSAGES = {
         "\n"
         "Manage updates from within the desktop app.\n"
         "Prefer a self-managed source install? See:\n"
-        "  https://hermes-agent.nousresearch.com/docs/user-guide/switching-to-source"
+        "  https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/user-guide/switching-to-source"
     ),
     STEWARD_NIX: (
         "✗ This Hermes runs from the Nix store.\n"
@@ -63,7 +63,7 @@ STEWARD_UPDATE_MESSAGES = {
 SOURCE_ON_TERMUX_UPDATE_MESSAGE = (
     "✗ This Hermes is a source checkout running under Termux.\n"
     "\n"
-    "Source installs are not supported on Termux — `hermes update` would\n"
+    "Source installs are not supported on Termux — `cts update` would\n"
     "build Python packages on the device. Switch to the APT package:\n"
     "  pkg install hermes-agent"
 )
@@ -73,7 +73,7 @@ SOURCE_ON_TERMUX_UPDATE_COMMAND = "pkg install hermes-agent"
 _STEWARD_UPDATE_FALLBACK = (
     "✗ This Hermes install is managed by {steward}.\n"
     "\n"
-    "The tree has no git checkout, so `hermes update` cannot update it.\n"
+    "The tree has no git checkout, so `cts update` cannot update it.\n"
     "Update it with the tool that installed it."
 )
 
@@ -82,8 +82,8 @@ _STEWARD_UPDATE_FALLBACK = (
 # desktop-app message is per-OS because each OS owns app removal
 # differently.
 _STEWARD_DELETE_DATA_PREAMBLE = "To delete your Hermes data (chats, configuration, etc),\n"
-_STEWARD_DELETE_DATA_CLI = "run:\n$ hermes uninstall --data\n"
-_STEWARD_DELETE_DATA_DESKTOP = "Open Hermes Desktop, go to Settings -> About, and delete your data from there.\n"
+_STEWARD_DELETE_DATA_CLI = "run:\n$ cts uninstall --data\n"
+_STEWARD_DELETE_DATA_DESKTOP = "Open CTS Secret Engine Desktop, go to Settings -> About, and delete your data from there.\n"
 
 _STEWARD_UNINSTALL_MESSAGES = {
     STEWARD_DOCKER: (
@@ -158,7 +158,7 @@ _STEWARD_UNINSTALL_FALLBACK = (
 
 
 def steward_update_message(steward: str) -> str:
-    """The `hermes update` refusal text for a sealed tree."""
+    """The `cts update` refusal text for a sealed tree."""
     message = STEWARD_UPDATE_MESSAGES.get(steward)
     if message is not None:
         return message

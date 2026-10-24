@@ -97,7 +97,7 @@ def profile_lifecycle(command: str, args) -> bool:
         answer = request_unserve_profile(host_home, name)
         if ack_confirmed(answer, "unserved", name):
             print(f"Profile '{name}' parked; its bots and cron are stopped. "
-                  f"Start again with: hermes -p {name} gateway start")
+                  f"Start again with: cts -p {name} gateway start")
         else:
             print(f"Profile '{name}' parked, but immediate stop was not confirmed: {ack_failure(answer)}.")
             print("The host drops it on its next rescan (within 30s).")
@@ -121,7 +121,7 @@ def print_parked_status() -> bool:
     from hermes_cli import gateway as gw
     name = gw._current_profile_name()
     if name and name != "default" and profile_is_parked(get_hermes_home()):
-        print(f"Profile '{name}': parked (hermes -p {name} gateway start)")
+        print(f"Profile '{name}': parked (cts -p {name} gateway start)")
         return True
     if not name or name == "default":
         parked = [profile for profile, home in profiles_to_serve(True, include_parked=True)
@@ -131,7 +131,7 @@ def print_parked_status() -> bool:
             if owner is not None:
                 print(f"Served profiles: {', '.join(owner.profiles)}")
             for profile in parked:
-                print(f"Profile '{profile}': parked (hermes -p {profile} gateway start)")
+                print(f"Profile '{profile}': parked (cts -p {profile} gateway start)")
     return False
 
 
@@ -231,4 +231,4 @@ def _print_host_hint() -> None:
         return
     if pid is not None and record is not None and record.pid == pid:
         print(f"  PID {pid} is the host gateway serving this profile; stopping it would take every "
-              f"served profile offline. Stop the host instead: hermes gateway stop --all")
+              f"served profile offline. Stop the host instead: cts gateway stop --all")

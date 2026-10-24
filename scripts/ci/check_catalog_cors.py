@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fetch a docs catalog URL the way Hermes Desktop does, and fail when a browser would block it.
+"""Fetch a docs catalog URL the way CTS Secret Engine Desktop does, and fail when a browser would block it.
 
 The Desktop renderer fetches ``/docs/api/plugins.json`` cross-origin (a packaged build sends
 ``Origin: null``). A browser checks CORS on every response of a redirect chain, so the docs host's
@@ -23,7 +23,7 @@ import urllib.request
 from email.message import Message
 from urllib.parse import urljoin
 
-DEFAULT_URL = "https://hermes-agent.nousresearch.com/docs/api/plugins.json"
+DEFAULT_URL = "https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/api/plugins.json"
 ORIGIN = "null"
 MAX_HOPS = 5
 TIMEOUT_SECONDS = 20

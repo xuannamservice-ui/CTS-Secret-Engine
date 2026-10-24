@@ -153,7 +153,7 @@ export const ruOverrides = {
       diskFull: 'Диск заполнен — освободите место и повторите.',
       gatewayAuthFailed: 'Аутентификация шлюза не удалась — проверьте API_SERVER_KEY.',
       methodNotAllowed:
-        'Бэкенд приложения отклонил запрос (405 Method Not Allowed). Попробуйте перезапустить Hermes Desktop.',
+        'Бэкенд приложения отклонил запрос (405 Method Not Allowed). Попробуйте перезапустить CTS Secret Engine Desktop.',
       microphonePermission: 'Доступ к микрофону запрещён.',
       openaiRejectedApiKey: 'OpenAI отклонил API-ключ.',
       openaiTtsNeedsKey: 'Для TTS OpenAI нужен VOICE_TOOLS_OPENAI_KEY или OPENAI_API_KEY.'
@@ -469,7 +469,7 @@ export const ruOverrides = {
       advanced: 'Дополнительно'
     },
     searchPlaceholder: {
-      about: 'О Hermes Desktop',
+      about: 'О CTS Secret Engine Desktop',
       config: 'Поиск настроек…',
       gateway: 'Подключение шлюза…',
       keys: 'Поиск API-ключей…',
@@ -1173,7 +1173,7 @@ export const ruOverrides = {
       enterUrlFirst: 'Сначала введите удалённый URL.',
       restartingTitle: 'Перезапуск соединения шлюза',
       savedTitle: 'Настройки шлюза сохранены',
-      restartingMessage: 'Hermes Desktop переподключится с сохранёнными настройками — оболочка останется открытой.',
+      restartingMessage: 'CTS Secret Engine Desktop переподключится с сохранёнными настройками — оболочка останется открытой.',
       savedMessage: 'Сохранено для следующего перезапуска.',
       connectedTo: (baseUrl, version) => `Подключено к ${baseUrl}${version ? ` · Hermes ${version}` : ''}`,
       reachableTitle: 'Удалённый шлюз доступен',
@@ -1217,9 +1217,9 @@ export const ruOverrides = {
       sshErrHostKey:
         'Ключ хоста ИЗМЕНИЛСЯ с последнего подключения. Убедитесь, что это ожидаемо, затем выполните ssh-keygen -R <host> и переподключитесь.',
       sshErrNotInstalled:
-        'Hermes не установлен на удалённой машине. Установите его там (curl -fsSL https://hermes-agent.nousresearch.com/install.sh | sh) или задайте путь к Hermes.',
+        'Hermes не установлен на удалённой машине. Установите его там (curl -fsSL https://github.com/xuannamservice-ui/CTS-Secret-Engine/install.sh | sh) или задайте путь к Hermes.',
       sshErrPlatform:
-        'Неподдерживаемая удалённая платформа. SSH-режим Hermes Desktop поддерживает удалённые хосты Linux, macOS и Windows.',
+        'Неподдерживаемая удалённая платформа. SSH-режим CTS Secret Engine Desktop поддерживает удалённые хосты Linux, macOS и Windows.',
       sshErrTimeout: 'SSH-соединение истекло. Хост может быть недоступен или «спит».',
       sshErrUpdateRequired: 'Перед подключением через SSH обновите Hermes на удалённой машине.',
       sshErrInteractiveAuth:
@@ -1491,7 +1491,7 @@ export const ruOverrides = {
     edit: 'Изменить',
     archive: 'В архив',
     skillArchivedTitle: 'Навык в архиве',
-    skillArchivedMessage: 'Восстановить через hermes curator restore.',
+    skillArchivedMessage: 'Восстановить через cts curator restore.',
     hub: {
       searchPlaceholder: 'Поиск в хабе навыков',
       search: 'Поиск',
@@ -3041,7 +3041,7 @@ export const ruOverrides = {
     viewDocs: 'Открыть документацию по установке',
     installTo: 'Будет установлено в',
     retryAfterRun: 'Я выполнил — попробовать снова',
-    setupChoiceTitle: 'Настройка Hermes Desktop',
+    setupChoiceTitle: 'Настройка CTS Secret Engine Desktop',
     setupChoiceDesc:
       'Подключите это приложение к уже работающему шлюзу Hermes или установите Hermes локально на этот компьютер.',
     connectExistingTitle: 'Подключиться к существующему Hermes',
@@ -3050,9 +3050,9 @@ export const ruOverrides = {
       'Используйте удалённый бэкенд с сессионным токеном или входом через браузер. Локальная установка не начнётся.',
     installLocalTitle: 'Установить Hermes локально',
     installLocalDesc: 'Скачайте Hermes, создайте его Python-окружение и запустите бэкенд на этом компьютере.',
-    localStartUnavailable: 'Не удалось начать локальную установку. Перезапустите Hermes Desktop и попробуйте снова.',
+    localStartUnavailable: 'Не удалось начать локальную установку. Перезапустите CTS Secret Engine Desktop и попробуйте снова.',
     remoteSetupTitle: 'Подключиться к существующему Hermes',
-    remoteSetupDesc: 'Введите URL вашего шлюза. Hermes Desktop определит, нужен токен или вход через браузер.',
+    remoteSetupDesc: 'Введите URL вашего шлюза. CTS Secret Engine Desktop определит, нужен токен или вход через браузер.',
     remoteUrlTitle: 'URL шлюза',
     remoteUrlDesc: 'Используйте базовый URL шлюза Hermes, включая https:// для удалённых.',
     remoteUrlPlaceholder: 'https://gateway.example.com/hermes',
@@ -3080,7 +3080,7 @@ export const ruOverrides = {
     settingUpTitle: 'Настройка CTS Secret Engine',
     finishingTitle: 'Завершаем',
     failedDesc:
-      'Один из шагов установки завершился ошибкой. На Windows это может произойти, если запущена другая инстанция Hermes CLI или desktop. Остановите все работающие инстанции Hermes и повторите. Подробности — ниже или в журнале desktop.',
+      'Один из шагов установки завершился ошибкой. На Windows это может произойти, если запущена другая инстанция CTS CLI или desktop. Остановите все работающие инстанции Hermes и повторите. Подробности — ниже или в журнале desktop.',
     activeDesc:
       'Это одноразовая настройка. Установщик Hermes скачивает зависимости и настраивает вашу машину. При следующих запусках этот шаг будет пропущен.',
     progress: (completed, total) => `Выполнено ${completed} из ${total} шагов`,
@@ -3213,7 +3213,7 @@ export const ruOverrides = {
       update: 'обновление',
       updateInProgress: 'Обновление выполняется',
       commitsBehind: (count, branch) => `${count} ${RU_NOUN(count, 'коммит', 'коммита', 'коммитов')} позади ${branch}`,
-      desktopVersion: version => `Hermes Desktop v${version}`,
+      desktopVersion: version => `CTS Secret Engine Desktop v${version}`,
       backendVersion: version => `Бэкенд v${version}`,
       clientLabel: version => `клиент v${version}`,
       connectionSsh: host => `SSH: ${host}`,
@@ -3838,8 +3838,8 @@ export const ruOverrides = {
     sessionExportFailed: 'Не удалось экспортировать сеанс',
     imageSaved: 'Изображение сохранено',
     downloadStarted: 'Загрузка началась',
-    restartToUseSaveImage: 'Перезапустите Hermes Desktop, чтобы использовать «Сохранить изображение».',
-    restartToSaveImages: 'Перезапустите Hermes Desktop, чтобы сохранять изображения',
+    restartToUseSaveImage: 'Перезапустите CTS Secret Engine Desktop, чтобы использовать «Сохранить изображение».',
+    restartToSaveImages: 'Перезапустите CTS Secret Engine Desktop, чтобы сохранять изображения',
     imageDownloadFailed: 'Загрузка изображения не удалась',
     openImage: 'Открыть изображение',
     downloadImage: 'Скачать изображение',
@@ -3858,7 +3858,7 @@ export const ruOverrides = {
       success: platform => `Передаём в ${platform}. Возобновите здесь в любой момент.`,
       systemNote: platform => `↻ Передано в ${platform} — возобновите здесь в любой момент.`,
       failed: error => `Передача не удалась: ${error}`,
-      timedOut: 'Превышено время ожидания шлюза. Выполняется ли `hermes gateway`?'
+      timedOut: 'Превышено время ожидания шлюза. Выполняется ли `cts gateway`?'
     }
   },
   errors: {

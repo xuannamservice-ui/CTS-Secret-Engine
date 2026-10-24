@@ -1,4 +1,4 @@
-"""``hermes plugins update`` plus the provenance verbs around it: ``adopt``, ``trust-update-url`` and the
+"""``cts plugins update`` plus the provenance verbs around it: ``adopt``, ``trust-update-url`` and the
 read-only ``check-updates``; the dashboard update path shares the same pull/re-clone core.
 
 Sibling of :mod:`hermes_cli.plugins_cmd` (the facade re-exports the names other modules use and is
@@ -83,7 +83,7 @@ def update_one(name: str, target: Path, console, *, interactive: bool = True, fo
     *interactive*; *force* (``--force``) accepts it without asking. A dangerous verdict always blocks.
     Refusals raise :class:`~hermes_cli.plugins_cmd_catalog.RepinConsentRequired` or
     ``PluginOperationError`` with nothing changed; :func:`cmd_update` turns them into exit 1 and
-    ``hermes plugins update`` with no name records them per plugin and moves on.
+    ``cts plugins update`` with no name records them per plugin and moves on.
     """
     from rich.markup import escape
     from hermes_cli import plugins_cmd_catalog as catalog
@@ -118,7 +118,7 @@ def update_one(name: str, target: Path, console, *, interactive: bool = True, fo
             if interactive:
                 _pc()._run_capability_consent(console, plugin_id, declared_caps, context="update")
             else:
-                console.print(f"[yellow]Plugin {plugin_id} has new capabilities; review them with `hermes plugins capabilities {plugin_id}`.[/yellow]")
+                console.print(f"[yellow]Plugin {plugin_id} has new capabilities; review them with `cts plugins capabilities {plugin_id}`.[/yellow]")
 
     out = output.strip()
     if "Already up to date" in out:
@@ -130,7 +130,7 @@ def update_one(name: str, target: Path, console, *, interactive: bool = True, fo
 
 
 def cmd_update(name: str, *, interactive: bool = True, force: bool = False) -> None:
-    """``hermes plugins update <name> [--force]``: :func:`update_one`, exit 1 on a refusal."""
+    """``cts plugins update <name> [--force]``: :func:`update_one`, exit 1 on a refusal."""
     from hermes_cli.plugins_cmd_catalog import RepinConsentRequired
     console = _pc()._console()
     target = _pc()._require_installed_plugin(name, _pc()._plugins_dir(), console)

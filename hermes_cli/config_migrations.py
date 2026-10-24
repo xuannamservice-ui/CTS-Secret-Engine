@@ -34,7 +34,7 @@ def support_floor_message() -> str:
     return (
         f"This config predates version {SUPPORT_FLOOR_VERSION} (~2 years old) "
         "and can no longer be auto-migrated. Back up "
-        f"{display_hermes_home()}/config.yaml and run `hermes setup` to "
+        f"{display_hermes_home()}/config.yaml and run `cts setup` to "
         f"regenerate, or manually set _config_version: {SUPPORT_FLOOR_VERSION} "
         "after reviewing the changelog.")
 
@@ -326,7 +326,7 @@ def _migrate_to_21(results: dict[str, Any], quiet: bool) -> None:
         f"{len(grandfathered)} existing plugin(s) into plugins.enabled"
         if grandfathered else
         "  ✓ Plugins now opt-in: no existing plugins to grandfather. "
-        "Use `hermes plugins enable <name>` to activate.")
+        "Use `cts plugins enable <name>` to activate.")
     _commit(
         config, results, quiet,
         f"plugins.enabled (opt-in allow-list, {len(grandfathered)} grandfathered)", message)
@@ -334,7 +334,7 @@ def _migrate_to_21(results: dict[str, Any], quiet: bool) -> None:
 
 def _migrate_to_23(results: dict[str, Any], quiet: bool) -> None:
     # 22 → 23: seed curator defaults + create logs/curator/. Older configs never wrote the curator
-    # section; deep-merge made it work but users could not see/edit it and `hermes curator status`
+    # section; deep-merge made it work but users could not see/edit it and `cts curator status`
     # had no stable logs dir. Only keys the user hasn't set are written.
     _c = _cfg()
     DEFAULT_CONFIG = _c.DEFAULT_CONFIG
@@ -375,7 +375,7 @@ def _migrate_to_23(results: dict[str, Any], quiet: bool) -> None:
             if not quiet:
                 print(
                     f"  ✓ {'Curator' if label == 'curator' else label} settings now available "
-                    f"({', '.join(added)}) — edit via `hermes config set`")
+                    f"({', '.join(added)}) — edit via `cts config set`")
 
 
 def _migrate_to_29(results: dict[str, Any], quiet: bool) -> None:
@@ -533,7 +533,7 @@ def _migrate_to_39(results: dict[str, Any], quiet: bool) -> None:
             config, results, quiet,
             "removed retired 'bfl' toolset from saved toolset lists",
             "  ✓ Removed the retired BFL FLUX 3 toolset from saved toolset "
-            "lists — video generation now lives under `hermes tools` → "
+            "lists — video generation now lives under `cts tools` → "
             "Video Generation (Nous Subscription or FAL).")
 
 
@@ -605,14 +605,14 @@ def _migrate_to_45(results: dict[str, Any], quiet: bool) -> None:
         config, results, quiet,
         f"enabled the connections toolset for {platforms}",
         f"  ✓ Enabled the Connections toolset (Gmail, Linear, Notion, local MCP servers) for {platforms}. "
-        "Uncheck Connections in `hermes tools` to turn it off.")
+        "Uncheck Connections in `cts tools` to turn it off.")
 
 
 def _migrate_to_46(results: dict[str, Any], quiet: bool) -> None:
     # 45 → 46: the profile editor used to switch an MCP server off with `disabled: true`, a key no
     # runtime reader consults, so the server kept running. Carry that choice over to `enabled:
     # false` (the key every reader uses) and drop `disabled`, so the editor and runtime agree.
-    # `disabled: true` wins over an explicit `enabled: true`: `hermes mcp add` writes that, and the
+    # `disabled: true` wins over an explicit `enabled: true`: `cts mcp add` writes that, and the
     # old editor only added `disabled`, so letting `enabled` win would skip nearly every server.
     from hermes_cli.tools_config import _parse_enabled_flag
 
@@ -816,7 +816,7 @@ MIGRATIONS: tuple[tuple[int, Callable[[dict[str, Any], bool], None]], ...] = (
         added="curator.archive_after_days=30 (was: 90)",
         message=(
             "  ✓ curator.archive_after_days 90→30 — skills unused for a month are archived to "
-            "skills/.archive/ (recoverable with `hermes curator restore`). Set it back to 90 to keep the old window."))),
+            "skills/.archive/ (recoverable with `cts curator restore`). Set it back to 90 to keep the old window."))),
     # 44 → 45: saved platform_toolsets lists predate the connections toolset (see _migrate_to_45).
     (45, _migrate_to_45),
     # 45 → 46: legacy editor `disabled: true` on MCP servers becomes `enabled: false` (see _migrate_to_46).
@@ -838,7 +838,7 @@ MIGRATIONS: tuple[tuple[int, Callable[[dict[str, Any], bool], None]], ...] = (
     (49, _migrate_to_49),
     # 49 → 50: security.tirith_* dropped; the bundled scanner is gone (see _migrate_to_50).
     (50, _migrate_to_50),
-    # 50 → 51: cron.bot_chat_delivery_timeout_seconds is gone with the local `hermes chat`
+    # 50 → 51: cron.bot_chat_delivery_timeout_seconds is gone with the local `cts chat`
     # fallback lane it bounded. Bot Chat deliveries are admitted to the running gateway and
     # settle on its durable receipt; there is no cron-side turn left to time out.
     (51, functools.partial(

@@ -14,7 +14,7 @@ if __name__ == "__main__":
     try:
         import hermes_bootstrap
     except ModuleNotFoundError:
-        pass  # a partial ``hermes update`` can leave the bootstrap unregistered
+        pass  # a partial ``cts update`` can leave the bootstrap unregistered
 
 import inspect
 import json
@@ -80,7 +80,7 @@ def _build_server() -> Any:
     mcp = MCPServer(
         HERMES_TOOLS_MCP_SERVER_NAME,
         instructions=(
-            "Hermes Agent's tool surface, exposed for use inside a Codex "
+            "CTS Secret Engine's tool surface, exposed for use inside a Codex "
             "session. Use these for capabilities Codex's built-in toolset "
             "doesn't cover: web search/extract, "
             "subagent delegation, vision, image generation, persistent "

@@ -402,7 +402,7 @@ def expose_pm_git(project_root: Path) -> None:
 
     install.ps1 stages the pinned Git for Windows into PM's store for its own
     process only, and PM's facts never record it, so every later bare ``git``
-    (``hermes update``, the source-completion stamp, plugin installs, doctor)
+    (``cts update``, the source-completion stamp, plugin installs, doctor)
     died with ``[WinError 2]``. A git found under PM's store is that unrecorded
     copy inherited from the installer, so it is recorded too. Callers are
     explicit user actions (like ``ensure_tools_for_sync``), so acquire PM's git
@@ -813,7 +813,7 @@ def bounded_probe_run(
     ``communicate()`` after killing the direct child. Killing it can leave a descendant (``git.exe`` under a
     launcher shim, ``conhost.exe`` under wmic/powershell) holding duplicates of the captured stdout/stderr
     handles, so the pipes never reach EOF and the reader-thread join blocks forever. The wmic /
-    ``Get-CimInstance Win32_Process`` gateway scan hit exactly this during ``hermes update`` on slow-WMI
+    ``Get-CimInstance Win32_Process`` gateway scan hit exactly this during ``cts update`` on slow-WMI
     machines (#87134); the git probes hit it first (#68609 / #66037).
     """
     _popen_kwargs: dict = {"creationflags": windows_hide_flags()} if IS_WINDOWS else {"process_group": 0}

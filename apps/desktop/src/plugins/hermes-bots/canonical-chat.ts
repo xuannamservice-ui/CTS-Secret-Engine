@@ -129,7 +129,7 @@ async function openStoredBotChat(
   { background = false, intent = 'in-place' }: OpenStoredBotChatOptions = {}
 ): Promise<string> {
   if (!storedId || typeof host.openSession !== 'function') {
-    throw new Error('This Hermes Desktop version cannot open stored sessions')
+    throw new Error('This CTS Secret Engine Desktop version cannot open stored sessions')
   }
 
   const { bot, name, route } = botOwner(owner)
@@ -669,7 +669,7 @@ export async function prepareBotSource(bot: RosterRow) {
   if (route && typeof host.requestProfile !== 'function') {
     throw new Error(
       getPluginCtx()?.i18n?.t('bot.remoteConnectionsUnsupported') ??
-        'Update Hermes Desktop to chat with bots on other connections.'
+        'Update CTS Secret Engine Desktop to chat with bots on other connections.'
     )
   }
 

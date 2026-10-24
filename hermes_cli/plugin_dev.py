@@ -1,4 +1,4 @@
-"""Runtime-backed validation behind ``hermes plugins doctor``: every manifest/import/registration
+"""Runtime-backed validation behind ``cts plugins doctor``: every manifest/import/registration
 check routes through the real runtime contracts instead of a parallel scanner."""
 
 from __future__ import annotations
@@ -322,7 +322,7 @@ def _check_manifest_v2(report: DoctorReport, manifest: Any) -> None:
         report.warning(
             "declared python_dependencies not installed: " + ", ".join(missing)
             + " — install and enable the plugin with hermes plugins. "
-            "For an enabled plugin, run hermes pm repair, then restart Hermes.")
+            "For an enabled plugin, run cts pm repair, then restart Hermes.")
 
     schema = getattr(manifest, "config_schema", {}) or {}
     if schema:

@@ -1,5 +1,5 @@
 """Bot Desktop runtime: one headless Xfce desktop per Hermes profile, served over RFB on a private
-Unix socket, viewed and driven from Hermes Desktop.
+Unix socket, viewed and driven from CTS Secret Engine Desktop.
 
 Layout under ``<HERMES_HOME>/bot-desktop/``: ``display`` (allocated X display number), ``rfb.sock``
 (Xvnc RFB Unix socket, 0600), ``Xauthority``, ``env`` (DISPLAY/XAUTHORITY/DBUS_SESSION_BUS_ADDRESS
@@ -119,7 +119,7 @@ def installable() -> bool:
     """Whether :func:`install_command` could actually succeed on this host.
 
     False on an unprivileged process with no ``sudo`` to reach for, which is exactly the published Docker
-    image: services drop to the ``hermes`` user and no ``sudo`` binary is installed. The packages can only
+    image: services drop to the ``cts`` user and no ``sudo`` binary is installed. The packages can only
     arrive in the image there, so :func:`start` says that instead of printing a sudo line the user has no
     way to run. ``status()`` still reports ``install_command`` for the pane; surfacing this there needs a
     wire-contract change and is deliberately out of scope.

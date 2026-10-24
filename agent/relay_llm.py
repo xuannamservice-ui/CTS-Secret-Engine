@@ -40,7 +40,7 @@ def _api_mode(metadata: dict[str, Any] | None) -> str:
 
 
 def _relay_operation_name(provider_name: str, metadata: dict[str, Any] | None) -> str:
-    """Return Relay's canonical operation name when Hermes knows the API mode."""
+    """Return Relay's canonical operation name when CTS Secret Engine knows the API mode."""
     protocol = _RELAY_PROTOCOL_BY_API_MODE.get(_api_mode(metadata))
     return protocol[0] if protocol is not None else provider_name
 

@@ -474,8 +474,8 @@ export const zhHantChat = {
     sessionExportFailed: '無法匯出工作階段',
     imageSaved: '圖片已儲存',
     downloadStarted: '下載已開始',
-    restartToUseSaveImage: '重新啟動 Hermes Desktop 後可使用儲存圖片。',
-    restartToSaveImages: '重新啟動 Hermes Desktop 以儲存圖片',
+    restartToUseSaveImage: '重新啟動 CTS Secret Engine Desktop 後可使用儲存圖片。',
+    restartToSaveImages: '重新啟動 CTS Secret Engine Desktop 以儲存圖片',
     imageDownloadFailed: '圖片下載失敗',
     openImage: '開啟圖片',
     downloadImage: '下載圖片',
@@ -499,7 +499,7 @@ export const zhHantChat = {
       success: platform => `已移交到 ${platform}。隨時可在此處恢復。`,
       systemNote: platform => `↻ 已移交到 ${platform} — 隨時可在此處恢復。`,
       failed: error => `移交失敗：${error}`,
-      timedOut: '等待閘道逾時。`hermes gateway` 是否正在執行？'
+      timedOut: '等待閘道逾時。`cts gateway` 是否正在執行？'
     }
   },
 

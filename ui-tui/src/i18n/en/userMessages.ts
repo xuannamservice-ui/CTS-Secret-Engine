@@ -4,7 +4,7 @@
 //
 // Every slash command cited here exists in ui-tui/src/app/slash/commands
 // (/logs, /retry, /model, /update, /resume, /sessions, /quit, /compress,
-// /skills, /setup) and `hermes doctor` is a real subcommand — keep them as-is.
+// /skills, /setup) and `cts doctor` is a real subcommand — keep them as-is.
 
 export const userMessagesEn = {
   userMessages: {
@@ -22,14 +22,14 @@ export const userMessagesEn = {
         `Hermes stopped (exit code ${code}) and could not be restarted. Your chat is saved.`,
       gaveUpReconnect:
         'Hermes keeps trying to reconnect in the background and reopens this chat when it succeeds; if it does not, type /resume.',
-      gaveUpLogs: 'Type /logs for the full log, or /quit and run `hermes doctor` to check the install.',
+      gaveUpLogs: 'Type /logs for the full log, or /quit and run `cts doctor` to check the install.',
       gaveUpActivity: 'Hermes stopped · /logs for details',
       /** `{0}` = seconds until the next attempt. */
       reconnecting: (secs: string) => `retrying in ${secs}s`,
       /** `{0}` = seconds until the next attempt, `{1}` = attempt number. */
       reconnectingAttempt: (secs: string, attempt: string) => `retrying in ${secs}s (attempt ${attempt})`,
       slowStart:
-        'Hermes is taking longer than usual to start. Still waiting… If it never connects: /logs shows the last backend output; /quit and run `hermes doctor`.',
+        'Hermes is taking longer than usual to start. Still waiting… If it never connects: /logs shows the last backend output; /quit and run `cts doctor`.',
       slowStartStatus: 'still starting…',
       stderrProblem: 'Something went wrong inside Hermes · /logs for details',
       /** `{0}` = the Python exception class name (e.g. `ValueError`). */
@@ -44,7 +44,7 @@ export const userMessagesEn = {
       shellBackendRefusedUnnamed:
         "!commands run on the gateway host, but this session's terminal backend isn't local, so the command was not run. Ask the agent to run it instead.",
       versionSkew:
-        'The terminal UI and the Hermes backend are out of sync (different versions). Run /update, or exit and run `hermes update`, then start the TUI again.',
+        'The terminal UI and the Hermes backend are out of sync (different versions). Run /update, or exit and run `cts update`, then start the TUI again.',
       sessionNotFound:
         'This chat is no longer attached to the backend (it was idle or the backend restarted). Your history is saved: type /resume to reopen it.',
       notConnected:

@@ -208,6 +208,8 @@ TOOLSETS = {
     ),
     "hermes-whatsapp": _bundle("WhatsApp bot toolset - similar to Telegram (personal messaging, more trusted)"),
     "hermes-slack": _bundle("Slack bot toolset - full access for workspace use (terminal has safety checks)"),
+    "hermes-teams": _bundle("Microsoft Teams bot toolset - full access for workspace use (terminal has safety checks)"),
+    "hermes-google_chat": _bundle("Google Chat bot toolset - full access for workspace use (terminal has safety checks)"),
     "hermes-signal": _bundle("Signal bot toolset - encrypted messaging platform (full access)"),
     "hermes-bluebubbles": _bundle("BlueBubbles iMessage bot toolset - Apple iMessage via local BlueBubbles server"),
     "hermes-email": _bundle("Email bot toolset - interact with Hermes via email (IMAP/SMTP)"),
@@ -231,7 +233,7 @@ TOOLSETS = {
         "Gateway toolset - union of all messaging platform tools",
         [],
         includes=[
-            "hermes-telegram", "hermes-discord", "hermes-whatsapp", "hermes-slack",
+            "hermes-telegram", "hermes-discord", "hermes-whatsapp", "hermes-slack", "hermes-teams", "hermes-google_chat",
             "hermes-signal", "hermes-bluebubbles", "hermes-email",
             "hermes-sms", "hermes-mattermost", "hermes-matrix", "hermes-dingtalk",
             "hermes-feishu", "hermes-wecom", "hermes-wecom-callback", "hermes-weixin",

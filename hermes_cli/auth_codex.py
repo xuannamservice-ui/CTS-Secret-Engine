@@ -32,7 +32,7 @@ if TYPE_CHECKING:  # annotation-only; the runtime import would be a cycle
 logger = logging.getLogger("hermes_cli.auth")
 
 # ``{relogin}`` is filled at raise time with the profile-aware sign-in command: a bare
-# ``hermes auth`` from a named profile re-signs the ROOT store (93889b770da, #114012).
+# ``cts auth`` from a named profile re-signs the ROOT store (93889b770da, #114012).
 _MISSING_ACCESS_TOKEN_MSG = "Codex auth is missing access_token. Run `{relogin}` to re-authenticate."
 _MISSING_REFRESH_TOKEN_MSG = "Codex auth is missing refresh_token. Run `{relogin}` to re-authenticate."
 _NO_CREDENTIALS_MSG = "No Codex credentials stored. Run `{relogin}` to authenticate."
@@ -135,8 +135,8 @@ def _sync_codex_pool_entries(
     previous_singleton_tokens: Optional[dict[str, str]] = None) -> None:
     """Mirror a fresh Codex re-auth into the credential_pool OAuth entries.
 
-    ``device_code`` (the singleton-seeded entry from ``hermes setup`` / the model picker) is always
-    synced. ``manual:device_code`` (``hermes auth add openai-codex``) is synced only when its
+    ``device_code`` (the singleton-seeded entry from ``cts setup`` / the model picker) is always
+    synced. ``manual:device_code`` (``cts auth add openai-codex``) is synced only when its
     access_token equals the PREVIOUS singleton token — a legacy alias of the singleton; an entry
     with its own token material is an independent account and must be left alone. ``manual:api_key``
     and any other source are independent credentials and are never overwritten by a re-auth.
@@ -314,7 +314,7 @@ def _ssl_interop_hint(exc: BaseException) -> str:
         " the larger TLS 1.3 ClientHello that OpenSSL 3.5+ sends by default (post-quantum hybrid"
         " groups). Workaround: point OPENSSL_CONF at a config restricting Groups to classic curves"
         " (x25519:secp256r1:secp384r1:x448), or test with TLS 1.2 — see the Codex note in"
-        " https://hermes-agent.nousresearch.com/docs/integrations/providers"
+        " https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/integrations/providers"
     )
 
 
@@ -985,7 +985,7 @@ def _codex_login_rate_limited_error(response: httpx.Response, *, during: str = "
     """AuthError for a 429 from OpenAI's device-auth endpoints (throttle, not credential fault)."""
     # Upstream rate-limit / usage-quota exhaustion on the token endpoint. The stored refresh token is still
     # valid here — re-authenticating cannot lift a quota cap. Classify distinctly from auth failures so
-    # callers surface a "retry later" notice instead of a misleading "run hermes auth" prompt (see issue
+    # callers surface a "retry later" notice instead of a misleading "run cts auth" prompt (see issue
     # #32790).
     retry_after = _parse_retry_after_seconds(getattr(response, "headers", None))
     wait_hint = (

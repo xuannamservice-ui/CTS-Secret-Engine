@@ -1,4 +1,4 @@
-"""``hermes plugins update`` with no name: update every installed plugin that has an update.
+"""``cts plugins update`` with no name: update every installed plugin that has an update.
 
 The list comes from the read-only ``check-updates`` probe (:func:`hermes_cli.plugins_updates.run_checks`);
 each plugin is then updated through the single-plugin
@@ -15,7 +15,7 @@ import sys
 from dataclasses import dataclass, field
 from typing import Any
 
-# Only these classes have an update path `hermes plugins update <name>` can drive: a catalog install
+# Only these classes have an update path `cts plugins update <name>` can drive: a catalog install
 # re-pins to the reviewed sha, a tracked git install pulls. A pip row is a PyPI distribution that
 # Hermes never upgrades (#132494), so offering it would promise an update nothing applies.
 _UPDATE_KIND = {"catalog": "catalog re-pin", "git": "git pull"}
@@ -103,7 +103,7 @@ def _print_plan(console, plan: UpdatePlan) -> None:
 
 
 def cmd_update_all(*, yes: bool = False) -> None:
-    """``hermes plugins update [--yes]``: list the plugins with an update and update them all.
+    """``cts plugins update [--yes]``: list the plugins with an update and update them all.
 
     A terminal asks once (``Update all N? [Y/n]``); without one nothing moves unless ``--yes`` is
     given. Each plugin then goes through ``update_one``, interactive only when a terminal is present,

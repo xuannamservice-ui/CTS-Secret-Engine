@@ -1,4 +1,4 @@
-"""Messaging-platform setup wizards (Telegram, webhooks) and the ``hermes setup
+"""Messaging-platform setup wizards (Telegram, webhooks) and the ``cts setup
 gateway`` flow. setup.py re-exports the public names, and tests monkeypatch prompt/print/env
 helpers on hermes_cli.setup, so those are imported lazily per function."""
 
@@ -201,7 +201,7 @@ def _setup_webhooks():
     print_warning("   internet. For security, run the gateway in a sandboxed environment")
     print_warning("   (Docker, VM, etc.) to limit blast radius from prompt injection.")
     print()
-    _info("   Full guide: https://hermes-agent.nousresearch.com/docs/user-guide/messaging/webhooks/", None)
+    _info("   Full guide: https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/user-guide/messaging/webhooks/", None)
     _save_port("WEBHOOK_PORT", prompt("Webhook port (default 8644)"), "8644")
     save_prompted("WEBHOOK_SECRET", "Global HMAC secret (shared across all routes)", password=True,
                    success_msg="Webhook secret saved",
@@ -214,11 +214,11 @@ def _setup_webhooks():
           "   2. Point your service (GitHub, GitLab, etc.) at:",
           "      http://your-server:8644/webhooks/<route-name>", None,
           "   Route configuration guide:",
-          "   https://hermes-agent.nousresearch.com/docs/user-guide/messaging/webhooks/#configuring-routes",
+          "   https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/user-guide/messaging/webhooks/#configuring-routes",
           None,
           # Printed twice upstream; kept verbatim for output parity.
-          "   Open config in your editor:  hermes config edit",
-          "   Open config in your editor:  hermes config edit")
+          "   Open config in your editor:  cts config edit",
+          "   Open config in your editor:  cts config edit")
 
 
 # (platform label, credential env var, home-channel env vars — any one satisfies)
@@ -248,7 +248,7 @@ def _warn_missing_home_channels() -> None:
     _info("   Without a home channel, cron jobs and cross-platform",
           "   messages can't be delivered to those platforms.",
           "   Set one later with /set-home in your chat, or:",
-          *(f"     hermes config set {plat.upper()}_HOME_CHANNEL <channel_id>" for plat in missing_home))
+          *(f"     cts config set {plat.upper()}_HOME_CHANNEL <channel_id>" for plat in missing_home))
 
 
 def _restart_running_gateway(any_messaging: bool, supports_systemd: bool) -> None:
@@ -301,7 +301,7 @@ def setup_gateway(config: dict):
     pre_selected = [i for i, status in enumerate(statuses) if status == "configured"]
     selected = prompt_checklist("Select platforms to configure:", items, pre_selected)
     if not selected:
-        print_info("No platforms selected. Run 'hermes setup gateway' later to configure.")
+        print_info("No platforms selected. Run 'cts setup gateway' later to configure.")
     for idx in selected or ():
         _configure_platform(platforms[idx])
 

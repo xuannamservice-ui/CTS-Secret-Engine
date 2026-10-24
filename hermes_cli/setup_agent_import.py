@@ -1,8 +1,8 @@
-"""First-time ``hermes setup``'s "Coming from another agent?" step (it replaces core's old OpenClaw
+"""First-time ``cts setup``'s "Coming from another agent?" step (it replaces core's old OpenClaw
 migration offer).
 
 Detection is a few ``is_dir`` checks and needs nothing installed. Importing lives in the
-``agent-importers`` catalog plugin (``hermes import-agent <source>``): only after the user says yes
+``agent-importers`` catalog plugin (``cts import-agent <source>``): only after the user says yes
 does this step install it through the normal catalog install and run its import in a child process,
 which owns the preview, the confirmation and what gets imported. Setup helpers are imported lazily
 from hermes_cli.setup so test patches there apply.
@@ -21,7 +21,7 @@ PLUGIN = "agent-importers"
 
 
 class ImportSource(NamedTuple):
-    name: str                 # ``hermes import-agent <name>``
+    name: str                 # ``cts import-agent <name>``
     label: str
     dirs: tuple[str, ...]     # dirs under ``~`` the plugin reads; the first one found wins
     extra_args: tuple[str, ...] = ()
@@ -124,7 +124,7 @@ def _snapshot(hermes_home: Path) -> tuple[Optional[bytes], ...]:
 
 
 def _run_import(source: ImportSource, hermes_home: Path) -> bool:
-    """``hermes import-agent <source>`` in a child process, so the freshly installed plugin's command
+    """``cts import-agent <source>`` in a child process, so the freshly installed plugin's command
     is wired; it previews and asks before changing anything (and exits 0 on a no too). True when the
     run changed config.yaml or .env, which the setup sections after it read."""
     from hermes_cli.setup import print_header, print_warning
@@ -134,7 +134,7 @@ def _run_import(source: ImportSource, hermes_home: Path) -> bool:
     # A home that is not <root>/profiles/<name> is the root: without a selector the child's
     # _apply_profile_override would follow the sticky active_profile into another profile.
     selector = [] if hermes_home.resolve().parent.name == "profiles" else ["--profile", "default"]
-    # --from-setup: the plugin's import speaks as a step of this setup (no "run hermes setup" pointers,
+    # --from-setup: the plugin's import speaks as a step of this setup (no "run cts setup" pointers,
     # OpenClaw's skipped items folded into one line).
     argv = [sys.executable, "-m", "hermes_cli.main", *selector, "import-agent", source.name, *source.extra_args,
             "--from-setup"]

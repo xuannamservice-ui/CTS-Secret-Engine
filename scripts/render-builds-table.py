@@ -20,7 +20,7 @@ so a build can be read straight from the download origin:
   releases/commit/<sha>/index.html  commit mode: every expected binary of
                                     one commit build, built or not
 
-Tables: Hermes Desktop (bundled) and Hermes Light, one row per (OS,
+Tables: CTS Secret Engine Desktop (bundled) and Hermes Light, one row per (OS,
 arch). Feed manifests (latest*/light*/canary*.yml), blockmaps and mac .zip
 (an electron-updater delta target, not a user download) stay out of the
 tables on purpose; they still live in the bucket for the updater to
@@ -57,7 +57,7 @@ from scripts.releases import handoff, r2, semver, stable, versioning
 
 MARKER = "<!-- HERMES_BUILDS_TABLE -->"
 END_MARKER = "<!-- /HERMES_BUILDS_TABLE -->"
-DEFAULT_REPO = "NousResearch/hermes-agent"
+DEFAULT_REPO = "xuannamservice-ui/CTS-Secret-Engine"
 
 # Asset name shapes (electron-builder artifactName in
 # apps/desktop/electron-builder.config.cjs):
@@ -105,7 +105,7 @@ def table_rows(assets_by_app: dict) -> list[tuple[str, list[tuple[str, str, str,
     a row exists only for an object that is actually in the bucket.
     """
     sections: list[tuple[str, list[tuple[str, str, str, str]]]] = []
-    for app, title in (("HermesBundled", "Hermes Desktop"), ("HermesLight", "Hermes Light (remote-only client)")):
+    for app, title in (("HermesBundled", "CTS Secret Engine Desktop"), ("HermesLight", "Hermes Light (remote-only client)")):
         rows = []
         for key in _ROW_ORDER:
             entry = assets_by_app.get(app, {}).get(key)
@@ -405,7 +405,7 @@ def render_page(tag: str, assets_by_app: dict, base_url: str,
     channel = r2.channel_for_tag(tag)
     tag_url = f"https://github.com/{quote(repo, safe='/')}/releases/tag/{quote(tag, safe='')}"
     body = [
-        f"<h1>Hermes Desktop {channel} builds</h1>",
+        f"<h1>CTS Secret Engine Desktop {channel} builds</h1>",
         f"<p>Release {_link(tag_url)}<code>{html.escape(tag)}</code></a>. Only objects this release "
         "actually staged in the bucket are listed.</p>",
     ]
@@ -438,7 +438,7 @@ def render_page(tag: str, assets_by_app: dict, base_url: str,
             [[html.escape(job), f"{_link(run_url)}View build run</a>"] for job in incomplete_jobs],
         ))
     body.extend(smoke_html(smoke_results))
-    return _page(f"Hermes Desktop {channel} builds", tag, body)
+    return _page(f"CTS Secret Engine Desktop {channel} builds", tag, body)
 
 
 def render_commit_page(commit: str, names: list[str], base_url: str,

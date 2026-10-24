@@ -141,7 +141,7 @@ def _setup_hint() -> str:
   Webhook platform is not enabled. To set it up:
 
   1. Run the gateway setup wizard:
-     hermes gateway setup
+     cts gateway setup
 
   2. Or manually add to {_dhh}/config.yaml:
      platforms:
@@ -156,16 +156,16 @@ def _setup_hint() -> str:
      WEBHOOK_PORT=8644
      WEBHOOK_SECRET=your-global-secret
 
-  Then start the gateway: hermes gateway run
+  Then start the gateway: cts gateway run
 """
 
 
 def webhook_command(args):
-    """Entry point for 'hermes webhook' subcommand."""
+    """Entry point for 'cts webhook' subcommand."""
     sub = getattr(args, "webhook_action", None)
     if not sub:
-        print("Usage: hermes webhook {subscribe|list|remove|test}")
-        print("Run 'hermes webhook --help' for details.")
+        print("Usage: cts webhook {subscribe|list|remove|test}")
+        print("Run 'cts webhook --help' for details.")
         return
     if not _is_webhook_enabled():
         print(_setup_hint())
@@ -247,7 +247,7 @@ def _cmd_subscribe(args):
             print(f"Error: {e}")
             return 1
         if job is None:
-            print(f"Error: no cron job matches '{cron_job}'. List jobs with: hermes cron list")
+            print(f"Error: no cron job matches '{cron_job}'. List jobs with: cts cron list")
             return 1
         route["cron_job"] = job["id"]
     script = (getattr(args, "script", "") or "").strip()
@@ -280,7 +280,7 @@ def _cmd_subscribe(args):
         print(f"  Script: {route['script']}")
     print("\n  Configure your service to POST to the URL above.")
     print("  Use the secret for HMAC-SHA256 signature validation.")
-    print("  The gateway must be running to receive events (hermes gateway run).\n")
+    print("  The gateway must be running to receive events (cts gateway run).\n")
 
 
 def _resolve_route_cron_job(profile: str, reference: str):
@@ -364,7 +364,7 @@ def _cmd_test(args):
             print(f"  Response ({resp.status}): {body}")
     except Exception as e:
         print(f"  Error: {e}")
-        print("  Is the gateway running? (hermes gateway run)")
+        print("  Is the gateway running? (cts gateway run)")
 
 
 _ACTIONS = {

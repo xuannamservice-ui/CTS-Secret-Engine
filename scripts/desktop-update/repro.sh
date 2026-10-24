@@ -3,7 +3,7 @@
 #
 # Nothing here touches your real ~/.hermes or checkout. Each mode builds (or
 # reuses) a disposable install under $TMPDIR and drives the REAL code path --
-# the actual installer, the actual orchestrator, the actual `hermes update`.
+# the actual installer, the actual orchestrator, the actual `cts update`.
 #
 #   repro.sh shim          shim UI only: success event after 6s
 #   repro.sh shim-fail     shim UI only: error event after 6s
@@ -134,7 +134,7 @@ case "$MODE" in
   launch)
     # Terminal-lifecycle matrix (gille round 2): launch acceptance is part
     # of the outcome. Each case runs the REAL orchestrator (--no-ui) against
-    # a fake install whose `hermes` stub exits 0 instantly, so the flow
+    # a fake install whose `cts` stub exits 0 instantly, so the flow
     # reaches finish() with FINAL_CODE=0 and exercises the launch leg.
     L="$(mktemp -d -t hermes-launch-test.XXXXXX)"
     fails=0
@@ -145,7 +145,7 @@ case "$MODE" in
         printf 'FAIL %s -> %s\n' "$1" "$(cat "$L/.hermes-update-result.json" 2>/dev/null)"; fails=$((fails+1))
       fi
     }
-    stub_install() { # creates a fake install whose hermes update succeeds
+    stub_install() { # creates a fake install whose cts update succeeds
       rm -rf "$L"; mkdir -p "$L/hermes-agent/venv/bin"
       printf '#!/bin/sh\nexit 0\n' > "$L/hermes-agent/venv/bin/hermes"
       chmod +x "$L/hermes-agent/venv/bin/hermes"

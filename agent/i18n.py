@@ -108,7 +108,7 @@ def supported_languages(home: str | None = None) -> tuple[str, ...]:
 
 def resolve_language_id(value: Any, home: str | None = None) -> str | None:
     """Canonical supported id for a user-supplied value (code, alias, regional tag), or ``None`` when no
-    layer supplies it — the validation ``hermes config set display.language`` runs."""
+    layer supplies it — the validation ``cts config set display.language`` runs."""
     key = i18n_layers.normalize_language_id(value)
     if not key:
         return None

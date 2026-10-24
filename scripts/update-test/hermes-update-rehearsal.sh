@@ -2,9 +2,9 @@
 # hermes-update-rehearsal.sh — for an EXISTING Hermes install.
 #
 # Two steps:
-#   pre   take a `hermes backup` of your data, clone HERMES_HOME and the desktop
+#   pre   take a `cts backup` of your data, clone HERMES_HOME and the desktop
 #         app's Electron userData into the backup dir, then point the install's
-#         update source at a fork so `hermes update` pulls that fork's main.
+#         update source at a fork so `cts update` pulls that fork's main.
 #         Prints what to do next.
 #   post  swap the clones back in, so both trees are exactly as they were.
 #
@@ -16,7 +16,7 @@
 # when the backup dir is on the same disk. HERMES_HOME/cache is left as it is.
 #
 #   ./hermes-update-rehearsal.sh pre  --source <git-url>
-#   # ... run `hermes update`, use Hermes, test whatever you need ...
+#   # ... run `cts update`, use Hermes, test whatever you need ...
 #   ./hermes-update-rehearsal.sh post
 #
 # Options:
@@ -25,12 +25,12 @@
 #   --backup-root DIR   where the backup lives (default ~/hermes-update-rehearsal)
 #   --yes          post: skip the confirmation
 #
-# Requires: git. `pre` and `hermes update` need network access to --source.
+# Requires: git. `pre` and `cts update` need network access to --source.
 
 set -euo pipefail
 
-OFFICIAL_HTTPS="https://github.com/NousResearch/hermes-agent.git"
-OFFICIAL_SSH="git@github.com:NousResearch/hermes-agent.git"
+OFFICIAL_HTTPS="https://github.com/xuannamservice-ui/CTS-Secret-Engine.git"
+OFFICIAL_SSH="git@github.com:xuannamservice-ui/CTS-Secret-Engine.git"
 DEFAULT_SOURCE="https://github.com/ethernet8023/hermes-agent.git"
 
 SUBCMD=""
@@ -254,7 +254,7 @@ cmd_pre() {
     procs="$(pgrep -fl hermes 2>/dev/null | grep -v 'hermes-update-rehearsal' || true)"
     if [ -n "$procs" ]; then
       warn "Hermes looks like it is running — close the desktop app and the gateway"
-      warn "before you run 'hermes update', or the dependency sync may fail:"
+      warn "before you run 'cts update', or the dependency sync may fail:"
       printf '    %s\n' "$procs"
     else
       ok "no Hermes processes running"
@@ -332,7 +332,7 @@ EOF
 
   step "pointing your install at $SOURCE"
   # insteadOf is a TRANSPORT rewrite. Your checkout's origin keeps the official
-  # URL, which matters: `hermes update` resolves its channel from the archive
+  # URL, which matters: `cts update` resolves its channel from the archive
   # and validates it against `git config --get remote.origin.url`. Repointing
   # origin at a fork would make the update fail before any git work.
   # Straight at the fork: the updater follows main, so the fork's main is what
@@ -462,7 +462,7 @@ cmd_post() {
 
   step "done"
   say "Your HERMES_HOME and the desktop app's data are back exactly as they were."
-  say "Open the desktop app once and run 'hermes doctor' to confirm."
+  say "Open the desktop app once and run 'cts doctor' to confirm."
   say "Nothing was judged or changed by this script; the backup at $SNAP"
   say "(including hermes-backup.zip) is yours to keep or delete."
 }

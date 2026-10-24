@@ -175,7 +175,7 @@ export const hubsEn = {
       loading: 'loading plugins…',
       updating: 'updating…',
       empty: 'no plugins installed',
-      // `hermes plugins install owner/repo` is a CLI command: keep it verbatim.
+      // `cts plugins install owner/repo` is a CLI command: keep it verbatim.
       installHint: 'install: hermes plugins install owner/repo',
       status: {
         disabled: 'disabled',

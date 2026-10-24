@@ -660,7 +660,7 @@ class CLIStatusBarMixin:
         self._pet_kitty_image_id = 0
 
     def _pet_resolve_config(self) -> None:
-        """(Re)resolve the active pet from config so ``/pet`` / ``hermes pets`` changes apply
+        """(Re)resolve the active pet from config so ``/pet`` / ``cts pets`` changes apply
         without a restart (mirrors the TUI's steady poll). Fail-open: any problem disables."""
         try:
             from agent.pet import constants, store
@@ -1167,7 +1167,7 @@ class CLIStatusBarMixin:
             if stash_indicator and _ok("stash"):
                 frags.extend([(_DIM, " · "), (_STRONG, stash_indicator)])
             frags.append((_SB, " "))  # one-cell right margin
-            # Battery is the first element when enabled: prepend ahead of the ☤ marker.
+            # Battery is the first element when enabled: prepend ahead of the [CTS] marker.
             battery_label = snapshot.get("battery_label") or ""
             if battery_label and _ok("battery"):
                 battery_style = self._battery_status_style(snapshot.get("battery_category", "dim"))

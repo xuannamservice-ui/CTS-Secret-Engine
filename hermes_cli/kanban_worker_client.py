@@ -13,7 +13,7 @@ from pathlib import Path
 import sys
 import time
 
-# A worker the dispatcher spawns while `hermes update` drains the owner (or while the new owner is
+# A worker the dispatcher spawns while `cts update` drains the owner (or while the new owner is
 # still starting) waits for it instead of exiting: the condition is the host's, not the card's, and
 # a failed exit here spends the card's failure budget on an update window. Nothing is submitted
 # until an owner is ready, so waiting can never run the claim twice.

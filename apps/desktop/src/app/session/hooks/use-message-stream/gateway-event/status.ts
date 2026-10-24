@@ -251,7 +251,7 @@ export function handleStatusEvent(ctx: GatewayEventContext): boolean {
     showAgentNotice(notice)
 
     // The urgent pair (access paused / restored) also breaks through as a
-    // native OS notification when Hermes is backgrounded; dispatch is gated
+    // native OS notification when CTS Secret Engine is backgrounded; dispatch is gated
     // by the user's notification prefs + backgrounded check.
     const native = nativeNoticeInput(notice, translateNow('notifications.native.creditsTitle'))
 

@@ -1,4 +1,4 @@
-"""``hermes logs`` subcommand parser."""
+"""``cts logs`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -15,20 +15,20 @@ def build_logs_parser(subparsers, *, cmd_logs: Callable) -> None:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""\
 Examples:
-    hermes logs                    Show last 50 lines of agent.log
-    hermes logs -f                 Follow agent.log in real time
-    hermes logs errors             Show last 50 lines of errors.log
-    hermes logs gateway -n 100     Show last 100 lines of gateway.log
-    hermes logs gui -f             Follow gui.log in real time
-    hermes logs desktop -f         Follow desktop.log (Electron app boot/backend)
-    hermes logs update             Show last 50 lines of update.log (hermes update mirror)
-    hermes logs handoff            Show last 50 lines of desktop-update-handoff.log
-    hermes logs --level WARNING    Only show WARNING and above
-    hermes logs --session abc123   Filter by session ID
-    hermes logs --component tools  Only show tool-related lines
-    hermes logs --since 1h         Lines from the last hour
-    hermes logs --since 30m -f     Follow, starting from 30 min ago
-    hermes logs list               List available log files with sizes
+    cts logs                    Show last 50 lines of agent.log
+    cts logs -f                 Follow agent.log in real time
+    cts logs errors             Show last 50 lines of errors.log
+    cts logs gateway -n 100     Show last 100 lines of gateway.log
+    cts logs gui -f             Follow gui.log in real time
+    cts logs desktop -f         Follow desktop.log (Electron app boot/backend)
+    cts logs update             Show last 50 lines of update.log (cts update mirror)
+    cts logs handoff            Show last 50 lines of desktop-update-handoff.log
+    cts logs --level WARNING    Only show WARNING and above
+    cts logs --session abc123   Filter by session ID
+    cts logs --component tools  Only show tool-related lines
+    cts logs --since 1h         Lines from the last hour
+    cts logs --since 30m -f     Follow, starting from 30 min ago
+    cts logs list               List available log files with sizes
 """)
     logs_parser.add_argument(
         "log_name",

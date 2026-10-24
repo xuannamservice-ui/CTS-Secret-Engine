@@ -1,4 +1,4 @@
-"""Top-level argparse construction for the hermes CLI.
+"""Top-level argparse construction for the CTS CLI.
 
 Only the top-level parser and the ``chat`` subparser live here. Every other subparser (model,
 gateway, sessions, …) is built by ``hermes_cli/subcommands/<group>.py`` and wired in
@@ -31,7 +31,7 @@ def _cfg_path() -> str:
 
     ``main._apply_profile_override`` builds this parser (via ``top_level_value_flag_sets``) BEFORE
     it re-homes the process to the sticky ``active_profile``; ``get_hermes_home()`` would emit the
-    "[HERMES_HOME fallback] ... wrong profile" warning on every ``hermes`` command for that
+    "[HERMES_HOME fallback] ... wrong profile" warning on every ``cts`` command for that
     throwaway help string. Read the process home directly: after the override it IS the profile home.
     """
     from hermes_constants import display_hermes_home, get_process_hermes_home
@@ -45,7 +45,7 @@ def top_level_value_flag_sets() -> tuple[frozenset[str], frozenset[str]]:
 
     Introspects ``build_top_level_parser()`` (every option with nargs != 0) so the argv scanners in
     ``main.py`` (``_first_positional_argv``, ``_apply_profile_override``) can never drift from the
-    argparse surface — the drift that made ``hermes --reasoning high chat …`` misread ``high`` as
+    argparse surface — the drift that made ``cts --reasoning high chat …`` misread ``high`` as
     the subcommand and forced eager plugin discovery.
 
     Mirrors the ``update_cmd._holder_value_flags`` precedent, including the handwritten-snapshot fallback
@@ -89,55 +89,55 @@ def _inherited_flag(parser, *args, **kwargs):
 
 _EPILOGUE = """
 Examples:
-    hermes                        Start interactive chat
-    hermes chat -q "Hello"        Single query mode
-    hermes --tui                  Launch the modern TUI (or set display.interface: tui)
-    hermes --cli                  Force the classic REPL (overrides display.interface: tui)
-    hermes -c                     Resume the most recent session
-    hermes -c "my project"        Resume a session by name (latest in lineage)
-    hermes --resume <session_id>  Resume a specific session by ID
-    hermes --resume latest        Resume the most recent session (same as -c)
-    hermes --tui --resume latest --in ./dir   Resume ./dir's latest session in the TUI
-    hermes setup                  Run setup wizard
-    hermes logout                 Clear stored authentication
-    hermes auth add <provider>    Add a pooled credential
-    hermes auth list              List pooled credentials
-    hermes auth remove <p> <t>    Remove pooled credential by index, id, or label
-    hermes auth reset <p> [t]     Clear exhaustion status for a provider, or one credential
-    hermes auth priority <p> <t> <n>  Move a pooled credential to priority n (0 = tried first)
-    hermes auth refresh <p> [t]   Refresh a pooled OAuth credential and clear its cooldown
-    hermes model                  Select default model
-    hermes fallback [list]        Show fallback provider chain
-    hermes fallback add           Add a fallback provider (same picker as `hermes model`)
-    hermes fallback remove        Remove a fallback provider from the chain
-    hermes config                 View configuration
-    hermes config edit            Edit config in $EDITOR
-    hermes config set model gpt-4 Set a config value
-    hermes gateway                Run messaging gateway
-    hermes gateway install        Install gateway background service
-    hermes gateway start          Start the installed gateway service
-    hermes gateway stop           Stop the gateway service
-    hermes gateway status         Show gateway status
-    hermes -p <profile> <cmd>     Run any command against a named profile's
-                                  home (also --profile) — e.g. hermes -p coder gateway stop
-    hermes -s hermes-agent-dev,github-auth
-    hermes -w                     Start in isolated git worktree
-    hermes sessions list          List past sessions
-    hermes sessions browse        Interactive session picker
-    hermes sessions rename ID T   Rename/title a session
-    hermes logs                   View agent.log (last 50 lines)
-    hermes logs -f                Follow agent.log in real time
-    hermes logs errors            View errors.log
-    hermes logs --since 1h        Lines from the last hour
-    hermes debug share             Upload debug report for support
-    hermes console                Open the safe Hermes command console
-    hermes update                 Update to latest version
-    hermes dashboard              Start web UI dashboard (port 9119)
-    hermes dashboard --stop       Stop running dashboard processes
-    hermes dashboard --status     List running dashboard processes
+    cts                        Start interactive chat
+    cts chat -q "Hello"        Single query mode
+    cts --tui                  Launch the modern TUI (or set display.interface: tui)
+    cts --cli                  Force the classic REPL (overrides display.interface: tui)
+    cts -c                     Resume the most recent session
+    cts -c "my project"        Resume a session by name (latest in lineage)
+    cts --resume <session_id>  Resume a specific session by ID
+    cts --resume latest        Resume the most recent session (same as -c)
+    cts --tui --resume latest --in ./dir   Resume ./dir's latest session in the TUI
+    cts setup                  Run setup wizard
+    cts logout                 Clear stored authentication
+    cts auth add <provider>    Add a pooled credential
+    cts auth list              List pooled credentials
+    cts auth remove <p> <t>    Remove pooled credential by index, id, or label
+    cts auth reset <p> [t]     Clear exhaustion status for a provider, or one credential
+    cts auth priority <p> <t> <n>  Move a pooled credential to priority n (0 = tried first)
+    cts auth refresh <p> [t]   Refresh a pooled OAuth credential and clear its cooldown
+    cts model                  Select default model
+    cts fallback [list]        Show fallback provider chain
+    cts fallback add           Add a fallback provider (same picker as `cts model`)
+    cts fallback remove        Remove a fallback provider from the chain
+    cts config                 View configuration
+    cts config edit            Edit config in $EDITOR
+    cts config set model gpt-4 Set a config value
+    cts gateway                Run messaging gateway
+    cts gateway install        Install gateway background service
+    cts gateway start          Start the installed gateway service
+    cts gateway stop           Stop the gateway service
+    cts gateway status         Show gateway status
+    cts -p <profile> <cmd>     Run any command against a named profile's
+                                  home (also --profile) — e.g. cts -p coder gateway stop
+    cts -s cts-simulation-architect,github-auth
+    cts -w                     Start in isolated git worktree
+    cts sessions list          List past sessions
+    cts sessions browse        Interactive session picker
+    cts sessions rename ID T   Rename/title a session
+    cts logs                   View agent.log (last 50 lines)
+    cts logs -f                Follow agent.log in real time
+    cts logs errors            View errors.log
+    cts logs --since 1h        Lines from the last hour
+    cts debug share             Upload debug report for support
+    cts console                Open the safe CTS command console
+    cts update                 Update to latest version
+    cts dashboard              Start web UI dashboard (port 9119)
+    cts dashboard --stop       Stop running dashboard processes
+    cts dashboard --status     List running dashboard processes
 
 For more help on a command:
-    hermes <command> --help
+    cts <command> --help
 """
 
 
@@ -164,7 +164,7 @@ def _add_top_level_flags(parser: argparse.ArgumentParser) -> None:
     inherited(parser, "--provider", default=None, help=(
         "Provider override for this invocation (e.g. openrouter, anthropic). "
         "Applies to -z/--oneshot and --tui. The persistent provider lives in config.yaml "
-        "under model.provider — use `hermes setup` or edit the file to change it."))
+        "under model.provider — use `cts setup` or edit the file to change it."))
     inherited(parser, "--reasoning", default=None, metavar="LEVEL", help=(
         "Reasoning effort for this invocation: none, minimal, low, medium, "
         "high, xhigh, max, or ultra. Overrides agent.reasoning_effort in "
@@ -219,7 +219,7 @@ def _build_chat_parser(subparsers) -> argparse.ArgumentParser:
     """The ``chat`` subparser (also the implicit default command).
 
     Flags ALSO declared on the top-level parser use ``default=argparse.SUPPRESS``: for
-    ``hermes -m foo chat`` argparse first sets ``args.model`` from the top-level parser, then
+    ``cts -m foo chat`` argparse first sets ``args.model`` from the top-level parser, then
     dispatches to the chat subparser, which shares the namespace and ``dest`` — a plain ``None``
     default would silently clobber the top-level value. SUPPRESS keeps the subparser action a no-op
     unless the flag is actually passed after the subcommand (tests/hermes_cli/
@@ -313,7 +313,7 @@ def _build_chat_parser(subparsers) -> argparse.ArgumentParser:
     inherited(chat_parser, "--ignore-rules", action="store_true", default=SUPPRESS,
               help="Skip auto-injection of AGENTS.md, SOUL.md, .cursorrules, memory, and preloaded skills. Combine with --ignore-user-config for a fully isolated run.")
     inherited(chat_parser, "--safe-mode", action="store_true", default=SUPPRESS,
-              help="Troubleshooting mode: disable ALL customizations — user config, AGENTS.md/memory injection, plugins, and MCP servers (implies --ignore-user-config and --ignore-rules). Use to isolate whether a problem comes from your setup or from Hermes itself.")
+              help="Troubleshooting mode: disable ALL customizations — user config, AGENTS.md/memory injection, plugins, and MCP servers (implies --ignore-user-config and --ignore-rules). Use to isolate whether a problem comes from your setup or from CTS Secret Engine itself.")
     add("--source", default=None,
         help="Session source tag for filtering (default: cli). Use 'tool' for third-party integrations that should not appear in user session lists.")
     inherited(chat_parser, "--tui", action="store_true", default=SUPPRESS,
@@ -329,8 +329,8 @@ def _build_chat_parser(subparsers) -> argparse.ArgumentParser:
 
 def _plugin_command_install_hint(prog: str, value: str):
     """Install command when *value* names a catalog memory plugin that resolves nowhere: its
-    ``hermes <name>`` command exists only once the plugin is installed. Top level only; never raises."""
-    if prog != "hermes" or not re.fullmatch(r"[a-z0-9_-]{1,64}", value):
+    ``cts <name>`` command exists only once the plugin is installed. Top level only; never raises."""
+    if prog not in ("hermes", "cts") or not re.fullmatch(r"[a-z0-9_-]{1,64}", value):
         return None
     try:
         from plugins.memory import find_provider_dir
@@ -343,7 +343,7 @@ def _plugin_command_install_hint(prog: str, value: str):
 
 
 def _moved_command_hint(prog: str, value: str) -> str:
-    """Where a command that left core went (``hermes auth spotify``, ``hermes mcp serve``, ...)."""
+    """Where a command that left core went (``cts auth spotify``, ``cts mcp serve``, ...)."""
     from hermes_cli.left_core_migration import moved_command_hint
     return moved_command_hint(prog, value)
 
@@ -359,14 +359,14 @@ class HermesArgumentParser(argparse.ArgumentParser):
 
     def _check_value(self, action, value):
         if isinstance(action, argparse._SubParsersAction) and value not in action.choices:
-            # ``self.prog`` is "hermes" at the top level and "hermes gateway" for a nested group
+            # ``self.prog`` is "hermes" at the top level and "cts gateway" for a nested group
             # (argparse hands add_parser() the parent's class), so the copy stays correct for both.
             lines = [f"{self.prog}: '{value}' is not a `{self.prog}` command."]
             close = difflib.get_close_matches(str(value), list(action.choices), n=3, cutoff=0.6)
             install = _plugin_command_install_hint(self.prog, str(value))
             moved = "" if install else _moved_command_hint(self.prog, str(value))
             if install:
-                # A provider that left core (``hermes honcho``) registers its command only once installed.
+                # A provider that left core (``cts honcho``) registers its command only once installed.
                 lines.append(f"The '{value}' memory plugin is not installed. Install it with: {install}")
             elif moved:
                 lines.append(moved)
@@ -385,10 +385,10 @@ def build_top_level_parser():
     ``subparsers.add_parser(...)``.
     """
     parser = HermesArgumentParser(
-        prog="hermes", description="CTS Secret Engine - AI assistant with tool-calling capabilities",
+        prog="cts", description="CTS Secret Engine - AI assistant with tool-calling capabilities",
         formatter_class=argparse.RawDescriptionHelpFormatter, epilog=_EPILOGUE)
     _add_top_level_flags(parser)
-    # metavar keeps the usage line to ``hermes [...] <command>`` instead of the brace list of
-    # every subcommand name; ``hermes --help`` still lists each command with its help row.
+    # metavar keeps the usage line to ``cts [...] <command>`` instead of the brace list of
+    # every subcommand name; ``cts --help`` still lists each command with its help row.
     subparsers = parser.add_subparsers(dest="command", help="Command to run", metavar="<command>")
     return parser, subparsers, _build_chat_parser(subparsers)

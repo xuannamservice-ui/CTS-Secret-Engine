@@ -1,4 +1,4 @@
-"""``hermes verify`` — detect a project's run recipe and smoke-test it."""
+"""``cts verify`` — detect a project's run recipe and smoke-test it."""
 
 from __future__ import annotations
 

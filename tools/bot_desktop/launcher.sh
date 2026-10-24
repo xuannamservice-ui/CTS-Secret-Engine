@@ -226,7 +226,7 @@ for a in xfce4-screensaver light-locker xfce4-power-manager xfce-polkit \
 done
 # The Browser launcher's Exec= line binds the bot's user-data-dir by absolute path. The panel layout is
 # seeded once (the human may have rearranged it), but this one line is ours and must follow the profile:
-# after `hermes profile rename` the old path would open a browser with an empty, unshared cookie jar.
+# after `cts profile rename` the old path would open a browser with an empty, unshared cookie jar.
 L="$XDG_CONFIG_HOME/xfce4/panel"
 # Profiles seeded before the marker existed have the launcher but no `.hermes-browser-launcher`; recover
 # it from our own Browser entry (hermes.desktop is ours by name) so their Exec= follows a rename too.

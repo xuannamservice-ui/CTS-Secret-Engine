@@ -398,7 +398,7 @@ class GatewayChatView:
         self.pending = snapshot.get('pending', [])
         self.model = str((snapshot.get('info') or {}).get('model') or self.model).split('/')[-1]
         if not self.finite:
-            # Bare `hermes -c` in this terminal continues the session it is now on, as the
+            # Bare `cts -c` in this terminal continues the session it is now on, as the
             # in-process CLI re-wrote its breadcrumb on every session switch.
             from hermes_cli.terminal_breadcrumbs import write_breadcrumb
             await asyncio.to_thread(write_breadcrumb, self.session_id)
@@ -484,7 +484,7 @@ class GatewayChatView:
     def _report_no_reply(self, exit_code):
         """`-z` exit 1 (a completed turn with no reply text): the in-process one-shot's stderr line."""
         if self.unattended and exit_code == 1:
-            print("hermes -z: no final response was produced; treating the run as failed.", file=sys.stderr)
+            print("cts -z: no final response was produced; treating the run as failed.", file=sys.stderr)
 
     def _write_usage_file(self, result, outcome):
         """``-z --usage-file``: the same JSON ledger the in-process one-shot wrote."""
@@ -504,7 +504,7 @@ class GatewayChatView:
             # submitting so nothing is left queued for the next interactive resume to find.
             lost = " ".join(self.unknown_admissions())
             return self._detach("Unknown execution blocks this session; nothing was submitted. Resolve it "
-                                f"with `hermes sessions discard {self.session_id} --yes` (or /discard {lost} "
+                                f"with `cts sessions discard {self.session_id} --yes` (or /discard {lost} "
                                 "interactively; both are prompt.resolve_unknown), then retry.")
         renderer = asyncio.create_task(self.render())
         try:
@@ -609,4 +609,4 @@ def resume_footer(session_id):
     from hermes_cli.profiles import get_active_profile_name
     profile = get_active_profile_name()
     flag = "" if profile in ("default", "custom") else f" -p {profile}"
-    return f"\n{t('cli.session.exit_resume_hint')}\n  hermes --resume {session_id}{flag}"
+    return f"\n{t('cli.session.exit_resume_hint')}\n  cts --resume {session_id}{flag}"

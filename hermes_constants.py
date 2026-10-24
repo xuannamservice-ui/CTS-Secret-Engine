@@ -242,7 +242,7 @@ def get_process_hermes_home() -> Path:
     ``HERMES_HOME`` live on purpose: routed-profile DECISIONS compare against
     :func:`get_routing_process_hermes_home` instead (#119242).
     """
-    val = os.environ.get("HERMES_HOME", "").strip()
+    val = (os.environ.get("CTS_HOME", "") or os.environ.get("HERMES_HOME", "")).strip()
     return _expand_hermes_home(val) if val else _get_platform_default_hermes_home()
 
 
@@ -297,7 +297,7 @@ def get_default_hermes_root(*, home: str | Path | None = None) -> Path:
     """Root of an explicit home, or the process home when none is supplied."""
     global _default_hermes_root_memo
     native_home = _get_platform_default_hermes_home()
-    env_home = str(home).strip() if home is not None else os.environ.get("HERMES_HOME", "").strip()
+    env_home = str(home).strip() if home is not None else (os.environ.get("CTS_HOME", "") or os.environ.get("HERMES_HOME", "")).strip()
     env_path = _expand_hermes_home(env_home) if env_home else None
     memo_key = (str(native_home), str(env_path) if env_path is not None else "")
     memo = _default_hermes_root_memo

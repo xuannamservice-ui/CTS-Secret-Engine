@@ -1,4 +1,4 @@
-"""Pre-swap gateway pause for ``hermes update`` on Linux and macOS.
+"""Pre-swap gateway pause for ``cts update`` on Linux and macOS.
 
 Windows pauses its gateways before the fetch (``update_cmd_windows``) because they lock venv
 files. On POSIX nothing is locked, but a gateway that keeps running while git rewrites the tree
@@ -11,7 +11,7 @@ are synced and the launchers published, before the product builds
 The set rides the Windows pause contract: one token in ``update_pause_record`` (identity = pid
 + start time; supervisor unit, or argv + home for bare processes), written before the first stop,
 resumed by ``_resume_windows_gateways_after_update`` (which dispatches here on
-``platform == "posix"``), adopted by the next ``hermes update`` and resumed by the next launch
+``platform == "posix"``), adopted by the next ``cts update`` and resumed by the next launch
 when this process dies.
 
 * every gateway is drained first: the control socket's ``pause-for-update`` runs the same
@@ -276,7 +276,7 @@ def _escape_cgroup(unit: dict) -> bool:
     cmd = ["busctl", bus, "call", "org.freedesktop.systemd1", "/org/freedesktop/systemd1",
            "org.freedesktop.systemd1.Manager", "StartTransientUnit", "ssa(sv)a(sa(sv))",
            f"hermes-update-{os.getpid()}.scope", "fail", "2", "PIDs", "au", str(len(pids)), *map(str, pids),
-           "Description", "s", f"hermes update (outside {unit['unit']} while it is paused)", "0"]
+           "Description", "s", f"cts update (outside {unit['unit']} while it is paused)", "0"]
     with suppress(OSError, subprocess.SubprocessError):
         subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace",
                    stdin=subprocess.DEVNULL, timeout=15, check=False)

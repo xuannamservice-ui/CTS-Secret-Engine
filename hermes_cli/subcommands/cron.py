@@ -1,4 +1,4 @@
-"""``hermes cron`` subcommand parser."""
+"""``cts cron`` subcommand parser."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ def build_cron_parser(subparsers, *, cmd_cron: Callable) -> None:
     cron_create.add_argument("--failure-deliver", dest="failure_deliver",
         help="Override target for FAILURE notices only (same grammar as "
             "--deliver). 'local' suppresses failure notices entirely; run "
-            "state stays visible in `hermes cron list`. Omit = failures "
+            "state stays visible in `cts cron list`. Omit = failures "
             "follow --deliver.")
     cron_create.add_argument("--repeat", type=int, help="Optional repeat count")
     cron_create.add_argument("--skill", dest="skills", action="append",
@@ -66,10 +66,10 @@ def build_cron_parser(subparsers, *, cmd_cron: Callable) -> None:
     cron_create.add_argument("--model",
         help="Pin this job to a specific inference model (user-owned; the "
             "agent's cronjob tool cannot set this). Omit to follow "
-            "cron.model, then the main agent model (`hermes model`), at fire time.")
+            "cron.model, then the main agent model (`cts model`), at fire time.")
     cron_create.add_argument("--pin", dest="pinned", action="store_true", default=None,
         help="Lock the CURRENT main agent model (and its provider) onto this job so later "
-            "`hermes model` changes never touch it. Ignored when --model is given.")
+            "`cts model` changes never touch it. Ignored when --model is given.")
     cron_create.add_argument("--provider", dest="model_provider",
         help="Inference provider paired with --model (e.g. 'openrouter', 'nous').")
     cron_create.add_argument("--reasoning-effort", dest="reasoning_effort",
@@ -126,7 +126,7 @@ def build_cron_parser(subparsers, *, cmd_cron: Callable) -> None:
     cron_edit.add_argument("--no-continuity", dest="continuity", action="store_const", const=False,
         help=("Turn off run-to-run continuity (other context_from job refs are preserved)."))
     cron_edit.add_argument("--monitor-script", dest="monitor_script",
-        help="Set/replace the monitor source script (see `hermes cron create "
+        help="Set/replace the monitor source script (see `cts cron create "
             "--monitor-script`). Pass empty string to clear.")
     cron_edit.add_argument("--monitor-url", dest="monitor_url",
         help=("Set/replace the monitor source URL. Pass empty string to clear."))

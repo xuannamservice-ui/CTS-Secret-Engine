@@ -38,7 +38,7 @@ class OptionalSkillSource(SkillSource):
 
     SOURCE_ID = "official"
     TRUST_LEVEL = "builtin"
-    OFFICIAL_REPO = "NousResearch/hermes-agent"
+    OFFICIAL_REPO = "xuannamservice-ui/CTS-Secret-Engine"
     OPTIONAL_SKILLS_PREFIX = "optional-skills"
 
     _parse_frontmatter = staticmethod(_parse_frontmatter)
@@ -155,7 +155,7 @@ class OptionalSkillSource(SkillSource):
 
     def _fetch_from_live_repo(self, rel: str) -> Optional[SkillBundle]:
         """Fetch an optional skill straight from the live default branch. Local installs lag
-        ``main``; rather than demanding ``hermes update`` first, resolve against the live repo.
+        ``main``; rather than demanding ``cts update`` first, resolve against the live repo.
         ``rel`` is ``category/skill`` (used verbatim) or a bare skill name (located via the repo tree)."""
         parts = _clean_rel_parts(rel.strip("/"))
         if parts is None:

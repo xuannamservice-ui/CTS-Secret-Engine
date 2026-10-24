@@ -84,7 +84,7 @@ export function ModelPickerDialog({
   // Own the search term so we can filter manually. cmdk's built-in
   // shouldFilter reorders items by its fuzzy-match score (≈alphabetical with
   // an empty query), which destroys the backend's curated order. We disable
-  // it: an empty query shows the curated list verbatim (like the `hermes
+  // it: an empty query shows the curated list verbatim (like the `cts
   // model` CLI picker) and a query ranks with the shared fuzzyRank.
   const [search, setSearch] = useState<string>('')
   // "Add custom model…" flips the search into slug entry: the typed id is

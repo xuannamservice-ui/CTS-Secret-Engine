@@ -122,7 +122,7 @@ def _format_changed_paths(paths: list[str]) -> str:
 
 
 def _workspace_has_runnable_recipe(root: Any) -> bool:
-    """Whether ``hermes verify`` has a runtime recipe here: a saved
+    """Whether ``cts verify`` has a runtime recipe here: a saved
     ``.hermes/environment.json`` or a statically detected recipe with a start
     command. Fail-silent and cheap — it only decorates the nudge text."""
     if not root:
@@ -194,7 +194,7 @@ def build_verify_on_stop_nudge(
         if has_recipe:
             command_instruction += (
                 " For a full check including a runtime boot (build + test + "
-                "start + readiness), prefer `hermes verify --json` — a passing "
+                "start + readiness), prefer `cts verify --json` — a passing "
                 "run records verification evidence for this workspace."
             )
     elif has_recipe:

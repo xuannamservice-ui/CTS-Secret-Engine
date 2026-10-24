@@ -285,7 +285,7 @@ _TRIAGE_SLOTS = {
     False: (
         "auxiliary.triage_specifier", "auxiliary.kanban_decomposer", "specifier",
         "Auto-decompose is off, so triage tasks need "
-        "`hermes kanban specify`, which uses auxiliary.triage_specifier.",
+        "`cts kanban specify`, which uses auxiliary.triage_specifier.",
     ),
 }
 
@@ -317,11 +317,11 @@ def _rule_triage_aux_unavailable(task, events, runs, now, cfg) -> list[Diagnosti
 
     task_id = _task_field(task, "id") or "<task_id>"
     actions = [_cli_hint(
-        f"Configure {primary_slot}", f"hermes config set {primary_slot}.provider auto", suggested=True,
+        f"Configure {primary_slot}", f"cts config set {primary_slot}.provider auto", suggested=True,
     )]
     if not fallback_explicit and not main_visible:
         actions.append(_cli_hint(
-            f"Or configure fallback {fallback_slot}", f"hermes config set {fallback_slot}.provider auto",
+            f"Or configure fallback {fallback_slot}", f"cts config set {fallback_slot}.provider auto",
         ))
     if not auto_decompose:
         cmd = f"hermes kanban specify {task_id}"
@@ -400,7 +400,7 @@ def _rule_repeated_failures(task, events, runs, now, cfg) -> list[Diagnostic]:
     actions: list[DiagnosticAction] = []
     if most_recent_outcome == "spawn_failed" and assignee and assignee != "default":
         # Spawn is failing specifically — profile setup issue.
-        doctor, auth = f"hermes -p {assignee} doctor", f"hermes -p {assignee} auth"
+        doctor, auth = f"cts -p {assignee} doctor", f"cts -p {assignee} auth"
         actions.append(_cli_hint(f"Verify profile: {doctor}", doctor, suggested=True))
         actions.append(_cli_hint(f"Fix profile auth: {auth}", auth))
     elif most_recent_outcome in {"timed_out", "crashed"}:

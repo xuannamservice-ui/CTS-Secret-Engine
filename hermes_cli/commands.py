@@ -1,4 +1,4 @@
-"""Slash command registry for the Hermes CLI and gateway.
+"""Slash command registry for the CTS CLI and gateway.
 
 Every consumer -- CLI help, gateway dispatch, Telegram BotCommands, Slack
 subcommand mapping, autocomplete -- derives from ``COMMAND_REGISTRY``. To add a
@@ -123,7 +123,7 @@ COMMAND_REGISTRY: list[CommandDef] = [
                cli_only=True, args_hint="<archive.tar.gz> [--name <name>]"),
     CommandDef("stop", "Kill all running background processes", "Session",
                busy_policy="interrupt_then_dispatch", busy_handler="stop"),
-    CommandDef("discard", "Drop a turn lost when Hermes restarted so this chat's queue runs again", "Session",
+    CommandDef("discard", "Drop a turn lost when CTS Secret Engine restarted so this chat's queue runs again", "Session",
                gateway_only=True, busy_policy="dispatch"),
     CommandDef("pause", "Pause new work globally (emergency stop); '/pause off' resumes", "Session",
                gateway_only=True, args_hint="[reason | off]", busy_policy="dispatch"),

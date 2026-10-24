@@ -5,7 +5,7 @@ import { extractReleaseHighlights, latestMergedPrTitles, updateNotesSource } fro
 describe('update notes', () => {
   it('summarizes a release as its highlight headlines, and falls back to the first bullet list', () => {
     const major = [
-      '# Hermes Agent v0.22.0',
+      '# CTS Secret Engine v0.22.0',
       '> The Threshold Release.',
       '## ✨ Highlights',
       '- **A first launch that sets itself up** — Open the desktop app ([#1](https://x/pull/1) — @a)',

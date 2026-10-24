@@ -203,7 +203,7 @@ def pause_notice(authority, ref, reason):
         # Slack registers no native /discard (its slash cap): the umbrella `/hermes discard` reaches it.
         slack = getattr(getattr(live.source, 'platform', None), 'value', None) == 'slack'
         discard = '/hermes discard' if slack else '/discard'
-        return ('⏸️ This conversation is paused: a previous turn did not finish when Hermes restarted, '
+        return ('⏸️ This conversation is paused: a previous turn did not finish when CTS Secret Engine restarted, '
                 f'and only you know whether to send it again. Your message is saved. Send {discard} to drop '
                 'the lost turn and continue (it is not re-run), or /reset to start a fresh conversation.')
     cause = f'a queued message could not be re-authorized ({reason})'

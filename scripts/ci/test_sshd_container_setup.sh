@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Runs INSIDE the throwaway sshd container started by scripts/ci/start_test_sshd.sh
 # (mounted read-only at /setup). Expects the keys at /keys: host_ed25519{,.pub} and
-# authorized_keys. Installs openssh-server, adds user `hermes` that accepts only the
+# authorized_keys. Installs openssh-server, adds user `cts` that accepts only the
 # test key, and execs sshd in the foreground.
 set -euo pipefail
 

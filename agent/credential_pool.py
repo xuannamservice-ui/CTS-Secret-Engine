@@ -104,7 +104,7 @@ _TERMINAL_AUTH_REASONS = frozenset({
 CREDENTIAL_PERSIST_FAILED_REASON = "credential_persist_failed"
 
 # DEAD ``manual:*`` entries are pruned after this quiet window — they have no
-# singleton to re-seed from and the user can re-add via ``hermes auth add``.
+# singleton to re-seed from and the user can re-add via ``cts auth add``.
 # Singleton-seeded entries (device_code, claude_code) are NOT pruned because
 # ``_seed_from_singletons`` would re-create them from the same stale tokens.
 DEAD_MANUAL_PRUNE_TTL_SECONDS = 24 * 60 * 60
@@ -221,7 +221,7 @@ class PooledCredential:
     last_error_reason: Optional[str] = None
     last_error_message: Optional[str] = None
     last_error_reset_at: Optional[float] = None
-    # Epoch of the last deliberate ``hermes auth reset`` of this entry. Sticky: a later exhaustion
+    # Epoch of the last deliberate ``cts auth reset`` of this entry. Sticky: a later exhaustion
     # stamps a newer ``last_status_at``, so "reset postdates status" stays decidable across processes.
     status_cleared_at: Optional[float] = None
     base_url: Optional[str] = None
@@ -347,7 +347,7 @@ def _codex_entry_tracks_singleton(entry: PooledCredential, singleton_tokens: dic
 
     ``device_code`` IS the singleton. ``manual:device_code`` is ambiguous: a legacy alias of the
     singleton (same account, must follow its rotations) or an independent account added with
-    ``hermes auth add openai-codex`` (must never be overwritten — adopting turned two logins into
+    ``cts auth add openai-codex`` (must never be overwritten — adopting turned two logins into
     one account, both hitting the same usage limit). Same principal proves the alias; unknown
     identity fails closed.
     """
@@ -516,7 +516,7 @@ def custom_provider_pool_key_candidates(
     base_url: Optional[str], provider_name: Optional[str] = None, config: Optional[dict] = None,
 ) -> list[str]:
     """Return pool keys to try for a custom endpoint: the durable ``providers.<key>`` slug
-    (``hermes auth add <key>``), then legacy ``custom:<display-name>``, so a populated pool is not
+    (``cts auth add <key>``), then legacy ``custom:<display-name>``, so a populated pool is not
     skipped for the ``no-key-required`` placeholder. ``config`` is a frozen route's config: ITS
     entry owns the endpoint, so a live edit of that entry's URL neither drops nor redirects the pool.
     """
@@ -1306,7 +1306,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
     def _sync_entry_from_auth_store(self, entry: PooledCredential) -> PooledCredential:
         """Sync a Codex / xAI device_code entry from auth.json ``providers.<id>.tokens``.
 
-        A fresh ``hermes model`` / ``hermes auth`` login writes new tokens
+        A fresh ``cts model`` / ``cts auth`` login writes new tokens
         under ``_auth_store_lock`` while the pool entry may sit frozen behind
         a ``last_error_reset_at`` hours in the future; without this sync every
         request fails with "no available entries" despite fresh credentials on
@@ -1774,7 +1774,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
                 # CLI's credentials file here — only Hermes' own row goes DEAD.
                 logger.warning(
                     "Anthropic OAuth refresh token for %s is terminally invalid (%s); the credential "
-                    "leaves rotation. Re-run 'hermes auth add anthropic' to sign in again.",
+                    "leaves rotation. Re-run 'cts auth add anthropic' to sign in again.",
                     entry.label or entry.id[:8], exc)
                 self._mark_dead_refresh_grant(entry, exc)
                 return None
@@ -1793,7 +1793,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
                 # silent quarantine looked like "I logged in once and Hermes keeps failing" (#113023).
                 logger.warning(
                     "%s OAuth refresh token is terminally invalid (%s); clearing local token state. "
-                    "Re-run 'hermes auth add %s' to sign in again.", display, exc, self.provider)
+                    "Re-run 'cts auth add %s' to sign in again.", display, exc, self.provider)
                 self._clear_terminal_tokens_state(entry, exc)
                 self._quarantine_sources(entry, {"device_code"})
                 self._mark_dead_refresh_grant(entry, exc)
@@ -1815,7 +1815,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
             if auth_mod._is_terminal_nous_refresh_error(exc):
                 logger.warning(
                     "Nous refresh token is terminally invalid (%s); clearing local token state. "
-                    "Re-run 'hermes auth add nous' to sign in again.", exc)
+                    "Re-run 'cts auth add nous' to sign in again.", exc)
                 self._clear_terminal_nous_state(entry, exc)
                 self._quarantine_sources(
                     entry,
@@ -1834,7 +1834,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
         """Mark a row whose refresh token was terminally rejected DEAD, if the quarantine kept it.
 
         ``_quarantine_sources`` drops only singleton-seeded rows; an independent ``manual:*`` login
-        (``hermes auth add``) survives, and an unmarked survivor re-enters rotation and re-fires the
+        (``cts auth add``) survives, and an unmarked survivor re-enters rotation and re-fires the
         terminal WARNING on every later refresh attempt. DEAD leaves rotation until a write-side
         re-auth sync clears it (never via TTL).
         """
@@ -1995,7 +1995,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
             self._refresh_entry(entry, force=False)
 
     def _reset_cleared_after(self, entry: PooledCredential) -> Optional[float]:
-        """Epoch of a ``hermes auth reset`` persisted by another process AFTER *entry*'s status, else None."""
+        """Epoch of a ``cts auth reset`` persisted by another process AFTER *entry*'s status, else None."""
         try:
             row = next((p for p in read_credential_pool(self.provider)
                         if isinstance(p, dict) and p.get("id") == entry.id), None)
@@ -2008,9 +2008,9 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
     def _resync_stale_entry(self, entry: PooledCredential) -> PooledCredential:
         """Re-read an exhausted/DEAD singleton-seeded entry from its token authority.
 
-        The user may have re-authed (``hermes model`` / ``hermes auth``, the
+        The user may have re-authed (``cts model`` / ``cts auth``, the
         Claude Code CLI, another profile) leaving fresh tokens on disk while
-        the pool entry is frozen behind ``last_error_reset_at``. A ``hermes auth
+        the pool entry is frozen behind ``last_error_reset_at``. A ``cts auth
         reset`` run from another process while this pool is live is honoured the
         same way (#89415): the in-memory cooldown would otherwise outlive it.
         """
@@ -2065,7 +2065,7 @@ class CredentialPool(CredentialPoolAdminMixin, CredentialPoolModelCooldownMixin)
                     if dead_at and now - dead_at > DEAD_MANUAL_PRUNE_TTL_SECONDS:
                         logger.warning(
                             "credential pool: pruning DEAD manual entry %s "
-                            "(reason=%s, age=%.1fh) — re-add via `hermes auth add %s`",
+                            "(reason=%s, age=%.1fh) — re-add via `cts auth add %s`",
                             entry.label or entry.id[:8],
                             entry.last_error_reason or "unknown",
                             (now - dead_at) / 3600.0,
@@ -2529,7 +2529,7 @@ class _Seeder:
         self.is_suppressed = _is_source_suppressed_fn()
 
     def upsert(self, source: str, payload: dict[str, Any]) -> bool:
-        """Upsert unless suppressed (``hermes auth remove`` must stay stable across loads)."""
+        """Upsert unless suppressed (``cts auth remove`` must stay stable across loads)."""
         if self.is_suppressed(self.provider, source):
             return False
         self.active_sources.add(source)
@@ -2553,7 +2553,7 @@ def _seed_anthropic_singletons(seed: _Seeder) -> None:
     except ImportError:
         pass
 
-    # API-key vs OAuth is a user-visible choice at `hermes setup`. The API-key
+    # API-key vs OAuth is a user-visible choice at `cts setup`. The API-key
     # signal is ANTHROPIC_API_KEY set AND no OAuth env vars (the save_* helpers
     # zero the other side). Then we MUST NOT seed autodiscovered OAuth tokens:
     # rotation on a 401/429 would silently flip the session onto OAuth, which
@@ -2608,7 +2608,7 @@ def _seed_nous_singleton(seed: _Seeder, auth_store: dict[str, Any]) -> None:
         seed.changed |= _retain_sources_not_in(seed.entries, {"device_code", "manual:device_code"})
     if not (state and has_runtime_material):
         return
-    # Prefer a user-supplied label embedded in the singleton state (``hermes
+    # Prefer a user-supplied label embedded in the singleton state (``cts
     # auth add nous --label <name>``) over the token-derived fingerprint.
     custom_label = str(state.get("label") or "").strip()
     seed.upsert("device_code", {
@@ -2758,7 +2758,7 @@ def _seed_tokens_singleton(seed: _Seeder, auth_store: dict[str, Any]) -> None:
     Hermes owns its own Codex auth state and does NOT auto-import
     ~/.codex/auth.json: refresh tokens are single-use, so sharing them with
     Codex CLI / VS Code causes refresh_token_reused races. Adoption is an
-    explicit one-time prompt via `hermes auth openai-codex`.
+    explicit one-time prompt via `cts auth openai-codex`.
     """
     state, source_path = _load_provider_state_with_source(auth_store, seed.provider)
     if owned_profile_reads_root_state(auth_store, seed.provider, source_path):
@@ -2796,7 +2796,7 @@ def _seed_from_singletons(provider: str, entries: list[PooledCredential]) -> tup
     elif provider == "minimax-oauth":
         _seed_minimax_singleton(seed)
     elif provider in _TOKENS_SINGLETON_PROVIDERS:
-        # `hermes auth remove openai-codex` suppresses device_code; without
+        # `cts auth remove openai-codex` suppresses device_code; without
         # this gate the removal is undone on the next load_pool().
         if provider == "openai-codex" and seed.is_suppressed(provider, "device_code"):
             return seed.result
@@ -2841,7 +2841,7 @@ def _warn_env_ingestion_once(provider: str, env_var: str) -> None:
     logger.warning(
         "Ingested %s from environment into the %s credential pool — this "
         "enables %s spend. Remove the key or run "
-        "hermes auth remove %s <n> to suppress.",
+        "cts auth remove %s <n> to suppress.",
         env_var,
         provider,
         "OpenRouter" if provider == "openrouter" else provider,
@@ -2955,7 +2955,7 @@ def _prune_stale_seeded_entries(
         # ``env:*`` entries are persisted references re-hydrated on every load.
         # A process that merely lacks the env var must NOT delete the on-disk
         # entry for every other process (#9331); prune only when explicitly
-        # requested (an `hermes auth` command that confirmed the source is gone).
+        # requested (an `cts auth` command that confirmed the source is gone).
         if entry.source.startswith("env:"):
             return prune_env_sources
         # File-backed singletons and Hermes PKCE disappear when their backing file is gone.

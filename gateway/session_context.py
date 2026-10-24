@@ -217,7 +217,7 @@ def declare_stateless_channel() -> None:
     ``set_session_vars(async_delivery=False)`` this does NOT latch ``_session_context_engaged``
     (flipping the subprocess env bridge), which a one-shot CLI must not do as a side effect.
 
-    See NousResearch/hermes-agent#53027 and #63142.
+    See xuannamservice-ui/CTS-Secret-Engine#53027 and #63142.
     """
     _SESSION_ASYNC_DELIVERY.set(False)
 
