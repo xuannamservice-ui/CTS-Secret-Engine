@@ -955,17 +955,23 @@ def build_preloaded_skills_prompt(
 
 def resolve_auto_load_skills(user_config: dict | None = None) -> list[str]:
     """``skills.auto_load`` from *user_config* (else the active profile config), deduplicated;
-    empty when unset, malformed, or the config is unreadable."""
+    defaults to DEFAULT_CTS_AUTO_LOAD_SKILLS when unset so CTS research skills are always active."""
+    from agent.cts_pipeline import DEFAULT_CTS_AUTO_LOAD_SKILLS
+
+    if os.environ.get("CTS_DISABLE_AUTO_SKILLS", "").strip() in ("1", "true", "yes"):
+        return []
     if user_config is None:
         try:
             from hermes_cli.config import load_config_readonly
             user_config = load_config_readonly()
         except Exception:
-            return []
+            return list(DEFAULT_CTS_AUTO_LOAD_SKILLS)
     skills_block = user_config.get("skills") if isinstance(user_config, dict) else None
     auto_load = skills_block.get("auto_load") if isinstance(skills_block, dict) else None
+    if auto_load is None:
+        return list(DEFAULT_CTS_AUTO_LOAD_SKILLS)
     if not isinstance(auto_load, list):
-        return []
+        return list(DEFAULT_CTS_AUTO_LOAD_SKILLS)
     names = [entry.strip() for entry in auto_load if isinstance(entry, str) and entry.strip()]
     return list(dict.fromkeys(names))
 

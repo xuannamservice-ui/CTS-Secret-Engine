@@ -213,6 +213,23 @@ def apply_stop_gates(
             "(kanban_complete/kanban_request_review/kanban_block) — nudging to finish"
         )
         return verdict
+
+    try:
+        from agent.cts_pipeline import check_cts_quality_stop_gate
+
+        _cts_nudge = check_cts_quality_stop_gate(agent, final_response)
+    except Exception:
+        _cts_nudge = None
+    if _cts_nudge:
+        agent._cts_quality_nudges = getattr(agent, "_cts_quality_nudges", 0) + 1
+        final_msg["finish_reason"] = "cts_quality_refinement"
+        _append_interim_answer(
+            agent, final_msg, messages, conversation_history, "cts-quality interim flush failed"
+        )
+        verdict = _continue(_cts_nudge, "_verification_stop_synthetic")
+        logger.debug("CTS quality self-refinement nudge issued (attempt %d)", agent._cts_quality_nudges)
+        return verdict
+
     return StopGateVerdict(
         continue_turn=False, final_response=final_response,
         pending_verification_response=pending_verification_response,

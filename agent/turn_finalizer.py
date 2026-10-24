@@ -506,6 +506,16 @@ def apply_llm_output_transform(
     if platform is None:
         platform = getattr(agent, "platform", None) or ""
     transformed, pre_transform = False, None
+    # Deterministic CTS Anti-AI & Anti-Markdown Output Sanitizer (Rule 41, 47, 48)
+    try:
+        from agent.cts_pipeline import sanitize_cts_response
+
+        if isinstance(final_response, str):
+            _sanitized = sanitize_cts_response(final_response)
+            if _sanitized and _sanitized != final_response:
+                pre_transform, final_response, transformed = final_response, _sanitized, True
+    except Exception:
+        pass
     # First hook to return a string wins; None/empty leaves the text unchanged.
     for _hook_result in _invoke_hook_safely(
         "transform_llm_output", logger,

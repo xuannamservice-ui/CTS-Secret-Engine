@@ -61,7 +61,7 @@ BOLD_INSIDE_COLON_BULLET_RE = re.compile(r"^(\s*(?:[-*•]|\d+\.)\s+)\*\*([^*\n]
 
 # Rule 47: Simple LaTeX numbers/units in prose like $10\%$, $100^\circ\text{C}$, $12,5\%$
 SIMPLE_LATEX_UNIT_RE = re.compile(
-    r"\$(\d+(?:[.,]\d+)?)\s*(?:\\%|%|\\^\{\\circ\}\s*\\text\{([CF])\}|\\^\circ\s*([CF])|\\text\{([a-zA-Z%°/]+)\})\$"
+    r"\$(\d+(?:[.,]\d+)?)\s*(?:\\%|%|\^\{\\circ\}\s*\\text\{([CF])\}|\^\\circ\s*\\text\{([CF])\}|\^\\circ\s*([CF])|\\text\{([a-zA-Z%°/]+)\})\$"
 )
 
 
@@ -100,8 +100,8 @@ def clean_markdown(text: str, *, strip_markdown: bool = False) -> str:
     # 2. Clean simple LaTeX numbers/units in prose (Rule 47)
     def _latex_repl(m: re.Match) -> str:
         num = m.group(1)
-        deg = m.group(2) or m.group(3)
-        unit = m.group(4)
+        deg = m.group(2) or m.group(3) or m.group(4)
+        unit = m.group(5)
         if deg:
             return f"{num}°{deg}"
         if unit:

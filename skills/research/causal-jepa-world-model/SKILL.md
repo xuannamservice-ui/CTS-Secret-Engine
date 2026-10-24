@@ -69,3 +69,4 @@ python3 skills/research/causal-jepa-world-model/scripts/causal_jepa_simulator.py
 # Run with a custom JSON causal model spec:
 python3 skills/research/causal-jepa-world-model/scripts/causal_jepa_simulator.py --spec model_spec.json
 ```
+
