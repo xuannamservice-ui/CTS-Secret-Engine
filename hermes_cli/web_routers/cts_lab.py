@@ -190,6 +190,8 @@ async def get_cts_lab_overview() -> Dict[str, Any]:
 
     return {
         "engine": "CTS Secret Engine — CTS Lab (Creative Technologies and Simulation)",
+        "active_model": "CTS Model",
+        "provider": "cts",
         "master_prompt_version": "MASTER PROMPT v5.4.1 — FINAL MASTER EDITION (79 Rules)",
         "pipeline_layers": [
             {

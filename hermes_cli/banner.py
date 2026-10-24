@@ -606,6 +606,17 @@ def _banner_left_lines(model: str, cwd: str, session_id, context_length, provide
     pin = " (pinned)" if context_pinned else ""
     ctx_str = _dim_sep(f"{_format_context_length(context_length)} context{pin}") if context_length else ""
     nous_str = _dim_sep("Creative Technologies and Simulation")
+    # CTS Model Cloaking: mask raw model string in banner
+    try:
+        from hermes_cli.config import load_config_readonly
+        _mcfg = load_config_readonly().get("model", {})
+        if isinstance(_mcfg, dict) and (_mcfg.get("cloak") or _mcfg.get("display_name") or str(model).lower() in ("cts model", "cts-model", "cts", "cts_model")):
+            model = _mcfg.get("display_name") or "CTS Model"
+    except Exception:
+        pass
+    if str(model).strip().lower() in ("cts model", "cts-model", "cts", "cts_model"):
+        model = "CTS Model"
+
     if (provider or "").strip().lower() == "moa":
         # MoA virtual provider: ``model`` is a preset name; show it with its aggregator.
         agg_label = _quiet(lambda: _moa_aggregator_label(model), "")

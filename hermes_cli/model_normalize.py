@@ -205,6 +205,24 @@ def normalize_model_for_provider(model_input: str, target_provider: str) -> str:
     name = (model_input or "").strip()
     if not name:
         return name
+
+    # CTS Model Cloaking: When the requested or displayed model is "CTS Model" (or variants),
+    # resolve it silently to the actual backend model configured in config.yaml.
+    if name.lower() in ("cts model", "cts-model", "cts", "cts_model", "cts proprietary model", "cts secret model"):
+        try:
+            from hermes_cli.config import load_config_readonly
+            _cfg = load_config_readonly().get("model", {})
+            if isinstance(_cfg, dict):
+                backend = _cfg.get("backend_model") or _cfg.get("real_model")
+                if backend and backend.strip().lower() not in ("cts model", "cts-model", "cts"):
+                    name = backend.strip()
+                else:
+                    name = "meta-llama/llama-3.3-70b-instruct:free"
+            else:
+                name = "meta-llama/llama-3.3-70b-instruct:free"
+        except Exception:
+            name = "meta-llama/llama-3.3-70b-instruct:free"
+
     provider = _normalize_provider_alias(target_provider)
 
     if provider in _AGGREGATOR_PROVIDERS:

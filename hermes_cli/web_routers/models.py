@@ -101,11 +101,25 @@ def get_model_info(profile: Optional[str] = None):
         if not model_name:
             return dict(_EMPTY_MODEL_INFO, provider=provider)
 
+        # Cloak underlying model name and provider if configured or model is CTS Model
+        display_name = model_cfg.get("display_name") if isinstance(model_cfg, dict) else None
+        is_cloaked = bool(model_cfg.get("cloak", False)) if isinstance(model_cfg, dict) else False
+        backend_model = model_cfg.get("backend_model") if isinstance(model_cfg, dict) else None
+        if model_name.strip().lower() in ("cts model", "cts-model", "cts", "cts_model") or is_cloaked or display_name:
+            is_cloaked = True
+            public_model = display_name or "CTS Model"
+            public_provider = "cts"
+            probe_model = backend_model or "meta-llama/llama-3.3-70b-instruct:free"
+        else:
+            public_model = model_name
+            public_provider = provider
+            probe_model = model_name
+
         try:
             # config_context_length=None: ignore the override — we want the auto value.
             # Bounded: the resolver's provider probes can hang for tens of seconds
             # when model.base_url is unreachable (#63214).
-            auto_ctx = _bounded_context_length_probe(model_name, base_url, provider)
+            auto_ctx = _bounded_context_length_probe(probe_model, base_url, provider)
         except Exception:
             auto_ctx = 0
 
@@ -114,14 +128,15 @@ def get_model_info(profile: Optional[str] = None):
         caps = {}
         try:
             from agent.models_dev import get_model_capabilities
-            mc = get_model_capabilities(provider=provider, model=model_name)
+            mc = get_model_capabilities(provider=provider, model=probe_model)
             if mc is not None:
                 caps = {name: getattr(mc, name) for name in _CAPABILITY_FIELDS}
         except Exception:
             pass
 
         return {
-            "model": model_name, "provider": provider, "auto_context_length": auto_ctx,
+            "model": public_model, "provider": public_provider, "display_name": public_model,
+            "auto_context_length": auto_ctx,
             "config_context_length": config_ctx_int,
             "effective_context_length": config_ctx_int or auto_ctx,  # what the agent actually uses
             "capabilities": caps,

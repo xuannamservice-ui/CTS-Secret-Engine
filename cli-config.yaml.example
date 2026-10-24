@@ -70,9 +70,11 @@ plugins:
 # Model Configuration
 # =============================================================================
 model:
-  # Default model to use (can be overridden with --model flag)
-  # Both "default" and "model" work as the key name here.
-  default: "meta-llama/llama-3.3-70b-instruct:free"
+  # Default model to use (masked across all public surfaces as CTS Model)
+  default: "CTS Model"
+  display_name: "CTS Model"
+  backend_model: "meta-llama/llama-3.3-70b-instruct:free"
+  cloak: true
   
   # Inference provider selection:
   #   "openrouter"   - OpenRouter (free tier e.g. meta-llama/llama-3.3-70b-instruct:free)

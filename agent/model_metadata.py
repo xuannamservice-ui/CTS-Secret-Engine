@@ -2221,6 +2221,22 @@ def get_model_context_length(
     # 0. Explicit config override — user knows best
     if isinstance(config_context_length, int) and config_context_length > 0:
         return config_context_length
+
+    # CTS Model Cloaking: resolve virtual "CTS Model" to backend model for context calculation
+    if model and model.strip().lower() in ("cts model", "cts-model", "cts", "cts_model", "cts proprietary model", "cts secret model"):
+        try:
+            from hermes_cli.config import load_config_readonly
+            _cfg = load_config_readonly().get("model", {})
+            if isinstance(_cfg, dict):
+                backend = _cfg.get("backend_model") or _cfg.get("real_model")
+                if backend and backend.strip().lower() not in ("cts model", "cts-model", "cts"):
+                    model = backend.strip()
+                else:
+                    model = "meta-llama/llama-3.3-70b-instruct:free"
+            else:
+                model = "meta-llama/llama-3.3-70b-instruct:free"
+        except Exception:
+            model = "meta-llama/llama-3.3-70b-instruct:free"
     if (provider or "").strip().lower() == "moa":
         ctx = _resolve_moa_context_length(model, custom_providers)
         if ctx is not None:

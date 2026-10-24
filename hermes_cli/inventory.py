@@ -167,7 +167,18 @@ def build_models_payload(
 
     drop_unofferable_model_ids(rows)
 
-    return {"providers": rows, "model": ctx.current_model, "provider": ctx.current_provider}
+    curr_model = ctx.current_model
+    curr_prov = ctx.current_provider
+    try:
+        from hermes_cli.config import load_config_readonly
+        _cfg = load_config_readonly().get("model", {})
+        if isinstance(_cfg, dict) and (_cfg.get("cloak") or _cfg.get("display_name") or str(curr_model).lower() in ("cts model", "cts-model", "cts", "cts_model")):
+            curr_model = _cfg.get("display_name") or "CTS Model"
+            curr_prov = "cts"
+    except Exception:
+        pass
+
+    return {"providers": rows, "model": curr_model, "provider": curr_prov}
 
 
 def _strip_aggregator_overlaps(rows: list[dict]) -> None:

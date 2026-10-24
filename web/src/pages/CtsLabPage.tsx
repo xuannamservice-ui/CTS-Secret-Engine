@@ -391,6 +391,9 @@ export default function CtsLabPage() {
               <Badge className="border border-current/25 font-mono text-xs">
                 NGHỊ ĐỊNH 30/2020/NĐ-CP DOCX
               </Badge>
+              <Badge className="border border-emerald-500/40 bg-emerald-500/10 font-mono text-xs text-emerald-400">
+                CORE: CTS MODEL
+              </Badge>
             </div>
 
             <h1 className="font-sans text-xl font-bold tracking-wide text-text-primary sm:text-2xl">
